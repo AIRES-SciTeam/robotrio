@@ -36,6 +36,6 @@ docker-clean:
     - docker build -t $CI_REGISTRY_IMAGE/clean:$CI_COMMIT_SHA .
     - docker tag $CI_REGISTRY_IMAGE/clean:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/clean:latest
     - docker push $CI_REGISTRY_IMAGE/clean:$CI_COMMIT_SHA
-    - docker push $CI_REGISTRY_NAME/clean:latest
+    - docker push $CI_REGISTRY_IMAGE/clean:latest
   only:
     - main

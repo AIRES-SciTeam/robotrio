@@ -25,7 +25,7 @@ docker-clean:
   stage: build-clean
   image: docker:clean
   services:
-    - docker:bind
+    - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2376
     DOCKER_TLS_CERTDIR: "/certs"

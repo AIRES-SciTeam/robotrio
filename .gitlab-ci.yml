@@ -23,7 +23,7 @@ secret_detection:
 
 docker-clean:
   stage: build-clean
-  image: docker:clean
+  image: docker:latest
   services:
     - docker:dind
   variables:

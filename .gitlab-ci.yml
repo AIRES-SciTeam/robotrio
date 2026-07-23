@@ -21,11 +21,13 @@ variables:
 secret_detection:
   stage: secret-detection
 
+image: docker:latest
+
+services:
+  - docker:dind
+
 docker-clean:
   stage: build-clean
-  image: docker:latest
-  services:
-    - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2376
     DOCKER_TLS_CERTDIR: "/certs"

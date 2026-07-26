@@ -34,10 +34,13 @@ CMD ["/bin/bash"]
 # ==========================================================
 # Stage: base
 # Base image: clean
-# Contains: Gazebo Jetty
+# Contains: Python 3.14 + Gazebo Jetty
 # Purpose: main simulation
 # ==========================================================
 FROM clean AS base
+
+RUN apt update && apt install -y python3.14 \
+&& rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt

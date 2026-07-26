@@ -48,7 +48,7 @@ docker-base:
     DOCKER_TLS_CERTDIR: "/certs"
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build --target base-t $CI_REGISTRY_IMAGE/base:$CI_COMMIT_SHA .
+    - docker build --target base -t $CI_REGISTRY_IMAGE/base:$CI_COMMIT_SHA .
     - docker tag $CI_REGISTRY_IMAGE/base:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/base:latest
     - docker push $CI_REGISTRY_IMAGE/base:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/base:latest

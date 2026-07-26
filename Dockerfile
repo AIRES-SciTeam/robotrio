@@ -39,7 +39,7 @@ CMD ["/bin/bash"]
 # ==========================================================
 FROM clean AS base
 
-RUN apt update && apt install -y python3.14 \
+RUN apt update && apt install -y python3 python3-pip \
 && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .

@@ -5,7 +5,7 @@
 # Purpose: to build the base enviroment that prepared for 
 #          installing necessary apps
 # ==========================================================
-FROM ros:jazzy-ros-base-noble
+FROM ros:jazzy-ros-base-noble AS clean
 ENV DEBIAN_FRONTEND=nointeractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nano \
@@ -23,5 +23,30 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     cmake \
     pkg-config \
 && rm -rf /var/lib/apt/lists/*
+
 RUN echo "source /opt/ros/jazzy/setup.bash" >> /root/.bashrc
+
+WORKDIR /robotrio
+
 CMD ["/bin/bash"]
+
+
+# ==========================================================
+# Stage: base
+# Base image: clean
+# Contains: Gazebo Jetty
+# Purpose: main simulation
+# ==========================================================
+FROM clean AS base
+
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
+
+RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] https://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+RUN apt-get update && apt-get install -y gz-jetty \
+&& rm -rf /var/lib/apt/lists/*
+
+WORKDIR /robotrio
+
+CMD ["/lib/bash/"]

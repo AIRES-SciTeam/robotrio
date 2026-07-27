@@ -28,7 +28,7 @@ RUN echo "source /opt/ros/jazzy/setup.bash" >> /root/.bashrc
 
 WORKDIR /robotrio
 
-CMD ["/bin/bash"]
+CMD ["/lib/bash"]
 
 
 # ==========================================================

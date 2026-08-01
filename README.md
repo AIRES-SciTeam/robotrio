@@ -62,6 +62,9 @@ git clone https://gitlab.com/aires_team/robotrio.git
 
 Имя контейнера: `<CONTAINER_NAME>` = `robotrio-` + `<IMAGE_NAME>` 
 
+В случае отсутствия видеокарты стоит запускать `cpu`-версию образов.
+`<CPU_IMAGE_NAME>` = `<IMAGE_NAME>-cpu`
+
 Чтобы контейнер мог получить доступ к экрану выполните:
 
 ```sh

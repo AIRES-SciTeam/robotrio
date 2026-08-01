@@ -20,23 +20,40 @@ x-dev: &defaults
     stdin_open: true
     tty: true
     privileged: true
-    runtime: nvidia
-    deploy:
-        resources:
-            reservations:
-                devices:
-                    - driver: nvidia
-                      count: 1
-                      capabilities: [gpu, compute, utility, graphics]
 
 services:   
     clean:
         <<: *defaults
         image: registry.gitlab.com/aires_team/robotrio/clean:latest
         container_name: robotrio_clean
+        runtime: nvidia
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          count: 1
+                          capabilities: [gpu, compute, utility, graphics]
+
+    clean-cpu:
+        <<: *defaults
+        image: registry.gitlab.com/aires_team/robotrio/clean:latest
+        container_name: robotrio_clean_cpu
 
     base:
         <<: *defaults
         image: registry.gitlab.com/aires_team/robotrio/base:latest
         container_name: robotrio_base
-        
+        runtime: nvidia
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          count: 1
+                          capabilities: [gpu, compute, utility, graphics]
+    
+    base-cpu:
+        <<: *defaults
+        image: registry.gitlab.com/aires_team/robotrio/base:latest
+        container_name: robotrio_base_cpu

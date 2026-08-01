@@ -39,7 +39,11 @@ CMD ["/lib/bash"]
 # ==========================================================
 FROM clean AS base
 
-RUN apt update && apt install -y python3 python3-pip \
+RUN apt update && apt install -y --no-install-recommends \ 
+    python3 \
+    python3-pip \
+    python3-venv \
+    python3-full \
 && rm -rf /var/lib/apt/lists/*
 
 RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
@@ -47,8 +51,12 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/p
 RUN apt-get update && apt-get install -y gz-jetty \
 && rm -rf /var/lib/apt/lists/*
 
+RUN python3 -m venv /opt/python-venv
+
+ENV PATH="/opt/python-venv/bin:$PATH"
+
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 WORKDIR /robotrio
 

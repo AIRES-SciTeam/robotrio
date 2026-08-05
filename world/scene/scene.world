@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+
+<sdf version="1.7">
+  <world name="default">
+    <scene>
+      <grid>false</grid>
+    </scene>
+    <model name="scene">
+      <static>true</static>
+      <link name="scene_link">
+        <visual name="visual">
+          <geometry>
+            <heightmap>
+              <uri>file://scene/heightmap.png</uri>
+              <size>128 128 24</size>
+              <pos>0 0 0</pos>
+              <texture>
+                <diffuse>file://scene/texture.jpg</diffuse>
+                <normal>file://scene/texture.jpg</normal>
+                <size>128</size>
+              </texture>
+            </heightmap>
+          </geometry>
+        </visual>
+        
+        <collision name="collision">
+          <geometry>
+            <heightmap>
+              <uri>file://scene/heightmap.png</uri>
+              <size>128 128 24</size>
+              <pos>0 0 0</pos>
+            </heightmap>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <light type="directional" name="sun">
+      <pose>0 0 500 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <gui fullscreen="0">
+    <plugin filename="MinimalScene" name="3D View">
+      <gz-gui>
+        <title>3D View</title>
+        <property type="bool" key="showTitleBar">false</property>
+        <property type="string" key="state">docked</property>
+      </gz-gui>
+      <engine>ogre2</engine>
+      <scene>scene</scene>
+      <ambient_light>0.4 0.4 0.4</ambient_light>
+      <background_color>0.8 0.8 0.8</background_color>
+      <camera_pose>0 0 100 -1.5708 1.5708 0</camera_pose>
+      <camera_clip>
+        <near>0.25</near>
+        <far>25000</far>
+      </camera_clip>
+    </plugin>
+  </gui>
+
+  </world>
+</sdf>

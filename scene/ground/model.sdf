@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+
+<sdf version="1.7"> 
+
+  <model name="ground">
+    <static>true</static>
+    <link name="ground_link">
+      <visual name="visual">
+        <geometry>
+          <heightmap>
+            <uri>file://ground/heightmap.png</uri>
+            <size>128 128 24</size>
+            <pos>0 0 0</pos>
+            <texture>
+              <diffuse>file://ground/texture.jpg</diffuse>
+              <normal>file://ground/texture.jpg</normal>
+              <size>128</size>
+            </texture>
+          </heightmap>
+        </geometry>
+      </visual>
+      
+      <collision name="collision">
+        <geometry>
+          <heightmap>
+            <uri>file://ground/heightmap.png</uri>
+            <size>128 128 24</size>
+            <pos>0 0 0</pos>
+          </heightmap>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+
+</sdf>

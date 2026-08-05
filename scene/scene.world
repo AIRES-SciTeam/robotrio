@@ -5,35 +5,12 @@
     <scene>
       <grid>false</grid>
     </scene>
-    <model name="scene">
-      <static>true</static>
-      <link name="scene_link">
-        <visual name="visual">
-          <geometry>
-            <heightmap>
-              <uri>file://scene/heightmap.png</uri>
-              <size>128 128 24</size>
-              <pos>0 0 0</pos>
-              <texture>
-                <diffuse>file://scene/texture.jpg</diffuse>
-                <normal>file://scene/texture.jpg</normal>
-                <size>128</size>
-              </texture>
-            </heightmap>
-          </geometry>
-        </visual>
-        
-        <collision name="collision">
-          <geometry>
-            <heightmap>
-              <uri>file://scene/heightmap.png</uri>
-              <size>128 128 24</size>
-              <pos>0 0 0</pos>
-            </heightmap>
-          </geometry>
-        </collision>
-      </link>
-    </model>
+
+    <include >
+      <uri>file://ground/model.sdf</uri>
+      <name>ground</name>
+      <pose>0 0 0 0 0 0</pose>
+    </include>   
 
     <light type="directional" name="sun">
       <pose>0 0 500 0 0 0</pose>
@@ -57,7 +34,7 @@
         <property type="string" key="state">docked</property>
       </gz-gui>
       <engine>ogre2</engine>
-      <scene>scene</scene>
+      <scene>ground</scene>
       <ambient_light>0.4 0.4 0.4</ambient_light>
       <background_color>0.8 0.8 0.8</background_color>
       <camera_pose>0 0 100 -1.5708 1.5708 0</camera_pose>

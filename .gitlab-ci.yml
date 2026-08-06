@@ -63,10 +63,9 @@ docker-humanoid:
     DOCKER_TLS_CERTDIR: "/certs"
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build --target humanoid -t $CI_REGISTRY_IMAGE/:$CI_COMMIT_SHA .
+    - docker build --target humanoid -t $CI_REGISTRY_IMAGE/humanoid:$CI_COMMIT_SHA .
     - docker tag $CI_REGISTRY_IMAGE/humanoid:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/humanoid:latest
     - docker push $CI_REGISTRY_IMAGE/humanoid:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/humanoid:latest
   only: 
     - main
-    

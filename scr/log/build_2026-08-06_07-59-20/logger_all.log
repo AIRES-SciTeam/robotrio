@@ -1,0 +1,374 @@
+[0.268s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--symlink-install']
+[0.269s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=4, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0x726913698f20>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7269137ad940>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7269137ad940>>, mixin_verb=('build',))
+[0.373s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.374s] INFO:colcon.colcon_metadata.package_discovery.colcon_meta:Using configuration from '/root/.colcon/metadata/default/Gazebo.meta'
+[0.375s] INFO:colcon.colcon_metadata.package_discovery.colcon_meta:Using configuration from '/root/.colcon/metadata/default/fastdds.meta'
+[0.375s] INFO:colcon.colcon_metadata.package_discovery.colcon_meta:Using configuration from '/root/.colcon/metadata/default/fastrtps.meta'
+[0.376s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.376s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.376s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.376s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.376s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.376s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/robotrio/scr'
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.376s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.377s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.377s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.431s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.431s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.431s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.431s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.431s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extensions ['ignore', 'ignore_ament_install']
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extension 'ignore'
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extension 'ignore_ament_install'
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extensions ['colcon_pkg']
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extension 'colcon_pkg'
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extensions ['colcon_meta']
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extension 'colcon_meta'
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extensions ['ros']
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extension 'ros'
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extensions ['cmake', 'python']
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extension 'cmake'
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extension 'python'
+[0.432s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extensions ['python_setup_py']
+[0.433s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common) by extension 'python_setup_py'
+[0.433s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common/op3_description) by extensions ['ignore', 'ignore_ament_install']
+[0.433s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common/op3_description) by extension 'ignore'
+[0.433s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common/op3_description) by extension 'ignore_ament_install'
+[0.433s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common/op3_description) by extensions ['colcon_pkg']
+[0.433s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common/op3_description) by extension 'colcon_pkg'
+[0.433s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common/op3_description) by extensions ['colcon_meta']
+[0.433s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common/op3_description) by extension 'colcon_meta'
+[0.433s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common/op3_description) by extensions ['ros']
+[0.433s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Common/op3_description) by extension 'ros'
+[0.438s] DEBUG:colcon.colcon_core.package_identification:Package 'ROBOTIS-OP3-Common/op3_description' with type 'ros.ament_cmake' and name 'op3_description'
+[0.438s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extensions ['ignore', 'ignore_ament_install']
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extension 'ignore'
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extension 'ignore_ament_install'
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extensions ['colcon_pkg']
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extension 'colcon_pkg'
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extensions ['colcon_meta']
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extension 'colcon_meta'
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extensions ['ros']
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extension 'ros'
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extensions ['cmake', 'python']
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extension 'cmake'
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extension 'python'
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extensions ['python_setup_py']
+[0.439s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations) by extension 'python_setup_py'
+[0.440s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/op3_gazebo_ros2) by extensions ['ignore', 'ignore_ament_install']
+[0.440s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/op3_gazebo_ros2) by extension 'ignore'
+[0.440s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/op3_gazebo_ros2) by extension 'ignore_ament_install'
+[0.440s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/op3_gazebo_ros2) by extensions ['colcon_pkg']
+[0.440s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/op3_gazebo_ros2) by extension 'colcon_pkg'
+[0.440s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/op3_gazebo_ros2) by extensions ['colcon_meta']
+[0.440s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/op3_gazebo_ros2) by extension 'colcon_meta'
+[0.440s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/op3_gazebo_ros2) by extensions ['ros']
+[0.440s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/op3_gazebo_ros2) by extension 'ros'
+[0.441s] DEBUG:colcon.colcon_core.package_identification:Package 'ROBOTIS-OP3-Simulations/op3_gazebo_ros2' with type 'ros.ament_cmake' and name 'op3_gazebo_ros2'
+[0.441s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/rf_gz_bridge) by extensions ['ignore', 'ignore_ament_install']
+[0.441s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/rf_gz_bridge) by extension 'ignore'
+[0.441s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/rf_gz_bridge) by extension 'ignore_ament_install'
+[0.442s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/rf_gz_bridge) by extensions ['colcon_pkg']
+[0.442s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/rf_gz_bridge) by extension 'colcon_pkg'
+[0.442s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/rf_gz_bridge) by extensions ['colcon_meta']
+[0.442s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/rf_gz_bridge) by extension 'colcon_meta'
+[0.442s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/rf_gz_bridge) by extensions ['ros']
+[0.442s] Level 1:colcon.colcon_core.package_identification:_identify(ROBOTIS-OP3-Simulations/rf_gz_bridge) by extension 'ros'
+[0.443s] DEBUG:colcon.colcon_core.package_identification:Package 'ROBOTIS-OP3-Simulations/rf_gz_bridge' with type 'ros.ament_cmake' and name 'rf_gz_bridge'
+[0.443s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.443s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.443s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.443s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.443s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.443s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.444s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.444s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.444s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.444s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.444s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.444s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.444s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.444s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.481s] Level 5:colcon.colcon_core.verb:set package 'op3_description' build argument 'cmake_args' from command line to 'None'
+[0.481s] Level 5:colcon.colcon_core.verb:set package 'op3_description' build argument 'cmake_target' from command line to 'None'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_description' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_description' build argument 'cmake_clean_cache' from command line to 'False'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_description' build argument 'cmake_clean_first' from command line to 'False'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_description' build argument 'cmake_force_configure' from command line to 'False'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_description' build argument 'ament_cmake_args' from command line to 'None'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_description' build argument 'catkin_cmake_args' from command line to 'None'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_description' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.482s] DEBUG:colcon.colcon_core.verb:Building package 'op3_description' with the following arguments: {'ament_cmake_args': None, 'build_base': '/robotrio/scr/build/op3_description', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/robotrio/scr/install/op3_description', 'merge_install': False, 'path': '/robotrio/scr/ROBOTIS-OP3-Common/op3_description', 'symlink_install': True, 'test_result_base': None}
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_gazebo_ros2' build argument 'cmake_args' from command line to 'None'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_gazebo_ros2' build argument 'cmake_target' from command line to 'None'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_gazebo_ros2' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_gazebo_ros2' build argument 'cmake_clean_cache' from command line to 'False'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_gazebo_ros2' build argument 'cmake_clean_first' from command line to 'False'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_gazebo_ros2' build argument 'cmake_force_configure' from command line to 'False'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_gazebo_ros2' build argument 'ament_cmake_args' from command line to 'None'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_gazebo_ros2' build argument 'catkin_cmake_args' from command line to 'None'
+[0.482s] Level 5:colcon.colcon_core.verb:set package 'op3_gazebo_ros2' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.483s] DEBUG:colcon.colcon_core.verb:Building package 'op3_gazebo_ros2' with the following arguments: {'ament_cmake_args': None, 'build_base': '/robotrio/scr/build/op3_gazebo_ros2', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/robotrio/scr/install/op3_gazebo_ros2', 'merge_install': False, 'path': '/robotrio/scr/ROBOTIS-OP3-Simulations/op3_gazebo_ros2', 'symlink_install': True, 'test_result_base': None}
+[0.483s] Level 5:colcon.colcon_core.verb:set package 'rf_gz_bridge' build argument 'cmake_args' from command line to 'None'
+[0.483s] Level 5:colcon.colcon_core.verb:set package 'rf_gz_bridge' build argument 'cmake_target' from command line to 'None'
+[0.483s] Level 5:colcon.colcon_core.verb:set package 'rf_gz_bridge' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.483s] Level 5:colcon.colcon_core.verb:set package 'rf_gz_bridge' build argument 'cmake_clean_cache' from command line to 'False'
+[0.483s] Level 5:colcon.colcon_core.verb:set package 'rf_gz_bridge' build argument 'cmake_clean_first' from command line to 'False'
+[0.483s] Level 5:colcon.colcon_core.verb:set package 'rf_gz_bridge' build argument 'cmake_force_configure' from command line to 'False'
+[0.483s] Level 5:colcon.colcon_core.verb:set package 'rf_gz_bridge' build argument 'ament_cmake_args' from command line to 'None'
+[0.483s] Level 5:colcon.colcon_core.verb:set package 'rf_gz_bridge' build argument 'catkin_cmake_args' from command line to 'None'
+[0.483s] Level 5:colcon.colcon_core.verb:set package 'rf_gz_bridge' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.483s] DEBUG:colcon.colcon_core.verb:Building package 'rf_gz_bridge' with the following arguments: {'ament_cmake_args': None, 'build_base': '/robotrio/scr/build/rf_gz_bridge', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/robotrio/scr/install/rf_gz_bridge', 'merge_install': False, 'path': '/robotrio/scr/ROBOTIS-OP3-Simulations/rf_gz_bridge', 'symlink_install': True, 'test_result_base': None}
+[0.483s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.485s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.485s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/robotrio/scr/ROBOTIS-OP3-Common/op3_description' with build type 'ament_cmake'
+[0.486s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/robotrio/scr/ROBOTIS-OP3-Common/op3_description'
+[0.497s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.497s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.497s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.500s] WARNING:colcon.colcon_core.prefix_path.colcon:The path '/robotrio/scr/ros2_control/install' in the environment variable COLCON_PREFIX_PATH doesn't exist
+[0.501s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_camera_setting_tool' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.501s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_action_editor' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.501s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/ros_mpg321_player' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.501s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_demo' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.501s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/ros_madplay_player' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.501s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_read_write_demo' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.501s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_bringup' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.501s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_manager' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.501s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/open_cr_module' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.502s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_walking_module' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.502s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_tuning_module' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.502s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_online_walking_module' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.502s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_offset_tuner_server' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.502s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_localization' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.502s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_direct_control_module' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.502s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_base_module' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.502s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_kinematics_dynamics' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.502s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_head_control_module' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.503s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_balance_control' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.503s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/robotis_math' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.503s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/robotis_controller' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.503s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_action_module' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.503s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/robotis_framework_common' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.503s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/robotis_device' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.503s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_gui_demo' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.503s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/robotis_controller_msgs' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.503s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/rf_gz_bridge' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.503s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_web_setting_tool' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.503s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_walking_module_msgs' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.504s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_tuner_client' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.504s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_tuning_module_msgs' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.504s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_online_walking_module_msgs' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.504s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_offset_tuner_client' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.504s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_offset_tuner_msgs' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.504s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_navigation' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.504s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_gazebo_ros2' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.504s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_description' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.504s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_camera_setting_tool_msgs' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.504s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_ball_detector' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.505s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_ball_detector_msgs' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.505s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/op3_action_module_msgs' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.505s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/dynamixel_sdk_examples' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.505s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/dynamixel_sdk_custom_interfaces' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.505s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/robotrio/scr/install/dynamixel_sdk' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.505s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_camera_setting_tool' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.505s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_action_editor' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.505s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/ros_mpg321_player' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.505s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_demo' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.505s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/ros_madplay_player' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.506s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_read_write_demo' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.506s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_bringup' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.506s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_manager' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.506s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/open_cr_module' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.506s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_walking_module' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.506s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_tuning_module' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.506s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_online_walking_module' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.506s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_offset_tuner_server' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.506s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_localization' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.506s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_direct_control_module' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.506s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_base_module' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.507s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_kinematics_dynamics' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.507s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_head_control_module' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.507s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_balance_control' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.507s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/robotis_math' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.507s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/robotis_controller' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.507s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_action_module' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.507s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/robotis_framework_common' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.507s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/robotis_device' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.507s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_gui_demo' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.507s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/robotis_controller_msgs' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.507s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/rf_gz_bridge' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.507s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_web_setting_tool' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.508s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_walking_module_msgs' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.508s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_tuner_client' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.508s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_tuning_module_msgs' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.508s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_online_walking_module_msgs' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.508s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_offset_tuner_client' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.508s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_offset_tuner_msgs' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.508s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_navigation' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.508s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_gazebo_ros2' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.508s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_description' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.508s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_camera_setting_tool_msgs' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.508s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_ball_detector' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.508s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_ball_detector_msgs' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.509s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/op3_action_module_msgs' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.509s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/dynamixel_sdk_examples' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.509s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/dynamixel_sdk_custom_interfaces' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.509s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/robotrio/scr/install/dynamixel_sdk' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.520s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/robotrio/scr/ROBOTIS-OP3-Simulations/op3_gazebo_ros2' with build type 'ament_cmake'
+[0.520s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/robotrio/scr/ROBOTIS-OP3-Simulations/op3_gazebo_ros2'
+[0.520s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.520s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.525s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/robotrio/scr/ROBOTIS-OP3-Simulations/rf_gz_bridge' with build type 'ament_cmake'
+[0.525s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/robotrio/scr/ROBOTIS-OP3-Simulations/rf_gz_bridge'
+[0.525s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.525s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.539s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/robotrio/scr/build/op3_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Common/op3_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/op3_description
+[0.546s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/robotrio/scr/build/op3_gazebo_ros2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Simulations/op3_gazebo_ros2 -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/op3_gazebo_ros2
+[0.551s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/robotrio/scr/build/rf_gz_bridge': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Simulations/rf_gz_bridge -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/rf_gz_bridge
+[2.570s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/robotrio/scr/build/op3_gazebo_ros2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Simulations/op3_gazebo_ros2 -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/op3_gazebo_ros2
+[2.572s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/robotrio/scr/build/op3_gazebo_ros2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/op3_gazebo_ros2 -- -j4 -l4
+[2.645s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/robotrio/scr/build/op3_gazebo_ros2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/op3_gazebo_ros2 -- -j4 -l4
+[2.669s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/robotrio/scr/build/op3_gazebo_ros2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/op3_gazebo_ros2
+[2.671s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/robotrio/scr/build/op3_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Common/op3_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/op3_description
+[2.673s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/robotrio/scr/build/op3_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/op3_description -- -j4 -l4
+[2.748s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/robotrio/scr/build/op3_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/op3_description -- -j4 -l4
+[2.749s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/robotrio/scr/build/op3_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/op3_description
+[3.090s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(op3_gazebo_ros2)
+[3.091s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/robotrio/scr/build/op3_gazebo_ros2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/op3_gazebo_ros2
+[3.103s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_gazebo_ros2' for CMake module files
+[3.104s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_gazebo_ros2' for CMake config files
+[3.105s] Level 1:colcon.colcon_core.shell:create_environment_hook('op3_gazebo_ros2', 'cmake_prefix_path')
+[3.105s] INFO:colcon.colcon_core.shell:Creating environment hook '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/hook/cmake_prefix_path.ps1'
+[3.107s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/hook/cmake_prefix_path.dsv'
+[3.108s] INFO:colcon.colcon_core.shell:Creating environment hook '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/hook/cmake_prefix_path.sh'
+[3.109s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_gazebo_ros2/bin'
+[3.109s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_gazebo_ros2/lib/pkgconfig/op3_gazebo_ros2.pc'
+[3.113s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_gazebo_ros2/lib/python3.12/site-packages'
+[3.114s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_gazebo_ros2/bin'
+[3.115s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/package.ps1'
+[3.117s] INFO:colcon.colcon_core.shell:Creating package descriptor '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/package.dsv'
+[3.118s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/package.sh'
+[3.119s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/package.bash'
+[3.120s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/package.zsh'
+[3.121s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/robotrio/scr/install/op3_gazebo_ros2/share/colcon-core/packages/op3_gazebo_ros2)
+[3.122s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(op3_gazebo_ros2)
+[3.123s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_gazebo_ros2' for CMake module files
+[3.123s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_gazebo_ros2' for CMake config files
+[3.124s] Level 1:colcon.colcon_core.shell:create_environment_hook('op3_gazebo_ros2', 'cmake_prefix_path')
+[3.124s] INFO:colcon.colcon_core.shell:Creating environment hook '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/hook/cmake_prefix_path.ps1'
+[3.126s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/hook/cmake_prefix_path.dsv'
+[3.126s] INFO:colcon.colcon_core.shell:Creating environment hook '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/hook/cmake_prefix_path.sh'
+[3.128s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_gazebo_ros2/bin'
+[3.128s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_gazebo_ros2/lib/pkgconfig/op3_gazebo_ros2.pc'
+[3.128s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_gazebo_ros2/lib/python3.12/site-packages'
+[3.129s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_gazebo_ros2/bin'
+[3.130s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/package.ps1'
+[3.131s] INFO:colcon.colcon_core.shell:Creating package descriptor '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/package.dsv'
+[3.132s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/package.sh'
+[3.133s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/package.bash'
+[3.134s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_gazebo_ros2/share/op3_gazebo_ros2/package.zsh'
+[3.135s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/robotrio/scr/install/op3_gazebo_ros2/share/colcon-core/packages/op3_gazebo_ros2)
+[3.634s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(op3_description)
+[3.635s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_description' for CMake module files
+[3.635s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/robotrio/scr/build/op3_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/op3_description
+[3.636s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_description' for CMake config files
+[3.636s] Level 1:colcon.colcon_core.shell:create_environment_hook('op3_description', 'cmake_prefix_path')
+[3.637s] INFO:colcon.colcon_core.shell:Creating environment hook '/robotrio/scr/install/op3_description/share/op3_description/hook/cmake_prefix_path.ps1'
+[3.637s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/robotrio/scr/install/op3_description/share/op3_description/hook/cmake_prefix_path.dsv'
+[3.638s] INFO:colcon.colcon_core.shell:Creating environment hook '/robotrio/scr/install/op3_description/share/op3_description/hook/cmake_prefix_path.sh'
+[3.638s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_description/bin'
+[3.639s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_description/lib/pkgconfig/op3_description.pc'
+[3.639s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_description/lib/python3.12/site-packages'
+[3.639s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_description/bin'
+[3.640s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_description/share/op3_description/package.ps1'
+[3.641s] INFO:colcon.colcon_core.shell:Creating package descriptor '/robotrio/scr/install/op3_description/share/op3_description/package.dsv'
+[3.641s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_description/share/op3_description/package.sh'
+[3.642s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_description/share/op3_description/package.bash'
+[3.642s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_description/share/op3_description/package.zsh'
+[3.643s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/robotrio/scr/install/op3_description/share/colcon-core/packages/op3_description)
+[3.643s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(op3_description)
+[3.643s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_description' for CMake module files
+[3.644s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_description' for CMake config files
+[3.645s] Level 1:colcon.colcon_core.shell:create_environment_hook('op3_description', 'cmake_prefix_path')
+[3.645s] INFO:colcon.colcon_core.shell:Creating environment hook '/robotrio/scr/install/op3_description/share/op3_description/hook/cmake_prefix_path.ps1'
+[3.646s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/robotrio/scr/install/op3_description/share/op3_description/hook/cmake_prefix_path.dsv'
+[3.646s] INFO:colcon.colcon_core.shell:Creating environment hook '/robotrio/scr/install/op3_description/share/op3_description/hook/cmake_prefix_path.sh'
+[3.647s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_description/bin'
+[3.647s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_description/lib/pkgconfig/op3_description.pc'
+[3.647s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_description/lib/python3.12/site-packages'
+[3.648s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/op3_description/bin'
+[3.648s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_description/share/op3_description/package.ps1'
+[3.649s] INFO:colcon.colcon_core.shell:Creating package descriptor '/robotrio/scr/install/op3_description/share/op3_description/package.dsv'
+[3.650s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_description/share/op3_description/package.sh'
+[3.650s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_description/share/op3_description/package.bash'
+[3.651s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/op3_description/share/op3_description/package.zsh'
+[3.651s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/robotrio/scr/install/op3_description/share/colcon-core/packages/op3_description)
+[4.120s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/robotrio/scr/build/rf_gz_bridge' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Simulations/rf_gz_bridge -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/rf_gz_bridge
+[4.121s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/robotrio/scr/build/rf_gz_bridge': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/rf_gz_bridge -- -j4 -l4
+[19.457s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/robotrio/scr/build/rf_gz_bridge' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/rf_gz_bridge -- -j4 -l4
+[19.459s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/robotrio/scr/build/rf_gz_bridge': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/rf_gz_bridge
+[19.783s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rf_gz_bridge)
+[19.784s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge' for CMake module files
+[19.784s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/robotrio/scr/build/rf_gz_bridge' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/rf_gz_bridge
+[19.785s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge' for CMake config files
+[19.786s] Level 1:colcon.colcon_core.shell:create_environment_hook('rf_gz_bridge', 'cmake_prefix_path')
+[19.786s] INFO:colcon.colcon_core.shell:Creating environment hook '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/hook/cmake_prefix_path.ps1'
+[19.787s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/hook/cmake_prefix_path.dsv'
+[19.788s] INFO:colcon.colcon_core.shell:Creating environment hook '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/hook/cmake_prefix_path.sh'
+[19.789s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge/lib'
+[19.789s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge/bin'
+[19.789s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge/lib/pkgconfig/rf_gz_bridge.pc'
+[19.790s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge/lib/python3.12/site-packages'
+[19.791s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge/bin'
+[19.791s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/package.ps1'
+[19.792s] INFO:colcon.colcon_core.shell:Creating package descriptor '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/package.dsv'
+[19.793s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/package.sh'
+[19.793s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/package.bash'
+[19.794s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/package.zsh'
+[19.795s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/robotrio/scr/install/rf_gz_bridge/share/colcon-core/packages/rf_gz_bridge)
+[19.795s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rf_gz_bridge)
+[19.796s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge' for CMake module files
+[19.797s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge' for CMake config files
+[19.797s] Level 1:colcon.colcon_core.shell:create_environment_hook('rf_gz_bridge', 'cmake_prefix_path')
+[19.798s] INFO:colcon.colcon_core.shell:Creating environment hook '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/hook/cmake_prefix_path.ps1'
+[19.798s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/hook/cmake_prefix_path.dsv'
+[19.799s] INFO:colcon.colcon_core.shell:Creating environment hook '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/hook/cmake_prefix_path.sh'
+[19.800s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge/lib'
+[19.800s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge/bin'
+[19.800s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge/lib/pkgconfig/rf_gz_bridge.pc'
+[19.801s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge/lib/python3.12/site-packages'
+[19.801s] Level 1:colcon.colcon_core.environment:checking '/robotrio/scr/install/rf_gz_bridge/bin'
+[19.802s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/package.ps1'
+[19.803s] INFO:colcon.colcon_core.shell:Creating package descriptor '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/package.dsv'
+[19.804s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/package.sh'
+[19.805s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/package.bash'
+[19.805s] INFO:colcon.colcon_core.shell:Creating package script '/robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/package.zsh'
+[19.808s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/robotrio/scr/install/rf_gz_bridge/share/colcon-core/packages/rf_gz_bridge)
+[19.809s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[19.810s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[19.810s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[19.810s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[19.836s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.notify_send': Could not find 'notify-send'
+[19.836s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[19.836s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[19.836s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[19.840s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.Spawn.ExecFailed: /usr/bin/dbus-launch terminated abnormally without any error message
+[19.841s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[19.841s] INFO:colcon.colcon_core.shell:Creating prefix script '/robotrio/scr/install/local_setup.ps1'
+[19.843s] INFO:colcon.colcon_core.shell:Creating prefix util module '/robotrio/scr/install/_local_setup_util_ps1.py'
+[19.845s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/robotrio/scr/install/setup.ps1'
+[19.847s] INFO:colcon.colcon_core.shell:Creating prefix script '/robotrio/scr/install/local_setup.sh'
+[19.848s] INFO:colcon.colcon_core.shell:Creating prefix util module '/robotrio/scr/install/_local_setup_util_sh.py'
+[19.849s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/robotrio/scr/install/setup.sh'
+[19.851s] INFO:colcon.colcon_core.shell:Creating prefix script '/robotrio/scr/install/local_setup.bash'
+[19.852s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/robotrio/scr/install/setup.bash'
+[19.854s] INFO:colcon.colcon_core.shell:Creating prefix script '/robotrio/scr/install/local_setup.zsh'
+[19.855s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/robotrio/scr/install/setup.zsh'

@@ -1,0 +1,6 @@
+Invoking command in '/robotrio/scr/build/rf_gz_bridge': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Simulations/rf_gz_bridge -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/rf_gz_bridge
+Invoked command in '/robotrio/scr/build/rf_gz_bridge' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Simulations/rf_gz_bridge -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/rf_gz_bridge
+Invoking command in '/robotrio/scr/build/rf_gz_bridge': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/rf_gz_bridge -- -j4 -l4
+Invoked command in '/robotrio/scr/build/rf_gz_bridge' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/rf_gz_bridge -- -j4 -l4
+Invoking command in '/robotrio/scr/build/rf_gz_bridge': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/rf_gz_bridge
+Invoked command in '/robotrio/scr/build/rf_gz_bridge' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/rf_gz_bridge

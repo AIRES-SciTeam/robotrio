@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-d0d9b449e03764340c52.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "rf_gz_bridge",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "rf_gz_bridge_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rf_gz_bridge_node-d5b553689a080d75e97a.json",
+					"name" : "rf_gz_bridge_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rf_gz_bridge_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rf_gz_bridge_uninstall-528f1c1f3dc51d5915d1.json",
+					"name" : "rf_gz_bridge_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-d3578473cd5a3720d6f9.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/robotrio/scr/build/rf_gz_bridge",
+		"source" : "/robotrio/scr/ROBOTIS-OP3-Simulations/rf_gz_bridge"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

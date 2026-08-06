@@ -1,0 +1,70 @@
+[0.026s] Invoking command in '/robotrio/scr/build/rf_gz_bridge': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Simulations/rf_gz_bridge -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/rf_gz_bridge
+[0.337s] -- The C compiler identification is GNU 13.3.0
+[0.563s] -- The CXX compiler identification is GNU 13.3.0
+[0.601s] -- Detecting C compiler ABI info
+[0.802s] -- Detecting C compiler ABI info - done
+[0.821s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.826s] -- Detecting C compile features
+[0.841s] -- Detecting C compile features - done
+[0.864s] -- Detecting CXX compiler ABI info
+[1.089s] -- Detecting CXX compiler ABI info - done
+[1.105s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.105s] -- Detecting CXX compile features
+[1.106s] -- Detecting CXX compile features - done
+[1.150s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[1.499s] -- Found Python3: /opt/python-venv/bin/python3 (found version "3.12.3") found components: Interpreter 
+[1.699s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.824s] -- Found rclcpp: 28.1.21 (/opt/ros/jazzy/share/rclcpp/cmake)
+[1.993s] -- Found rosidl_generator_c: 4.6.9 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[2.053s] -- Found rosidl_generator_cpp: 4.6.9 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[2.134s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.210s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.537s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[2.557s] -- Found rmw_fastrtps_cpp: 8.4.4 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[2.827s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+[2.875s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") 
+[2.922s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[3.128s] -- Found std_msgs: 5.3.8 (/opt/ros/jazzy/share/std_msgs/cmake)
+[3.167s] -- Found PkgConfig: /usr/bin/pkg-config (found version "1.8.1") 
+[3.169s] -- Checking for module 'yaml-cpp'
+[3.201s] --   Found yaml-cpp, version 0.8.0
+[3.310s] -- Found ament_lint_auto: 0.17.5 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[3.536s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[3.537s] -- Configured cppcheck include dirs: /robotrio/scr/ROBOTIS-OP3-Simulations/rf_gz_bridge/include
+[3.537s] -- Configured cppcheck exclude dirs and/or files: 
+[3.541s] -- Added test 'lint_cmake' to check CMake code style
+[3.544s] -- Added test 'uncrustify' to check C / C++ code style
+[3.545s] -- Configured uncrustify additional arguments: 
+[3.547s] -- Added test 'xmllint' to check XML markup files
+[3.553s] -- Configuring done (3.5s)
+[3.573s] -- Generating done (0.0s)
+[3.578s] -- Build files have been written to: /robotrio/scr/build/rf_gz_bridge
+[3.594s] Invoked command in '/robotrio/scr/build/rf_gz_bridge' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Simulations/rf_gz_bridge -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/rf_gz_bridge
+[3.595s] Invoking command in '/robotrio/scr/build/rf_gz_bridge': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/rf_gz_bridge -- -j4 -l4
+[3.698s] [ 66%] [32mBuilding CXX object CMakeFiles/rf_gz_bridge_node.dir/src/rf_gz_bridge.cpp.o[0m
+[3.698s] [ 66%] [32mBuilding CXX object CMakeFiles/rf_gz_bridge_node.dir/src/main.cpp.o[0m
+[18.323s] [100%] [32m[1mLinking CXX executable rf_gz_bridge_node[0m
+[18.911s] [100%] Built target rf_gz_bridge_node
+[18.932s] Invoked command in '/robotrio/scr/build/rf_gz_bridge' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/rf_gz_bridge -- -j4 -l4
+[18.933s] Invoking command in '/robotrio/scr/build/rf_gz_bridge': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/rf_gz_bridge
+[18.947s] -- Install configuration: ""
+[18.948s] -- Execute custom install script
+[18.948s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/lib/rf_gz_bridge/rf_gz_bridge_node
+[18.966s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/include/rf_gz_bridge/rf_gz_bridge.hpp
+[18.983s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/config/op3_joint_list.yaml
+[18.999s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/ament_index/resource_index/package_run_dependencies/rf_gz_bridge
+[19.014s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/ament_index/resource_index/parent_prefix_path/rf_gz_bridge
+[19.034s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/environment/ament_prefix_path.sh
+[19.050s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/environment/ament_prefix_path.dsv
+[19.067s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/environment/path.sh
+[19.083s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/environment/path.dsv
+[19.099s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/local_setup.bash
+[19.115s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/local_setup.sh
+[19.133s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/local_setup.zsh
+[19.150s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/local_setup.dsv
+[19.167s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/package.dsv
+[19.184s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/ament_index/resource_index/packages/rf_gz_bridge
+[19.201s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/cmake/rf_gz_bridgeConfig.cmake
+[19.218s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/cmake/rf_gz_bridgeConfig-version.cmake
+[19.238s] -- Symlinking: /robotrio/scr/install/rf_gz_bridge/share/rf_gz_bridge/package.xml
+[19.258s] Invoked command in '/robotrio/scr/build/rf_gz_bridge' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/rf_gz_bridge

@@ -1,0 +1,79 @@
+[0.053s] Invoking command in '/robotrio/scr/build/op3_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Common/op3_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/op3_description
+[0.362s] -- The C compiler identification is GNU 13.3.0
+[0.602s] -- The CXX compiler identification is GNU 13.3.0
+[0.640s] -- Detecting C compiler ABI info
+[0.828s] -- Detecting C compiler ABI info - done
+[0.849s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.865s] -- Detecting C compile features
+[0.881s] -- Detecting C compile features - done
+[0.900s] -- Detecting CXX compiler ABI info
+[1.131s] -- Detecting CXX compiler ABI info - done
+[1.148s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.148s] -- Detecting CXX compile features
+[1.149s] -- Detecting CXX compile features - done
+[1.189s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[1.610s] -- Found Python3: /opt/python-venv/bin/python3 (found version "3.12.3") found components: Interpreter 
+[1.786s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[2.167s] -- Configuring done (2.0s)
+[2.172s] -- Generating done (0.0s)
+[2.174s] -- Build files have been written to: /robotrio/scr/build/op3_description
+[2.184s] Invoked command in '/robotrio/scr/build/op3_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Common/op3_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/op3_description
+[2.187s] Invoking command in '/robotrio/scr/build/op3_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/op3_description -- -j4 -l4
+[2.261s] Invoked command in '/robotrio/scr/build/op3_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/op3_description -- -j4 -l4
+[2.263s] Invoking command in '/robotrio/scr/build/op3_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/op3_description
+[2.280s] -- Install configuration: ""
+[2.281s] -- Execute custom install script
+[2.281s] -- Symlinking: /robotrio/scr/install/op3_description/share/ament_index/resource_index/package_run_dependencies/op3_description
+[2.303s] -- Symlinking: /robotrio/scr/install/op3_description/share/ament_index/resource_index/parent_prefix_path/op3_description
+[2.324s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/environment/ament_prefix_path.sh
+[2.341s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/environment/ament_prefix_path.dsv
+[2.357s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/environment/path.sh
+[2.378s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/environment/path.dsv
+[2.400s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/local_setup.bash
+[2.421s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/local_setup.sh
+[2.435s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/local_setup.zsh
+[2.451s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/local_setup.dsv
+[2.469s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/package.dsv
+[2.485s] -- Symlinking: /robotrio/scr/install/op3_description/share/ament_index/resource_index/packages/op3_description
+[2.501s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/cmake/op3_descriptionConfig.cmake
+[2.519s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/cmake/op3_descriptionConfig-version.cmake
+[2.534s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/package.xml
+[2.550s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/doc/OP3 mass property.docx
+[2.566s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/doc/op3_sim.docx
+[2.581s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/doc/op3_sim.ods
+[2.597s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/launch/op3_display.launch.py
+[2.617s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/base.stl
+[2.639s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/body.stl
+[2.656s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/h1.stl
+[2.672s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/h2.stl
+[2.686s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/la1.stl
+[2.700s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/la2.stl
+[2.719s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/la3.stl
+[2.735s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/ll1.stl
+[2.752s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/ll2.stl
+[2.766s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/ll3.stl
+[2.781s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/ll4.stl
+[2.795s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/ll5.stl
+[2.812s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/ll6.stl
+[2.826s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/ra1.stl
+[2.840s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/ra2.stl
+[2.855s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/ra3.stl
+[2.869s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/rl1.stl
+[2.885s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/rl2.stl
+[2.901s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/rl3.stl
+[2.921s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/rl4.stl
+[2.937s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/rl5.stl
+[2.952s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/meshes/rl6.stl
+[2.967s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/rviz/op3.rviz
+[2.982s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/urdf/gazebo_harness.xacro
+[2.997s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/urdf/robotis_op3.gazebo.xacro
+[3.017s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/urdf/robotis_op3.inertia.xacro
+[3.031s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/urdf/robotis_op3.structure.head.xacro
+[3.045s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/urdf/robotis_op3.structure.larm.xacro
+[3.059s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/urdf/robotis_op3.structure.lleg.xacro
+[3.073s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/urdf/robotis_op3.structure.rarm.xacro
+[3.087s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/urdf/robotis_op3.structure.rleg.xacro
+[3.101s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/urdf/robotis_op3.transmissions.xacro
+[3.117s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/urdf/robotis_op3.urdf.xacro
+[3.132s] -- Symlinking: /robotrio/scr/install/op3_description/share/op3_description/urdf/robotis_op3.visuals.xacro
+[3.149s] Invoked command in '/robotrio/scr/build/op3_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/op3_description

@@ -1,0 +1,6 @@
+Invoking command in '/robotrio/scr/build/op3_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Common/op3_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/op3_description
+Invoked command in '/robotrio/scr/build/op3_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /robotrio/scr/ROBOTIS-OP3-Common/op3_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/robotrio/scr/install/op3_description
+Invoking command in '/robotrio/scr/build/op3_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/op3_description -- -j4 -l4
+Invoked command in '/robotrio/scr/build/op3_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /robotrio/scr/build/op3_description -- -j4 -l4
+Invoking command in '/robotrio/scr/build/op3_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/op3_description
+Invoked command in '/robotrio/scr/build/op3_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /robotrio/scr/build/op3_description

@@ -77,7 +77,7 @@ RUN apt update && apt install -y \
     ros-jazzy-ros2-control \
     ros-jazzy-ros2-controllers \
     ros-jazzy-ros-gz \
-    ros-jazzy-gz-ros2-control\
+    ros-jazzy-gz-ros2-control \
 && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /robotrio

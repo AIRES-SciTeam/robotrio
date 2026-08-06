@@ -61,3 +61,25 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 WORKDIR /robotrio
 
 CMD ["/lib/bash/"]
+
+# ==========================================================
+# Stage: humanoid
+# Base image: base
+# Contains: humanoid requirements
+# Purpose: humanoid simulation
+# ==========================================================
+FROM base AS humanoid
+
+RUN dpkg --remove ros2-apt-source && \
+    dpkg -i /tmp/ros2-testing-apt-source.deb
+
+RUN apt update && apt install -y \
+    ros-jazzy-ros2-control \
+    ros-jazzy-ros2-controllers \
+    ros-jazzy-ros-gz \
+    ros-jazzy-gz-ros2-control\
+&& rm -rf /var/lib/apt/lists/*
+
+WORKDIR /robotrio
+
+CMD ["/lib/bash/"]

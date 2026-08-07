@@ -2,4 +2,19 @@
 
 <sdf version="1.7">
   
+  <model name="goods">
+    <static>false</static>
+    <link name="goods_link">
+      <visual name="visual">
+        <geometry>
+          
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+
+      </collision>
+    </link>
+  </model>
+
 </sdf>

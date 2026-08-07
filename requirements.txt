@@ -1,2 +1,6 @@
 numpy
 opencv-python
+jinja2
+pyyaml
+typeguard
+catkin-pkg

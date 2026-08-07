@@ -75,7 +75,7 @@ RUN export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-inf
     dpkg --remove ros2-apt-source && \
     dpkg -i /tmp/ros2-testing-apt-source.deb
 
-RUN apt update && apt install -y \
+ RUN apt update && apt install -y \
     ros-jazzy-ros2-control \
     ros-jazzy-ros2-controllers \
     ros-jazzy-ros-gz \

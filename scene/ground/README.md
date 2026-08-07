@@ -1,3 +1,3 @@
 # Ground
 
-![ground](ground.png)
+![ground](screenshot.png)

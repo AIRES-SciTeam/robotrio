@@ -6,11 +6,17 @@
       <grid>false</grid>
     </scene>
 
-    <include >
+    <!-- <include >
       <uri>file://ground/model.sdf</uri>
       <name>ground</name>
       <pose>0 0 0 0 0 0</pose>
-    </include>   
+    </include>    -->
+
+    <include>
+      <uri>file://goods/model.sdf</uri>
+      <name>box1</name>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
 
     <light type="directional" name="sun">
       <pose>0 0 500 0 0 0</pose>

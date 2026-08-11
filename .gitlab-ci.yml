@@ -10,19 +10,19 @@ stages:
 # - build-base
 # - build-humanoid
 - build-drone
-# - test
-# - secret-detection
+- test
+- secret-detection
 
-# sast:
-#   stage: test
-# include:
-# - template: Security/SAST.gitlab-ci.yml
-# - template: Security/Secret-Detection.gitlab-ci.yml
-# variables:
-#   SECRET_DETECTION_ENABLED: 'true'
+sast:
+  stage: test
+include:
+- template: Security/SAST.gitlab-ci.yml
+- template: Security/Secret-Detection.gitlab-ci.yml
+variables:
+  SECRET_DETECTION_ENABLED: 'true'
 
-# secret_detection:
-#   stage: secret-detection
+secret_detection:
+  stage: secret-detection
 
 image: docker:latest
 

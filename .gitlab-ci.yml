@@ -75,7 +75,7 @@ docker-drone:
   stage: build-drone
   variables:
     DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_CERTDIS: "/certs"
+    DOCKER_TLS_CERTDIR: "/certs"
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build --target drone -t $CI_REGISTRY_IMAGE/drone:$CI_COMMIT_SHA .
@@ -84,4 +84,3 @@ docker-drone:
     - docker push $CI_REGISTRY_IMAGE/drone:latest
   only: 
     - main
-    

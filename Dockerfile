@@ -104,7 +104,8 @@ RUN apt update && \
     xargs -a /tmp/apt-packagers.txt apt install -y \
 && rm -rf /var/lib/apt/lists/*
 
-RUN chmod drone/run.sh
+RUN chmod +x drone/run_env.sh
+RUN chmod +x run_sim.sh
 
 WORKDIR /tmp
 

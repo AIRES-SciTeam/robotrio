@@ -44,10 +44,8 @@ docker-clean:
     - docker tag $CI_REGISTRY_IMAGE/clean:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/clean:latest
     - docker push $CI_REGISTRY_IMAGE/clean:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/clean:latest
-  rules:
-    - if: $SKIP_CLEAN == "true"
-      when: never
-    - when: on_success
+  only:
+    - main
 
 docker-base:
   stage: build-base
@@ -60,10 +58,8 @@ docker-base:
     - docker tag $CI_REGISTRY_IMAGE/base:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/base:latest
     - docker push $CI_REGISTRY_IMAGE/base:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/base:latest
-  rules:
-    - if: $SKIP_CLEAN == "true"
-      when: never
-    - when: on_success
+  only: 
+    - main
 
 docker-humanoid:
   stage: build-humanoid
@@ -76,10 +72,8 @@ docker-humanoid:
     - docker tag $CI_REGISTRY_IMAGE/humanoid:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/humanoid:latest
     - docker push $CI_REGISTRY_IMAGE/humanoid:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/humanoid:latest
-  rules:
-    - if: $SKIP_CLEAN == "true"
-      when: never
-    - when: on_success
+  only: 
+    - main
 
 docker-drone:
   stage: build-drone
@@ -92,7 +86,5 @@ docker-drone:
     - docker tag $CI_REGISTRY_IMAGE/drone:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/drone:latest
     - docker push $CI_REGISTRY_IMAGE/drone:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/drone:latest
-  rules:
-    - if: $SKIP_CLEAN == "true"
-      when: never
-    - when: on_success
+  only: 
+    - main

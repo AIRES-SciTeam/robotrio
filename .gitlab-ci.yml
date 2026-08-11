@@ -35,10 +35,6 @@ services:
 
 docker-clean:
   stage: build-clean
-  rules:
-    - if: $SKIP_CLEAN == "true"
-      when: never
-    - when: on_success
   variables:
     DOCKER_HOST: tcp://docker:2376
     DOCKER_TLS_CERTDIR: "/certs"
@@ -48,15 +44,13 @@ docker-clean:
     - docker tag $CI_REGISTRY_IMAGE/clean:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/clean:latest
     - docker push $CI_REGISTRY_IMAGE/clean:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/clean:latest
-  only:
-    - main
-
-docker-base:
-  stage: build-base
   rules:
     - if: $SKIP_CLEAN == "true"
       when: never
     - when: on_success
+
+docker-base:
+  stage: build-base
   variables:
     DOCKER_HOST: tcp://docker:2376
     DOCKER_TLS_CERTDIR: "/certs"
@@ -66,15 +60,13 @@ docker-base:
     - docker tag $CI_REGISTRY_IMAGE/base:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/base:latest
     - docker push $CI_REGISTRY_IMAGE/base:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/base:latest
-  only: 
-    - main
-
-docker-humanoid:
-  stage: build-humanoid
   rules:
     - if: $SKIP_CLEAN == "true"
       when: never
     - when: on_success
+
+docker-humanoid:
+  stage: build-humanoid
   variables:
     DOCKER_HOST: tcp://docker:2376
     DOCKER_TLS_CERTDIR: "/certs"
@@ -84,15 +76,13 @@ docker-humanoid:
     - docker tag $CI_REGISTRY_IMAGE/humanoid:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/humanoid:latest
     - docker push $CI_REGISTRY_IMAGE/humanoid:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/humanoid:latest
-  only: 
-    - main
-
-docker-drone:
-  stage: build-drone
   rules:
     - if: $SKIP_CLEAN == "true"
       when: never
     - when: on_success
+
+docker-drone:
+  stage: build-drone
   variables:
     DOCKER_HOST: tcp://docker:2376
     DOCKER_TLS_CERTDIR: "/certs"
@@ -102,5 +92,7 @@ docker-drone:
     - docker tag $CI_REGISTRY_IMAGE/drone:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/drone:latest
     - docker push $CI_REGISTRY_IMAGE/drone:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/drone:latest
-  only: 
-    - main
+  rules:
+    - if: $SKIP_CLEAN == "true"
+      when: never
+    - when: on_success

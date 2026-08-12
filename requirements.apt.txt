@@ -1,0 +1,14 @@
+nano
+git
+wget
+curl
+terminator
+tmux
+mesa-utils
+libgl1-mesa-dri
+libgl1-mesa-dev
+libglew-dev
+libopencv-dev
+build-essential
+cmake
+pkg-config

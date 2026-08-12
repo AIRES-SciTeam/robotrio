@@ -74,3 +74,21 @@ services:
         <<: *defaults
         image: registry.gitlab.com/aires_team/robotrio/humanoid:latest
         container_name: robotrio_humanoid_cpu
+
+    drone:
+        <<: *defaults
+        image: registry.gitlab.com/aires_team/robotrio/drone:latest
+        container_name: robotrio_drone
+        runtime: nvidia
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          count: 1
+                          capabilities: [gpu, compute, utility, graphics]
+        
+    drone-cpu:
+        <<: *defaults
+        image: registry.gitlab.com/aires_team/robotrio/drone:latest
+        container_name: robotrio_drone_cpu

@@ -9,21 +9,9 @@ FROM ros:jazzy-ros-base-noble AS clean
 
 ENV DEBIAN_FRONTEND=nointeractive
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    nano \
-    git \
-    wget \
-    curl \
-    terminator \
-    tmux \
-    mesa-utils \
-    libgl1-mesa-dri \
-    libgl1-mesa-dev \
-    libglew-dev \
-    libopencv-dev \
-    build-essential \
-    cmake \
-    pkg-config \
+COPY requirements.apt.txt /tmp/requirements.apt.txt
+RUN apt-get update && \
+    xargs -a /tmp/requirements.apt.txt apt-get install -y --no-install-recommends \
 && rm -rf /var/lib/apt/lists/*
 
 RUN echo "source /opt/ros/jazzy/setup.bash" >> /root/.bashrc
@@ -31,7 +19,6 @@ RUN echo "source /opt/ros/jazzy/setup.bash" >> /root/.bashrc
 WORKDIR /robotrio
 
 CMD ["/bin/bash"]
-
 
 # ==========================================================
 # Stage: base
@@ -41,7 +28,7 @@ CMD ["/bin/bash"]
 # ==========================================================
 FROM clean AS base
 
-RUN apt update && apt install -y --no-install-recommends \ 
+RUN apt-get update && apt-get install -y --no-install-recommends \ 
     python3 \
     python3-pip \
     python3-venv \
@@ -57,8 +44,8 @@ RUN python3 -m venv /opt/python-venv
 
 ENV PATH="/opt/python-venv/bin:$PATH"
 
-COPY requirements.txt /tmp/requirements.txt
-RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
+COPY requirements.py.txt /tmp/requirements.py.txt
+RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
 WORKDIR /robotrio
 
@@ -77,9 +64,9 @@ RUN export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-inf
     dpkg --remove ros2-apt-source && \
     dpkg -i /tmp/ros2-testing-apt-source.deb
 
-COPY humanoid/apt-packages.txt /tmp/apt-packagers.txt
-RUN apt update && \
-    xargs -a /tmp/apt-packagers.txt apt install -y \
+COPY humanoid/apt-packages.txt /tmp/requirements.apt.txt
+RUN apt-get update && \
+    xargs -a /tmp/requirements.apt.txt apt-get install -y \
 && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /robotrio
@@ -99,10 +86,13 @@ RUN export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-inf
     dpkg --remove ros2-apt-source && \
     dpkg -i /tmp/ros2-testing-apt-source.deb
 
-COPY drone/apt-packages.txt /tmp/apt-packagers.txt
-RUN apt update && \
-    xargs -a /tmp/apt-packagers.txt apt install -y \
+COPY drone/requirements.apt.txt /tmp/requirements.apt.txt
+RUN apt-get update && \
+    xargs -a /tmp/requirements.apt.txt apt-get install -y \
 && rm -rf /var/lib/apt/lists/*
+
+COPY drone/requirements.py.txt /tmp/requirements.py.txt
+RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
 COPY drone/run_env.sh drone/run_env.sh
 RUN chmod +x drone/run_env.sh

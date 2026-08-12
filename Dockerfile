@@ -64,10 +64,13 @@ RUN export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-inf
     dpkg --remove ros2-apt-source && \
     dpkg -i /tmp/ros2-testing-apt-source.deb
 
-COPY humanoid/apt-packages.txt /tmp/requirements.apt.txt
+COPY humanoid/requirements.apt.txt /tmp/requirements.apt.txt
 RUN apt-get update && \
     xargs -a /tmp/requirements.apt.txt apt-get install -y \
 && rm -rf /var/lib/apt/lists/*
+
+COPY humanoid/requirements.py.txt /tmp/requirements.py.txt
+RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
 WORKDIR /robotrio
 

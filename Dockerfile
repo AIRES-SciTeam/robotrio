@@ -100,23 +100,8 @@ RUN chmod +x drone/run_env.sh
 COPY drone/run_sim.sh drone/run_sim.sh
 RUN chmod +x drone/run_sim.sh
 
-WORKDIR /tmp
-
-RUN git clone --recursive https://github.com/PX4/PX4-Autopilot.git && \
-    cd PX4-Autopilot && \
-    make px4_sitl -j$(nproc) && \
-    mkdir -p /robotrio/drone/bin && \
-    cp /tmp/PX4-Autopilot/build/px4_sitl_default/bin/px4 /robotrio/drone/bin/ && \
-    chmod +x /robotrio/drone/bin/px4 && \
-    rm -rf /tmp/PX4-Autopilot
-
-RUN git clone -b v2.4.3 https://github.com/eProsima/Micro-XRCE-DDS-Agent.git && \
-    cd Micro-XRCE-DDS-Agent && mkdir build && cd build && \
-    cmake .. -DUAGENT_USE_SYSTEM_FASTCDR=ON -DUAGENT_USE_SYSTEM_FASTDDS=ON -DUAGENT_P2P_PROFILE=OFF && \
-    make && \
-    cp MicroXRCEAgent /robotrio/drone/bin/ && \
-    chmod +x /robotrio/drone/bin/MicroXRCEAgent && \
-    rm -rf /tmp/Micro-XRCE-DDS-Agent
+COPY drone/install/ /robotrio/drone/install/
+RUN chmod +x drone/install/*
 
 ENV PATH="/robotrio/drone/bin:$PATH"
 

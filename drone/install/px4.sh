@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /tmp
+
 git clone --recursive https://github.com/PX4/PX4-Autopilot.git
 
 cd PX4-Autopilot

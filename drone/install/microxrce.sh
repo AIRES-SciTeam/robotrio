@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /tmp
+
 git clone -b v2.4.3 https://github.com/eProsima/Micro-XRCE-DDS-Agent.git
     
 cd Micro-XRCE-DDS-Agent && mkdir build && cd build

@@ -45,7 +45,7 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/clean:latest
 
       - name: Build and push base
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           target: base
@@ -55,7 +55,7 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/base:latest
 
       - name: Build and push humanoid
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           target: humanoid
@@ -65,7 +65,7 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/humanoid:latest
 
       - name: Build and push drone
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           target: drone

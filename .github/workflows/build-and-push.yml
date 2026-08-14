@@ -7,6 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build:
@@ -19,6 +20,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Set repository name to lowercase
+        run: echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -37,8 +41,8 @@ jobs:
           target: clean
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository | toLower }}/clean:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ github.repository | toLower }}/clean:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/clean:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/clean:latest
 
       - name: Build and push base
         uses: docker/build-push-action@v5
@@ -47,8 +51,8 @@ jobs:
           target: base
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository | toLower }}/base:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ github.repository | toLower }}/base:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/base:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/base:latest
 
       - name: Build and push humanoid
         uses: docker/build-push-action@v5
@@ -57,8 +61,8 @@ jobs:
           target: humanoid
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository | toLower }}/humanoid:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ github.repository | toLower }}/humanoid:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/humanoid:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/humanoid:latest
 
       - name: Build and push drone
         uses: docker/build-push-action@v5
@@ -67,6 +71,6 @@ jobs:
           target: drone
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository | toLower }}/drone:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ github.repository | toLower }}/drone:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/drone:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/drone:latest
     

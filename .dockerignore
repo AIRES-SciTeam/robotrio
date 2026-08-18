@@ -1,1 +1,13 @@
-build/
+.git/
+.gitignore
+
+logs/
+*.log
+
+.env
+.secrets
+
+!drone/
+!humanoid/
+!requirements.apt.txt
+!requirements.py.txt

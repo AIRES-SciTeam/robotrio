@@ -54,15 +54,15 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/base:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/base:latest
 
-      - name: Build and push humanoid
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          target: humanoid
-          push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/humanoid:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/humanoid:latest
+      # - name: Build and push humanoid
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     target: humanoid
+      #     push: true
+      #     tags: |
+      #       ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/humanoid:${{ github.sha }}
+      #       ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/humanoid:latest
 
       - name: Build and push drone
         uses: docker/build-push-action@v6

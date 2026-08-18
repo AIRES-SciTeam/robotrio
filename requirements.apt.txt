@@ -4,6 +4,7 @@ wget
 curl
 terminator
 tmux
+tree
 mesa-utils
 libgl1-mesa-dri
 libgl1-mesa-dev

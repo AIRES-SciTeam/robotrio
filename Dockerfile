@@ -97,16 +97,10 @@ RUN apt-get update && \
 COPY drone/requirements.py.txt /tmp/requirements.py.txt
 RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
-COPY drone/run_env.sh drone/run_env.sh
-RUN chmod +x drone/run_env.sh
-
-COPY drone/run_sim.sh drone/run_sim.sh
-RUN chmod +x drone/run_sim.sh
-
 COPY drone/install/ /robotrio/drone/install/
-RUN chmod +x drone/install/*
-
-ENV PATH="/robotrio/drone/bin:$PATH"
+RUN cd /robotrio/drone/install && \
+    chmod +x *.sh && \
+    ./all.sh
 
 WORKDIR /robotrio
 

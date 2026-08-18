@@ -3,4 +3,3 @@ ros-jazzy-ros-gz
 python3-lxml
 libfastrtps-dev
 libfastcdr-dev
-ros-jazzy-fastrtps-dev

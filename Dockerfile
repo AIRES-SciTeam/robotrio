@@ -102,6 +102,9 @@ RUN cd /robotrio/drone/install && \
     chmod +x *.sh && \
     ./all.sh
 
+COPY drone/run/*.sh /robotrio/drone/run/
+RUN chmod +x /robotrio/drone/run/*.run
+
 WORKDIR /robotrio
 
 CMD ["/bin/bash"]

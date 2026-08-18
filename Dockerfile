@@ -103,7 +103,7 @@ RUN cd /robotrio/drone/install && \
     ./all.sh
 
 COPY drone/run/*.sh /robotrio/drone/run/
-RUN chmod +x /robotrio/drone/run/*.run
+RUN chmod +x /robotrio/drone/run/*.sh
 
 WORKDIR /robotrio
 

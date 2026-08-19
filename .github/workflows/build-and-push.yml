@@ -34,35 +34,35 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push clean
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          target: clean
-          push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/clean:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/clean:latest
+      # - name: Build and push clean
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     target: clean
+      #     push: true
+      #     tags: |
+      #       ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/clean:${{ github.sha }}
+      #       ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/clean:latest
 
-      - name: Build and push base
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          target: base
-          push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/base:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/base:latest
+      # - name: Build and push base
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     target: base
+      #     push: true
+      #     tags: |
+      #       ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/base:${{ github.sha }}
+      #       ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/base:latest
 
-      - name: Build and push humanoid
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          target: humanoid
-          push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/humanoid:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/humanoid:latest
+      # - name: Build and push humanoid
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     target: humanoid
+      #     push: true
+      #     tags: |
+      #       ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/humanoid:${{ github.sha }}
+      #       ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/humanoid:latest
 
       - name: Build and push drone
         uses: docker/build-push-action@v6

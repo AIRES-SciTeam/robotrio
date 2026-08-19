@@ -99,10 +99,6 @@ RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
 RUN rm -rf /tmp/*
 
-COPY drone/install/ /robotrio/drone/install/
-RUN chmod +x /robotrio/drone/install/MicroXRCEAgent.sh && \
-    /robotrio/drone/install/MicroXRCEAgent.sh
-
 WORKDIR /robotrio
 
 CMD ["/bin/bash"]

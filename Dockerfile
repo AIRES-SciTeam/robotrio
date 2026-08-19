@@ -72,6 +72,8 @@ RUN apt-get update && \
 COPY humanoid/requirements.py.txt /tmp/requirements.py.txt
 RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
+COPY drone/install/ /robotrio/drone/install/
+
 WORKDIR /robotrio
 
 CMD ["/bin/bash/"]

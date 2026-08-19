@@ -73,4 +73,21 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/drone:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/drone:latest
+
+  run-in-container:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/aires-sciteam/robotrio/drone:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+      
+      - name: Installation
+        run: |
+          cd /robotrio/drone/install
+          chmod +x *.sh
+          ./install.sh
     

@@ -6,7 +6,7 @@ git clone -b v2.4.3 https://github.com/eProsima/Micro-XRCE-DDS-Agent.git
     
 cd Micro-XRCE-DDS-Agent && mkdir build && cd build
 
-cmake .. -DUAGENT_P2P_PROFILE=OFF -DUAGENT_USE_SYSTEM_FASTDDS=ON 
+cmake .. -DUAGENT_P2P_PROFILE=OFF
     
 make
     

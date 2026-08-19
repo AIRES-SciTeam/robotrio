@@ -89,5 +89,5 @@ jobs:
         run: |
           cd /robotrio/drone/install
           chmod +x *.sh
-          ./install.sh
+          ./MicroXRCEAgent.sh
     

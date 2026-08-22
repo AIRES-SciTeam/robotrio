@@ -10,8 +10,8 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  code-checkout:
-    name: Code Checkout
+  build-clean:
+    name: Build `clean` Docker Image
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -20,13 +20,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-  build-clean:
-    name: Build `clean` Docker Image
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
       - name: Set repository name to lowercase
         run: echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
@@ -57,6 +50,9 @@ jobs:
       contents: read
       packages: write
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
       - name: Set repository name to lowercase
         run: echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
@@ -87,6 +83,9 @@ jobs:
       contents: read
       packages: write
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
       - name: Set repository name to lowercase
         run: echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
@@ -119,6 +118,9 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        
       - name: Checkout Repository
         uses: actions/checkout@v5
       

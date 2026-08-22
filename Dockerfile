@@ -5,7 +5,7 @@
 # Purpose: to build the base enviroment that prepared for 
 #          installing necessary apps
 # ==========================================================
-FROM ros:lyrical-ros-base-resolute AS clean
+FROM ros:rolling-ros-base-resolute AS clean
 
 ENV DEBIAN_FRONTEND=nointeractive
 
@@ -14,7 +14,7 @@ RUN apt-get update && \
     xargs -a /tmp/requirements.apt.txt apt-get install -y --no-install-recommends \
 && rm -rf /var/lib/apt/lists/*
 
-RUN echo "source /opt/ros/lyrical/setup.bash" >> /root/.bashrc
+RUN echo "source /opt/ros/rolling/setup.bash" >> /root/.bashrc
 
 WORKDIR /robotrio
 
@@ -37,7 +37,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] https://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
-RUN apt-get update && apt-get install -y gz-jetty \
+RUN apt-get update && apt-get install -y \
+    ros-rolling-ros-gz \
 && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m venv /opt/python-venv

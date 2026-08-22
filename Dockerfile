@@ -14,7 +14,7 @@ RUN apt-get update && \
     xargs -a /tmp/requirements.apt.txt apt-get install -y --no-install-recommends \
 && rm -rf /var/lib/apt/lists/*
 
-RUN echo "source /opt/ros/jazzy/setup.bash" >> /root/.bashrc
+RUN echo "source /opt/ros/lyrical/setup.bash" >> /root/.bashrc
 
 WORKDIR /robotrio
 
@@ -28,26 +28,26 @@ CMD ["/bin/bash"]
 # ==========================================================
 FROM clean AS base
 
-# RUN apt-get update && apt-get install -y --no-install-recommends \ 
-#     python3 \
-#     python3-pip \
-#     python3-venv \
-#     python3-full \
-# && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \ 
+    python3 \
+    python3-pip \
+    python3-venv \
+    python3-full \
+&& rm -rf /var/lib/apt/lists/*
 
-# RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
-# RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] https://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
-# RUN apt-get update && apt-get install -y gz-jetty \
-# && rm -rf /var/lib/apt/lists/*
+RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] https://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+RUN apt-get update && apt-get install -y gz-jetty \
+&& rm -rf /var/lib/apt/lists/*
 
-# RUN python3 -m venv /opt/python-venv
+RUN python3 -m venv /opt/python-venv
 
-# ENV PATH="/opt/python-venv/bin:$PATH"
+ENV PATH="/opt/python-venv/bin:$PATH"
 
-# COPY requirements.py.txt /tmp/requirements.py.txt
-# RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
+COPY requirements.py.txt /tmp/requirements.py.txt
+RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
-# WORKDIR /robotrio
+WORKDIR /robotrio
 
 CMD ["/bin/bash/"]
 

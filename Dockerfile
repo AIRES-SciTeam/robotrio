@@ -5,7 +5,7 @@
 # Purpose: to build the base enviroment that prepared for 
 #          installing necessary apps
 # ==========================================================
-FROM ros:jazzy-ros-base-noble AS clean
+FROM ros:lyrical-ros-base-resolute AS clean
 
 ENV DEBIAN_FRONTEND=nointeractive
 
@@ -28,26 +28,26 @@ CMD ["/bin/bash"]
 # ==========================================================
 FROM clean AS base
 
-RUN apt-get update && apt-get install -y --no-install-recommends \ 
-    python3 \
-    python3-pip \
-    python3-venv \
-    python3-full \
-&& rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y --no-install-recommends \ 
+#     python3 \
+#     python3-pip \
+#     python3-venv \
+#     python3-full \
+# && rm -rf /var/lib/apt/lists/*
 
-RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] https://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
-RUN apt-get update && apt-get install -y gz-jetty \
-&& rm -rf /var/lib/apt/lists/*
+# RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+# RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] https://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+# RUN apt-get update && apt-get install -y gz-jetty \
+# && rm -rf /var/lib/apt/lists/*
 
-RUN python3 -m venv /opt/python-venv
+# RUN python3 -m venv /opt/python-venv
 
-ENV PATH="/opt/python-venv/bin:$PATH"
+# ENV PATH="/opt/python-venv/bin:$PATH"
 
-COPY requirements.py.txt /tmp/requirements.py.txt
-RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
+# COPY requirements.py.txt /tmp/requirements.py.txt
+# RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
-WORKDIR /robotrio
+# WORKDIR /robotrio
 
 CMD ["/bin/bash/"]
 
@@ -59,20 +59,20 @@ CMD ["/bin/bash/"]
 # ==========================================================
 FROM base AS humanoid
 
-RUN export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F'"' '{print $4}') && \
-    curl -L -o /tmp/ros2-testing-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-testing-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb" && \
-    dpkg --remove ros2-apt-source && \
-    dpkg -i /tmp/ros2-testing-apt-source.deb
+# RUN export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F'"' '{print $4}') && \
+#     curl -L -o /tmp/ros2-testing-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-testing-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb" && \
+#     dpkg --remove ros2-apt-source && \
+#     dpkg -i /tmp/ros2-testing-apt-source.deb
 
-COPY humanoid/requirements.apt.txt /tmp/requirements.apt.txt
-RUN apt-get update && \
-    xargs -a /tmp/requirements.apt.txt apt-get install -y \
-&& rm -rf /var/lib/apt/lists/*
+# COPY humanoid/requirements.apt.txt /tmp/requirements.apt.txt
+# RUN apt-get update && \
+#     xargs -a /tmp/requirements.apt.txt apt-get install -y \
+# && rm -rf /var/lib/apt/lists/*
 
-COPY humanoid/requirements.py.txt /tmp/requirements.py.txt
-RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
+# COPY humanoid/requirements.py.txt /tmp/requirements.py.txt
+# RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
-WORKDIR /robotrio
+# WORKDIR /robotrio
 
 CMD ["/bin/bash/"]
 
@@ -84,22 +84,18 @@ CMD ["/bin/bash/"]
 # ==========================================================
 FROM base AS drone
 
-RUN export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F'"' '{print $4}') && \
-    curl -L -o /tmp/ros2-testing-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-testing-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb" && \
-    dpkg --remove ros2-apt-source && \
-    dpkg -i /tmp/ros2-testing-apt-source.deb
+# RUN export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F'"' '{print $4}') && \
+#     curl -L -o /tmp/ros2-testing-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-testing-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb" && \
+#     dpkg --remove ros2-apt-source && \
+#     dpkg -i /tmp/ros2-testing-apt-source.deb
 
-COPY drone/requirements.apt.txt /tmp/requirements.apt.txt
-RUN apt-get update && \
-    xargs -a /tmp/requirements.apt.txt apt-get install -y \
-&& rm -rf /var/lib/apt/lists/*
+# COPY drone/requirements.apt.txt /tmp/requirements.apt.txt
+# RUN apt-get update && \
+#     xargs -a /tmp/requirements.apt.txt apt-get install -y \
+# && rm -rf /var/lib/apt/lists/*
 
 # COPY drone/requirements.py.txt /tmp/requirements.py.txt
 # RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
-
-# RUN rm -rf /tmp/*
-
-# COPY drone/install/ /robotrio/drone/install/
 
 WORKDIR /robotrio
 

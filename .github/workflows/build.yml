@@ -108,25 +108,4 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/drone:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/drone:latest
-
-  drone-configuration:
-    runs-on: ubuntu-latest
-    needs: build-drone
-    container:
-      image: ghcr.io/aires-sciteam/robotrio/drone:latest
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-        
-      - name: Checkout Repository
-        uses: actions/checkout@v5
-      
-      - name: Installation
-        run: |
-          cd /robotrio/drone/install
-          chmod +x *.sh
-          ./MicroXRCEAgent.sh
     

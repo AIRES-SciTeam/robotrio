@@ -85,18 +85,13 @@ CMD ["/bin/bash/"]
 # ==========================================================
 FROM base AS drone
 
-# RUN export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F'"' '{print $4}') && \
-#     curl -L -o /tmp/ros2-testing-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-testing-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb" && \
-#     dpkg --remove ros2-apt-source && \
-#     dpkg -i /tmp/ros2-testing-apt-source.deb
+COPY drone/requirements.apt.txt /tmp/requirements.apt.txt
+RUN apt-get update && \
+    xargs -a /tmp/requirements.apt.txt apt-get install -y \
+&& rm -rf /var/lib/apt/lists/*
 
-# COPY drone/requirements.apt.txt /tmp/requirements.apt.txt
-# RUN apt-get update && \
-#     xargs -a /tmp/requirements.apt.txt apt-get install -y \
-# && rm -rf /var/lib/apt/lists/*
-
-# COPY drone/requirements.py.txt /tmp/requirements.py.txt
-# RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
+COPY drone/requirements.py.txt /tmp/requirements.py.txt
+RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
 WORKDIR /robotrio
 

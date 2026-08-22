@@ -1,3 +1,2 @@
 supervisor
-ros-jazzy-ros-gz
 python3-lxml

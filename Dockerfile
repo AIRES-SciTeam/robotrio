@@ -48,6 +48,8 @@ ENV PATH="/opt/python-venv/bin:$PATH"
 COPY requirements.py.txt /tmp/requirements.py.txt
 RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
+ENV GZ_SIM_RESOURCE_PATH="/robotrio/scene:$GZ_SIM_RESOURCE_PATH"
+
 WORKDIR /robotrio
 
 CMD ["/bin/bash/"]
@@ -94,5 +96,13 @@ COPY drone/requirements.py.txt /tmp/requirements.py.txt
 RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
 WORKDIR /robotrio
+
+COPY drone/install/ /robotrio/drone/install/
+RUN chmod +x /robotrio/drone/install/*.sh && \
+    /robotrio/drone/install/install.sh
+
+ENV PATH="/MicroXRCEAgent/bin:/PX4-Autopilot/bin:$PATH"
+ENV LD_LIBRARY_PATH="/MicroXRCEAgent/lib:$LD_LIBRARY_PATH"
+ENV GZ_SIM_RESOURCE_PATH="/robotrio/drone/models:$GZ_SIM_RESOURCE_PATH"
 
 CMD ["/bin/bash"]

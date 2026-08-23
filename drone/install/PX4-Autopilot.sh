@@ -18,6 +18,4 @@ cp -r /tmp/PX4-Autopilot/build/px4_sitl_default/ROMFS /PX4-Autopilot/
 
 cp -r /tmp/PX4-Autopilot/build/px4_sitl_default/rootfs /PX4-Autopilot/
 
-export PATH="/PX4-Autopilot/bin:$PATH"
-
 rm -rf /tmp/PX4-Autopilot

@@ -1,16 +1,43 @@
 <?xml version="1.0" ?>
 
 <sdf version="1.7">
-  <world name="default">
+  <world name="scene">
+
+    <physics type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>250</real_time_update_rate>
+    </physics>
+    
+    <gravity>0 0 -9.8</gravity>
+    
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    
+    <atmosphere type="adiabatic"/>
+
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics">
+      <engine>ode</engine>
+    </plugin>
+
     <scene>
       <grid>false</grid>
     </scene>
 
-    <include >
+    <include>
       <uri>file://ground/model.sdf</uri>
       <name>ground</name>
       <pose>0 0 0 0 0 0</pose>
     </include>   
+
+    <include>
+      <uri>model://x500</uri>
+      <name>x500</name>
+      <pose>-5.0 4.7 0.01 0 0 0</pose>
+    </include>
 
     <light type="directional" name="sun">
       <pose>0 0 500 0 0 0</pose>

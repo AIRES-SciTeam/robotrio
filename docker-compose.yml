@@ -20,28 +20,15 @@ x-dev: &defaults
     tty: true
     privileged: true
 
-services:   
-    clean:
-        <<: *defaults
-        image: registry.gitlab.com/aires_team/robotrio/clean:latest
-        container_name: robotrio_clean
-        runtime: nvidia
-        deploy:
-            resources:
-                reservations:
-                    devices:
-                        - driver: nvidia
-                          count: 1
-                          capabilities: [gpu, compute, utility, graphics]
-
+services:  
     clean-cpu:
         <<: *defaults
-        image: registry.gitlab.com/aires_team/robotrio/clean:latest
+        image: ghcr.io/aires-sciteam/robotrio/clean:latest
         container_name: robotrio_clean_cpu
 
     base:
         <<: *defaults
-        image: registry.gitlab.com/aires_team/robotrio/base:latest
+        image: ghcr.io/aires-sciteam/robotrio/base:latest
         container_name: robotrio_base
         runtime: nvidia
         deploy:
@@ -54,12 +41,12 @@ services:
     
     base-cpu:
         <<: *defaults
-        image: registry.gitlab.com/aires_team/robotrio/base:latest
+        image: ghcr.io/aires-sciteam/robotrio/base:latest
         container_name: robotrio_base_cpu
 
     humanoid:
         <<: *defaults
-        image: registry.gitlab.com/aires_team/robotrio/humanoid:latest
+        image: ghcr.io/aires-sciteam/robotrio/humanoid:latest
         container_name: robotrio_humanoid
         runtime: nvidia
         deploy:
@@ -72,82 +59,10 @@ services:
         
     humanoid-cpu:
         <<: *defaults
-        image: registry.gitlab.com/aires_team/robotrio/humanoid:latest
+        image: ghcr.io/aires-sciteam/robotrio/humanoid:latest
         container_name: robotrio_humanoid_cpu
 
     drone:
-        <<: *defaults
-        image: registry.gitlab.com/aires_team/robotrio/drone:latest
-        container_name: robotrio_drone
-        runtime: nvidia
-        deploy:
-            resources:
-                reservations:
-                    devices:
-                        - driver: nvidia
-                          count: 1
-                          capabilities: [gpu, compute, utility, graphics]
-        
-    drone-cpu:
-        <<: *defaults
-        image: registry.gitlab.com/aires_team/robotrio/drone:latest
-        container_name: robotrio_drone_cpu
-
-    clean-ghcr:
-        <<: *defaults
-        image: ghcr.io/aires-sciteam/robotrio/clean:latest
-        container_name: robotrio_clean
-        runtime: nvidia
-        deploy:
-            resources:
-                reservations:
-                    devices:
-                        - driver: nvidia
-                          count: 1
-                          capabilities: [gpu, compute, utility, graphics]
-
-    clean-cpu-ghcr:
-        <<: *defaults
-        image: ghcr.io/aires-sciteam/robotrio/clean:latest
-        container_name: robotrio_clean_cpu
-
-    base-ghcr:
-        <<: *defaults
-        image: ghcr.io/aires-sciteam/robotrio/base:latest
-        container_name: robotrio_base
-        runtime: nvidia
-        deploy:
-            resources:
-                reservations:
-                    devices:
-                        - driver: nvidia
-                          count: 1
-                          capabilities: [gpu, compute, utility, graphics]
-    
-    base-cpu-ghcr:
-        <<: *defaults
-        image: ghcr.io/aires-sciteam/robotrio/base:latest
-        container_name: robotrio_base_cpu
-
-    humanoid-ghcr:
-        <<: *defaults
-        image: ghcr.io/aires-sciteam/robotrio/humanoid:latest
-        container_name: robotrio_humanoid
-        runtime: nvidia
-        deploy:
-            resources:
-                reservations:
-                    devices:
-                        - driver: nvidia
-                          count: 1
-                          capabilities: [gpu, compute, utility, graphics]
-        
-    humanoid-cpu-ghcr:
-        <<: *defaults
-        image: ghcr.io/aires-sciteam/robotrio/humanoid:latest
-        container_name: robotrio_humanoid_cpu
-
-    drone-ghcr:
         <<: *defaults
         image: ghcr.io/aires-sciteam/robotrio/drone:latest
         container_name: robotrio_drone
@@ -160,7 +75,7 @@ services:
                           count: 1
                           capabilities: [gpu, compute, utility, graphics]
         
-    drone-cpu-ghcr:
+    drone-cpu:
         <<: *defaults
         image: ghcr.io/aires-sciteam/robotrio/drone:latest
         container_name: robotrio_drone_cpu

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-chmod +x *.sh
-
 rm -rf /MicroXRCEAgent
 ./MicroXRCEAgent.sh
 

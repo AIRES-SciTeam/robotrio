@@ -97,8 +97,9 @@ RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 
 WORKDIR /robotrio
 
-COPY drone/install/* /robotrio/drone/install/
+COPY drone/install/ /robotrio/drone/install/
 RUN chmod +x /robotrio/drone/install/*.sh && \
+    ls -la /robotrio/drone/install && \
     /robotrio/drone/install/install.sh
 
 ENV PATH="/MicroXRCEAgent/bin:/PX4-Autopilot/bin:$PATH"

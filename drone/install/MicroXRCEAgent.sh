@@ -8,7 +8,7 @@ cd Micro-XRCE-DDS-Agent && mkdir build && cd build
 
 cmake .. -DUAGENT_P2P_PROFILE=OFF
     
-make
+make -j$(nproc)
     
 mkdir -p /MicroXRCEAgent/bin
 

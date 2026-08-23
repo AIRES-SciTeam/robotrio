@@ -100,7 +100,7 @@ WORKDIR /robotrio
 COPY drone/install/ /robotrio/drone/install/
 RUN cd drone/install && \
     chmod +x *.sh && \
-    ./install.sh
+    ./install.sh 
 
 ENV PATH="/MicroXRCEAgent/bin:/PX4-Autopilot/bin:$PATH"
 ENV LD_LIBRARY_PATH="/MicroXRCEAgent/lib:$LD_LIBRARY_PATH"

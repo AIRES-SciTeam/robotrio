@@ -102,6 +102,7 @@ RUN cd drone/install && \
     chmod +x *.sh && \
     ./MicroXRCEAgent.sh 
 
+WORKDIR /
 RUN git clone --recursive https://github.com/PX4/PX4-Autopilot.git
 
 ENV PATH="/MicroXRCEAgent/bin:/PX4-Autopilot/bin:$PATH"

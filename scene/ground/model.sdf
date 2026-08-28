@@ -8,12 +8,12 @@
       <visual name="visual">
         <geometry>
           <heightmap>
-            <uri>file://ground/heightmap.png</uri>
+            <uri>file://ground/src/heightmap.png</uri>
             <size>12.8 12.8 2.4</size>
             <pos>0 0 0</pos>
             <texture>
-              <diffuse>file://ground/texture.jpg</diffuse>
-              <normal>file://ground/texture.jpg</normal>
+              <diffuse>file://ground/src/textures/texture.jpg</diffuse>
+              <normal>file://ground/src/textures/texture.jpg</normal>
               <size>12.8</size>
             </texture>
           </heightmap>
@@ -23,12 +23,36 @@
       <collision name="collision">
         <geometry>
           <heightmap>
-            <uri>file://ground/heightmap.png</uri>
+            <uri>file://ground/src/heightmap.png</uri>
             <size>12.8 12.8 2.4</size>
             <pos>0 0 0</pos>
           </heightmap>
         </geometry>
+        <surface>
+          <friction>
+            <ode/>
+          </friction>
+          <bounce/>
+          <contact/>
+        </surface>
       </collision>
+
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>1</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1</iyy>
+          <iyz>0</iyz>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+      
+      <enable_wind>false</enable_wind>
+
+      <self_collide>false</self_collide>
     </link>
   </model>
   

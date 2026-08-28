@@ -100,13 +100,16 @@ WORKDIR /robotrio
 COPY drone/install/ /robotrio/drone/install/
 RUN cd drone/install && \
     chmod +x *.sh && \
-    ./MicroXRCEAgent.sh 
+    ./install.sh 
 
 WORKDIR /
 RUN git clone --recursive https://github.com/PX4/PX4-Autopilot.git
 
+WORKDIR /robotrio
+
 ENV PATH="/MicroXRCEAgent/bin:/PX4-Autopilot/bin:$PATH"
 ENV LD_LIBRARY_PATH="/MicroXRCEAgent/lib:$LD_LIBRARY_PATH"
-ENV GZ_SIM_RESOURCE_PATH="/robotrio/drone/models:$GZ_SIM_RESOURCE_PATH"
+ENV GZ_SIM_RESOURCE_PATH="/robotrio:/robotrio/scene:$GZ_SIM_RESOURCE_PATH"
+ENV GZ_SIM_SERVER_CONFIG_PATH="/robotrio/scene:$GZ_SIM_SERVER_CONFIG_PATH"
 
 CMD ["/bin/bash"]

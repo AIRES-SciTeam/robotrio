@@ -1,5 +1,5 @@
 # Мир Scene
-![Scene](scene.png)
+![Scene](thumbnails/1.png)
 
 ## Описание 
 

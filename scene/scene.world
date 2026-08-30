@@ -26,7 +26,7 @@
     </include>   
 
     <include>
-      <uri>model://drone/models/x500</uri>
+      <uri>model://x500</uri>
       <name>x500</name>
       <pose>-5.0 4.7 0.01 0 0 0</pose>
     </include>

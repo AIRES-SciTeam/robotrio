@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/opt/python-venv/bin/python3
 import pygame
 import time
 from pymavlink import mavutil

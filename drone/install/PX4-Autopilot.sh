@@ -2,8 +2,6 @@
 
 cd /tmp
 
-source /opt/ros/rolling/setup.bash
-
 git clone --recursive https://github.com/PX4/PX4-Autopilot.git
 
 cd PX4-Autopilot

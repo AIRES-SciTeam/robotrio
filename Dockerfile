@@ -1,7 +1,7 @@
 # ==========================================================
 # Stage: clean
-# Base image: ros:jazzy-ros-base-noble
-# Contains: Ubuntu 24.04 + ROS Jazzy + base libs
+# Base image: ros:rolling-ros-base-noble
+# Contains: Ubuntu 26.04 Resolute + ROS Rolling + base libs
 # Purpose: to build the base enviroment that prepared for 
 #          installing necessary apps
 # ==========================================================
@@ -23,7 +23,7 @@ CMD ["/bin/bash"]
 # ==========================================================
 # Stage: base
 # Base image: clean
-# Contains: Python 3.14 + Gazebo Jetty
+# Contains: Python 3.14 + Gazebo Rotary
 # Purpose: main simulation
 # ==========================================================
 FROM clean AS base

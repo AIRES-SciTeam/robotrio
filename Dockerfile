@@ -41,14 +41,6 @@ RUN apt-get update && apt-get install -y \
     ros-rolling-ros-gz \
     ros-rolling-ros-gz-bridge \
     ros-rolling-ros-gz-sim \
-    libgz-transport13-dev \
-    libgz-sim8-dev \
-    libgz-sensors8-dev \
-    libgz-plugin2-dev \
-    libgz-common5-dev \
-    libgz-math7-dev \
-    libgz-utils2-dev \
-    gz-tools \
 && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m venv /opt/python-venv
@@ -108,7 +100,7 @@ RUN pip3 install --no-cache-dir -r /tmp/requirements.py.txt
 WORKDIR /robotrio
 
 COPY drone/install/ /robotrio/drone/install/
-RUN cd drone/install && \
+RUN ldconfig && cd drone/install && \
     chmod +x *.sh && \
     ./install.sh 
 

@@ -105,6 +105,6 @@ RUN cd drone/install && \
 ENV PATH="/MicroXRCEAgent/bin:/PX4-Autopilot/bin:$PATH"
 ENV LD_LIBRARY_PATH="/MicroXRCEAgent/lib:$LD_LIBRARY_PATH"
 ENV GZ_SIM_RESOURCE_PATH="/robotrio:/robotrio/drone/models:/robotrio/scene:$GZ_SIM_RESOURCE_PATH"
-ENV GZ_SIM_SERVER_CONFIG_PATH="/robotrio/scene:$GZ_SIM_SERVER_CONFIG_PATH"
+ENV GZ_SIM_SERVER_CONFIG_PATH="/robotrio/scene/server.config"
 
 CMD ["/bin/bash"]

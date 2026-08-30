@@ -6,7 +6,7 @@ git clone --recursive https://github.com/PX4/PX4-Autopilot.git
 
 cd PX4-Autopilot
 
-make px4_sitl gz_x500 -j$(nproc)
+make px4_sitl -j$(nproc)
 
 mkdir -p /PX4-Autopilot
 

@@ -2,3 +2,4 @@ kconfiglib
 empy==3.3.4
 pyros-genmsg
 jsonschema
+pygame

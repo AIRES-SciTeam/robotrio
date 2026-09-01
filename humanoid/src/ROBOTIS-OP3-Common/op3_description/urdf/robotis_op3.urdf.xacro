@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="robotis_op3">
+
+  <xacro:include filename="$(find op3_description)/urdf/robotis_op3.visuals.xacro" />
+  <xacro:include filename="$(find op3_description)/urdf/robotis_op3.inertia.xacro" />
+
+  <xacro:include filename="$(find op3_description)/urdf/robotis_op3.structure.rarm.xacro" />
+  <xacro:include filename="$(find op3_description)/urdf/robotis_op3.structure.larm.xacro" />
+
+  <xacro:include filename="$(find op3_description)/urdf/robotis_op3.structure.rleg.xacro" />
+  <xacro:include filename="$(find op3_description)/urdf/robotis_op3.structure.lleg.xacro" />
+
+  <xacro:include filename="$(find op3_description)/urdf/robotis_op3.structure.head.xacro" />
+
+  <xacro:include filename="$(find op3_description)/urdf/robotis_op3.ros2_control.xacro" />
+  <xacro:include filename="$(find op3_description)/urdf/robotis_op3.gazebo.xacro" />
+  
+  <link name="base"/>
+
+  <joint name="base_fixed" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="base"/>
+    <child link="body_link"/>
+  </joint>
+
+  <!-- body link -->
+  <link name="body_link"> 
+    <visual> 
+      <xacro:insert_mesh_body_link />
+    </visual>
+  <!--    <collision> -->
+  <!--      <xacro:insert_mesh_body_link /> -->
+  <!--    </collision> -->
+    <collision>
+      <origin xyz="-0.016750 0 0.068250" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.11 0.12 0.135"/>
+      </geometry>
+    </collision>
+    <inertial> 
+      <xacro:insert_inertia_body_link />
+    </inertial> 
+  </link>
+
+  <!-- arm link -->  
+  <xacro:robotis_op3_r_arm parent="body_link" />
+  <xacro:robotis_op3_l_arm parent="body_link" />
+
+  <!-- leg link -->
+  <xacro:robotis_op3_r_leg parent="body_link" />
+  <xacro:robotis_op3_l_leg parent="body_link" />
+
+  <!-- head links -->
+  <xacro:robotis_op3_head parent="body_link" />  
+
+  <xacro:robotis_op3_gazebo/>
+  <gazebo>
+    <plugin
+      filename="libgz_ros2_control-system.so"
+      name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+
+      <robot_param>robot_description</robot_param>
+      <robot_param_node>robot_state_publisher</robot_param_node>
+
+      <parameters>$(find op3_gazebo_ros2)/config/robotis_op3_gazebo_config.yaml</parameters>
+
+      <controller_manager_name>controller_manager</controller_manager_name>
+
+    </plugin>
+  </gazebo>
+
+</robot>

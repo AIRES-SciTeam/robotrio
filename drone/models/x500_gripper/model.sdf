@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf version='1.9'>
+  
+  <model name='x500_gripper'>
+    <include merge='true'>
+      <uri>model://x500</uri>
+    </include>
+
+    <!-- Front camera -->
+    <include>
+      <uri>model://mono_cam</uri>
+      <pose>.12 0 .22 0 0 0</pose>
+      <name>front_cam</name>
+    </include>
+    <joint name='FrontCamJoint' type='fixed'>
+      <parent>base_link</parent>
+      <child>front_cam::camera_link</child>
+      <pose relative_to="base_link">.12 0 .26 0 0 0</pose>
+    </joint>
+
+    <!-- Down camera -->
+    <include>
+      <uri>model://mono_cam</uri>
+      <pose>0 0 0.185 0 1.5707 0</pose>
+      <name>down_cam</name>
+    </include>
+    <joint name='DownCamJoint' type='fixed'>
+      <parent>base_link</parent>
+      <child>down_cam::camera_link</child>
+      <pose relative_to='base_link'>0 0 0 0 1.5707 0</pose>
+    </joint>
+
+    <!-- Down Lidar -->
+    <include merge='true'>
+      <uri>model://LW20</uri>
+      <pose relative_to="base_link">-0.03 0 -0.079 0 1.57 0</pose>
+    </include>
+    <joint name="lidar_model_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>lw20_link</child>
+      <pose relative_to="base_link">-0 0 0 0 0 0</pose>
+    </joint>
+    <joint name="lidar_sensor_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>lidar_sensor_link</child>
+    </joint>
+    <link name="lidar_sensor_link">
+      <pose relative_to="base_link">0 0 -0.05 0 1.57 0</pose>
+      <inertial>
+        <mass>0.001</mass>
+        <inertia>
+          <ixx>0.00001</ixx>
+          <iyy>0.00001</iyy>
+          <izz>0.00001</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <sensor name='lidar' type='gpu_lidar'>
+        <gz_frame_id>lidar_sensor_link</gz_frame_id>
+        <pose>0 0 0 3.14 0 0</pose>
+        <update_rate>50</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>1</samples>
+              <resolution>1</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>0</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>1</samples>
+              <resolution>1</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>0</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.1</min>
+            <max>100.0</max>
+            <resolution>0.01</resolution>
+          </range>
+        </ray>
+        <always_on>1</always_on>
+        <visualize>true</visualize>
+      </sensor>
+    </link>
+
+    <!-- Cargo gripper -->
+    <plugin filename="gz-sim-detachable-joint-system"
+            name="gz::sim::systems::DetachableJoint">
+      <parent_link>base_link</parent_link>
+      <child_model>goods#1</child_model>
+      <child_link>goods_link</child_link>
+      <attach_topic>/model/x500/gripper/goods#1/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods#1/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods#1/state</output_topic>
+    </plugin>
+
+    <plugin filename="gz-sim-detachable-joint-system"
+            name="gz::sim::systems::DetachableJoint">
+      <parent_link>base_link</parent_link>
+      <child_model>goods#2</child_model>
+      <child_link>goods_link</child_link>
+      <attach_topic>/model/x500/gripper/goods#2/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods#2/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods#2/state</output_topic>
+    </plugin>
+
+    <plugin filename="gz-sim-detachable-joint-system"
+            name="gz::sim::systems::DetachableJoint">
+      <parent_link>base_link</parent_link>
+      <child_model>goods#3</child_model>
+      <child_link>goods_link</child_link>
+      <attach_topic>/model/x500/gripper/goods#3/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods#3/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods#3/state</output_topic>
+    </plugin>
+
+    <plugin filename="gz-sim-detachable-joint-system"
+            name="gz::sim::systems::DetachableJoint">
+      <parent_link>base_link</parent_link>
+      <child_model>goods#4</child_model>
+      <child_link>goods_link</child_link>
+      <attach_topic>/model/x500/gripper/goods#4/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods#4/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods#4/state</output_topic>
+    </plugin>
+
+  </model>
+
+</sdf>

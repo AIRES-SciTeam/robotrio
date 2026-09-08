@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 <sdf version="1.7">
-  <world name="scene">
+  <world name="empty">
 
     <physics name='physics' type="ode">
       <max_step_size>0.004</max_step_size>
@@ -18,41 +18,38 @@
     <scene>
       <grid>false</grid>
     </scene>
-
-    <include>
-      <uri>file://ground/model.sdf</uri>
-      <name>ground</name>
-      <pose>0 0 0 0 0 0</pose>
-    </include>   
+    
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
 
     <include>
       <uri>model://x500_gripper</uri>
       <name>x500</name>
-      <pose>-5.0 4.7 0.01 0 0 0</pose>
-    </include>
-
-    <include>
-      <uri>file://goods/model.sdf</uri>
-      <name>goods#1</name>
-      <pose>-4.5 4.5 0.1 0 0 0</pose>
-    </include>
-
-    <include>
-      <uri>file://goods/model.sdf</uri>
-      <name>goods#2</name>
-      <pose>-4.6 4.7 0.1 0 0 0</pose>
-    </include>
-
-    <include>
-      <uri>file://goods/model.sdf</uri>
-      <name>goods#3</name>
-      <pose>-4.3 4.2 0.1 0 0 0</pose>
-    </include>
-
-    <include>
-      <uri>file://goods/model.sdf</uri>
-      <name>goods#4</name>
-      <pose>-4.6 4 0.1 0 0 0</pose>
+      <pose>0 0 0 0 0 0</pose>
     </include>
 
     <light type="directional" name="sun">
@@ -80,7 +77,6 @@
         <scene>ground</scene>
         <ambient_light>0.4 0.4 0.4</ambient_light>
         <background_color>0.8 0.8 0.8</background_color>
-        <camera_pose>0 0 10 -1.5708 1.5708 0</camera_pose>
         <camera_clip>
           <near>0.25</near>
           <far>25000</far>

@@ -41,7 +41,7 @@ RUN apt-get update && apt-get install -y \
     ros-rolling-ros-gz \
 && rm -rf /var/lib/apt/lists/*
 
-RUN python3 -m venv /opt/python-venv
+RUN python3 -m venv --system-site-packages /opt/python-venv
 
 ENV PATH="/opt/python-venv/bin:$PATH"
 
@@ -104,7 +104,7 @@ RUN cd drone/install && \
 
 ENV PATH="/MicroXRCEAgent/bin:/PX4-Autopilot/bin:$PATH"
 ENV LD_LIBRARY_PATH="/MicroXRCEAgent/lib:$LD_LIBRARY_PATH"
-ENV GZ_SIM_RESOURCE_PATH="/robotrio:/robotrio/drone/models:$GZ_SIM_RESOURCE_PATH"
+ENV GZ_SIM_RESOURCE_PATH="/robotrio/scene:/robotrio/drone/models:$GZ_SIM_RESOURCE_PATH"
 ENV GZ_SIM_SERVER_CONFIG_PATH="/robotrio/scene/server.config"
 
 CMD ["/bin/bash"]

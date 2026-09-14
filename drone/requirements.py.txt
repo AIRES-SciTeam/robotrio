@@ -4,3 +4,4 @@ pyros-genmsg
 jsonschema
 pygame
 pymavlink
+pupil-apriltags

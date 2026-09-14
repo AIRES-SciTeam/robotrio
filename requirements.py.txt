@@ -1,5 +1,6 @@
 numpy
-opencv-python
+# Keep OpenCV type constants compatible with the ROS cv_bridge build.
+opencv-python>=4,<5
 jinja2
 pyyaml
 typeguard

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<sdf version="1.7">
+  <model name="helipad">
+    <static>true</static>
+    <link name="helipad">
+      <visual>
+
+      </visual>
+      <collision>
+        
+      </collision>
+    </link>
+  </model>
+</sdf>

@@ -3,94 +3,11 @@
 <sdf version="1.7">
   <world name="empty">
 
-    <physics name='physics' type="ode">
-      <max_step_size>0.004</max_step_size>
-      <real_time_factor>1.0</real_time_factor>
-      <real_time_update_rate>250</real_time_update_rate>
-    </physics>
-    
-    <gravity>0 0 -9.8</gravity>
-    
-    <magnetic_field>0.000024 0.000000 -0.000048</magnetic_field>
-    
-    <atmosphere type="adiabatic"/>
-
-    <scene>
-      <grid>false</grid>
-    </scene>
-    
-    <model name="ground_plane">
-      <static>true</static>
-      <link name="link">
-        <collision name="collision">
-          <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-              <size>100 100</size>
-            </plane>
-          </geometry>
-        </collision>
-        <visual name="visual">
-          <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-              <size>100 100</size>
-            </plane>
-          </geometry>
-          <material>
-            <ambient>0.8 0.8 0.8 1</ambient>
-            <diffuse>0.8 0.8 0.8 1</diffuse>
-            <specular>0.8 0.8 0.8 1</specular>
-          </material>
-        </visual>
-      </link>
-    </model>
-
     <include>
-      <uri>model://x500_gripper</uri>
-      <name>x500</name>
+      <uri>model://goods/tag00/model.sdf</uri>
+      <name>goods#0</name>
       <pose>0 0 0 0 0 0</pose>
     </include>
-
-    <light type="directional" name="sun">
-      <pose>0 0 500 0 0 0</pose>
-      <cast_shadows>true</cast_shadows>
-      <diffuse>0.8 0.8 0.8 1</diffuse>
-      <specular>0.2 0.2 0.2 1</specular>
-      <attenuation>
-        <range>1000</range>
-        <constant>0.9</constant>
-        <linear>0.01</linear>
-        <quadratic>0.001</quadratic>
-      </attenuation>
-      <direction>-0.5 0.1 -0.9</direction>
-    </light>
-
-    <gui fullscreen="0">
-      <plugin filename="MinimalScene" name="3D View">
-        <gz-gui>
-          <title>3D View</title>
-          <property type="bool" key="showTitleBar">false</property>
-          <property type="string" key="state">docked</property>
-        </gz-gui>
-        <engine>ogre2</engine>
-        <scene>ground</scene>
-        <ambient_light>0.4 0.4 0.4</ambient_light>
-        <background_color>0.8 0.8 0.8</background_color>
-        <camera_clip>
-          <near>0.25</near>
-          <far>25000</far>
-        </camera_clip>
-      </plugin>
-    </gui>
-
-    <spherical_coordinates>
-      <surface_model>EARTH_WGS84</surface_model>
-      <world_frame_orientation>ENU</world_frame_orientation>
-      <latitude_deg>37.412173071650805</latitude_deg>
-      <longitude_deg>-121.998878727967</longitude_deg>
-      <elevation>38</elevation>
-    </spherical_coordinates>
 
   </world>
 </sdf>

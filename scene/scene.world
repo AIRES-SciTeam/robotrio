@@ -20,10 +20,16 @@
     </scene>
 
     <include>
-      <uri>file://ground/model.sdf</uri>
+      <uri>model://ground/model.sdf</uri>
       <name>ground</name>
       <pose>0 0 0 0 0 0</pose>
     </include>   
+
+    <include>
+      <uri>model://helipad/model.sdf</uri>
+      <name>helipad</name>
+      <pose>-4.98 4.1 0.01 0 0 0</pose>
+    </include>
 
     <include>
       <uri>model://x500_gripper</uri>
@@ -32,27 +38,45 @@
     </include>
 
     <include>
-      <uri>file://goods/model.sdf</uri>
-      <name>goods#1</name>
-      <pose>-4.5 4.5 0.1 0 0 0</pose>
+      <uri>model://goods/no_tag/model.sdf</uri>
+      <name>goods</name>
+      <pose>-4.5 4.1 0.05 0 0 0</pose>
     </include>
 
     <include>
-      <uri>file://goods/model.sdf</uri>
-      <name>goods#2</name>
-      <pose>-4.6 4.7 0.1 0 0 0</pose>
+      <uri>model://goods/tag00/model.sdf</uri>
+      <name>goods#00</name>
+      <pose>-4.5 4.7 0.05 0 0 0</pose>
     </include>
 
     <include>
-      <uri>file://goods/model.sdf</uri>
-      <name>goods#3</name>
-      <pose>-4.3 4.2 0.1 0 0 0</pose>
+      <uri>model://goods/tag01/model.sdf</uri>
+      <name>goods#01</name>
+      <pose>-4.3 4.7 0.05 0 0 0</pose>
     </include>
 
     <include>
-      <uri>file://goods/model.sdf</uri>
-      <name>goods#4</name>
-      <pose>-4.6 4 0.1 0 0 0</pose>
+      <uri>model://goods/tag02/model.sdf</uri>
+      <name>goods#02</name>
+      <pose>-4.5 4.5 0.05 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://goods/tag03/model.sdf</uri>
+      <name>goods#03</name>
+      <pose>-4.3 4.5 0.05 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://goods/tag04/model.sdf</uri>
+      <name>goods#04</name>
+      <pose>-4.5 4.3 0.05 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://goods/tag05/model.sdf</uri>
+      <name>goods#05</name>
+      <pose>-4.3 4.3 0.05 0 0 0</pose>
     </include>
 
     <light type="directional" name="sun">
@@ -91,8 +115,8 @@
     <spherical_coordinates>
       <surface_model>EARTH_WGS84</surface_model>
       <world_frame_orientation>ENU</world_frame_orientation>
-      <latitude_deg>37.412173071650805</latitude_deg>
-      <longitude_deg>-121.998878727967</longitude_deg>
+      <latitude_deg>54.869339</latitude_deg>
+      <longitude_deg>83.079488</longitude_deg>
       <elevation>38</elevation>
     </spherical_coordinates>
 

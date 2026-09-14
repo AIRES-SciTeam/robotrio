@@ -91,41 +91,61 @@
     <plugin filename="gz-sim-detachable-joint-system"
             name="gz::sim::systems::DetachableJoint">
       <parent_link>base_link</parent_link>
-      <child_model>goods#1</child_model>
+      <child_model>goods#00</child_model>
       <child_link>goods_link</child_link>
-      <attach_topic>/model/x500/gripper/goods#1/attach</attach_topic>
-      <detach_topic>/model/x500/gripper/goods#1/detach</detach_topic>
-      <output_topic>/model/x500/gripper/goods#1/state</output_topic>
+      <attach_topic>/model/x500/gripper/goods#00/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods#00/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods#00/state</output_topic>
     </plugin>
 
     <plugin filename="gz-sim-detachable-joint-system"
             name="gz::sim::systems::DetachableJoint">
       <parent_link>base_link</parent_link>
-      <child_model>goods#2</child_model>
+      <child_model>goods#01</child_model>
       <child_link>goods_link</child_link>
-      <attach_topic>/model/x500/gripper/goods#2/attach</attach_topic>
-      <detach_topic>/model/x500/gripper/goods#2/detach</detach_topic>
-      <output_topic>/model/x500/gripper/goods#2/state</output_topic>
+      <attach_topic>/model/x500/gripper/goods#01/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods#01/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods#01/state</output_topic>
     </plugin>
 
     <plugin filename="gz-sim-detachable-joint-system"
             name="gz::sim::systems::DetachableJoint">
       <parent_link>base_link</parent_link>
-      <child_model>goods#3</child_model>
+      <child_model>goods#02</child_model>
       <child_link>goods_link</child_link>
-      <attach_topic>/model/x500/gripper/goods#3/attach</attach_topic>
-      <detach_topic>/model/x500/gripper/goods#3/detach</detach_topic>
-      <output_topic>/model/x500/gripper/goods#3/state</output_topic>
+      <attach_topic>/model/x500/gripper/goods#02/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods#02/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods#02/state</output_topic>
     </plugin>
 
     <plugin filename="gz-sim-detachable-joint-system"
             name="gz::sim::systems::DetachableJoint">
       <parent_link>base_link</parent_link>
-      <child_model>goods#4</child_model>
+      <child_model>goods#03</child_model>
       <child_link>goods_link</child_link>
-      <attach_topic>/model/x500/gripper/goods#4/attach</attach_topic>
-      <detach_topic>/model/x500/gripper/goods#4/detach</detach_topic>
-      <output_topic>/model/x500/gripper/goods#4/state</output_topic>
+      <attach_topic>/model/x500/gripper/goods#03/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods#03/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods#03/state</output_topic>
+    </plugin>
+
+    <plugin filename="gz-sim-detachable-joint-system"
+            name="gz::sim::systems::DetachableJoint">
+      <parent_link>base_link</parent_link>
+      <child_model>goods#04</child_model>
+      <child_link>goods_link</child_link>
+      <attach_topic>/model/x500/gripper/goods#04/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods#04/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods#04/state</output_topic>
+    </plugin>
+
+    <plugin filename="gz-sim-detachable-joint-system"
+            name="gz::sim::systems::DetachableJoint">
+      <parent_link>base_link</parent_link>
+      <child_model>goods#05</child_model>
+      <child_link>goods_link</child_link>
+      <attach_topic>/model/x500/gripper/goods#05/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods#05/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods#05/state</output_topic>
     </plugin>
 
   </model>

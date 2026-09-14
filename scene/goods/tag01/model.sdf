@@ -1,24 +1,18 @@
 <?xml version="1.0"?>
 
-<sdf version="1.7">
+<sdf version="1.7"> 
   
   <model name="goods">
     <static>false</static>
     <link name="goods_link">
       <visual name="visual">
         <geometry>
-          <box>
-            <size>0.1 0.1 0.1</size>
-          </box>
+          <mesh>
+            <uri>model://goods/tag01/meshes/box.dae</uri>
+            <scale>1 1 1</scale>
+          </mesh>
         </geometry>
-        <material>
-          <ambient>0.1 0.1 0.1 1</ambient>
-          <diffuse>0.1 0.1 0.2 1</diffuse>
-          <specular>0 0 0 0</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
       </visual>
-
       <collision name="collision">
         <geometry>
           <box>
@@ -26,7 +20,6 @@
           </box>
         </geometry>
       </collision>
-
       <inertial>
         <mass>0.05</mass>
         <inertia>

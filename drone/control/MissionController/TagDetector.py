@@ -7,7 +7,7 @@ import numpy as np
 import logging
 from pupil_apriltags import Detector # type: ignore
 
-from utils import DRONE_TagConfig
+from drone.control.Utils.Configs import DRONE_TagConfig
 
 
 class DRONE_TagDetector(Node):

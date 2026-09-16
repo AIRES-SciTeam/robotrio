@@ -2,22 +2,22 @@ import pygame
 import numpy as np
 import logging
 
-from MAVLinkConn import DRONE_MAVLinkConn
-from Commander import DRONE_Commander
-from Gripper import DRONE_Gripper
-from utils import DRONE_FlyCommand
+from drone.control.MAVLinkCommander import DRONE_MAVLinkCommander
+from drone.control.ManualController.ManualController import DRONE_ManualController
+from drone.control.GripContorller.GripController import DRONE_GripController
+from drone.control.Utils.Configs import DRONE_FlyCommand
 
 
-class DRONE_Gamepad(DRONE_Commander):
+class DRONE_GamepadController(DRONE_ManualController):
     def __init__(
         self,
-        conn : DRONE_MAVLinkConn,
-        gripper : DRONE_Gripper,
+        com : DRONE_MAVLinkCommander,
+        gripper : DRONE_GripController,
         logger : logging.Logger,
         deadzone = 0.1
     ):
         super().__init__(
-            conn=conn, 
+            com=com, 
             gripper=gripper,
             logger=logger
         )

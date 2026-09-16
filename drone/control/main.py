@@ -5,11 +5,11 @@ import rclpy # type: ignore
 from rclpy.executors import ExternalShutdownException # type: ignore
 from threading import Thread
 
-from utils import DRONE_ModelConfig, DRONE_ConnConfig, DRONE_TagConfig
-from Gamepad import DRONE_Gamepad
-from Gripper import DRONE_Gripper
-from MAVLinkConn import DRONE_MAVLinkConn
-from TagDetector import DRONE_TagDetector
+from drone.control.Utils.Configs import DRONE_ModelConfig, DRONE_ConnConfig, DRONE_TagConfig
+from drone.control.ManualController.ManualController_Gamepad import DRONE_GamepadController
+from drone.control.GripContorller.GripController import DRONE_GripController
+from drone.control.Commander.MAVLinkCommander import DRONE_MAVLinkCommander
+from drone.control.MissionController.TagDetector import DRONE_TagDetector
 
 
 def spin_detector(node, logger):
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     logs_dir.mkdir(parents=True, exist_ok=True)
 
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.INFO,
         format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
         handlers=[
@@ -56,18 +56,18 @@ if __name__ == "__main__":
             list = ["00", "01", "02", "03", "04", "05"]
         )
 
-        connection = DRONE_MAVLinkConn(
+        connection = DRONE_MAVLinkCommander(
             conn_config = conn_config, 
             logger = logger
         )
-        gripper = DRONE_Gripper(
+        gripper = DRONE_GripController(
             model_config = model_config,
             tag_config = tag_config,
             logger = logger,
             grip_distance = 0.6
         )
-        commander = DRONE_Gamepad(
-            conn = connection,
+        commander = DRONE_GamepadController(
+            com = connection,
             gripper = gripper,
             logger = logger,
             deadzone = 0.1

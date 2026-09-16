@@ -1,31 +1,31 @@
 from abc import ABC, abstractmethod
 import logging
 
-from Gripper import DRONE_Gripper
-from MAVLinkConn import DRONE_MAVLinkConn
-from utils import DRONE_FlyCommand
+from drone.control.GripContorller.GripController import DRONE_GripController
+from drone.control.MAVLinkCommander import DRONE_MAVLinkCommander
+from drone.control.Utils.Configs import DRONE_FlyCommand
 
 
-class DRONE_Commander(ABC):
+class DRONE_ManualController(ABC):
     def __init__(
         self,
-        conn : DRONE_MAVLinkConn,
-        gripper : DRONE_Gripper, 
+        com : DRONE_MAVLinkCommander,
+        gripper : DRONE_GripController, 
         logger : logging.Logger
     ):
         self.logger = logger
-        self.conn = conn
+        self.com = com
         self.gripper = gripper
 
         self.logger.debug("DRONE_Commander: Initializing commander...")
 
     def _arm(self):
         self.logger.debug("DRONE_Commander: sending arming command")
-        self.conn.arm()
+        self.com.arm()
 
     def _send_flycommand(self, flycommand : DRONE_FlyCommand):
         self.logger.debug("DRONE_Commander: sending flycommand")
-        self.conn.send_MC(flycommand)
+        self.com.send_MC(flycommand)
 
     def _grip(self):
         self.logger.debug("DRONE_Commander: sending grip command")
@@ -33,7 +33,7 @@ class DRONE_Commander(ABC):
 
     def _send_heartbeat(self):
         self.logger.debug("DRONE_Commander: sending heartbeat")
-        self.conn.heartbeat()
+        self.com.heartbeat()
 
     @abstractmethod
     def run(self):

@@ -2,19 +2,20 @@ import subprocess
 import re
 import math
 import logging
+from concurrent.futures import ThreadPoolExecutor
 
-from utils import DRONE_ModelConfig, DRONE_TagConfig
+from drone.control.Utils.Configs import DRONE_ModelConfig, DRONE_TagConfig
 
 
-class DRONE_Gripper:
+class DRONE_GripController:
     def __init__(
         self, 
-        model_config: DRONE_ModelConfig,
+        model_config : DRONE_ModelConfig,
         tag_config : DRONE_TagConfig,
         logger: logging.Logger,
         grip_distance: int = 0.6,
     ):
-        self.drone_name = model_config.model
+        self.model_name = model_config.model
         self.cargo_name = model_config.cargo
         self.tags_list = [tag_config.family + "-" + tag for tag in tag_config.list]
         self.grip_distance = grip_distance
@@ -29,12 +30,12 @@ class DRONE_Gripper:
         self.logger.debug("DRONE_Gripper: GripperCTRL initialized.")
 
     def _attach(self, cargo_tag):
-        topic = f"/model/{self.drone_name}/gripper/{self.cargo_name}/{cargo_tag}/attach"
+        topic = f"/model/{self.model_name}/gripper/{self.cargo_name}/{cargo_tag}/attach"
         self._publish(topic)
         self.logger.info(f"DRONE_Gripper: Attached cargo {self.cargo_name}/{cargo_tag}")
 
     def _detach(self, cargo_tag):
-        topic = f"/model/{self.drone_name}/gripper/{self.cargo_name}/{cargo_tag}/detach"
+        topic = f"/model/{self.model_name}/gripper/{self.cargo_name}/{cargo_tag}/detach"
         self._publish(topic)
         self.logger.info(f"DRONE_Gripper: Detached cargo {self.cargo_name}/{cargo_tag}")
 
@@ -53,30 +54,51 @@ class DRONE_Gripper:
         )
         self.logger.debug(f"DRONE_Gripper: Published \"{cmd[4]}\" to topic: {topic}")
 
-    def _parse_pose(self, output):
-        match = re.search(
-            r"\[?\s*([-+\d.eE]+)[,\s]+([-+\d.eE]+)[,\s]+([-+\d.eE]+)",
-            output,
+    def _parse_poses(self, output):
+        """Return the model world position and a mapping of link world positions."""
+        number = r"[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?"
+        vector = rf"\[[ \t]*({number})[, \t]+({number})[, \t]+({number})[ \t]*\]"
+        pattern = (
+            rf"^[ \t]*- Name: ([^\r\n]+)\r?\n"
+            rf".*?"
+            rf"^[ \t]*- Pose \[ XYZ \(m\) \] \[ RPY \(rad\) \]:[ \t]*\r?\n"
+            rf"[ \t]*{vector}[ \t]*\r?\n[ \t]*{vector}[ \t]*\r?$"
         )
-        self.logger.debug(f"DRONE_Gripper: Got match: {match}")
-        if not match:
-            self.logger.error(f"DRONE_Gripper: Failed: Gazebo returned an unknown pose format: {output!r}")
-            raise ValueError(f"Failed: Gazebo returned an unknown pose format: {output!r}")
-        return [float(value) for value in match.groups()]
+        sections = re.split(r"^[ \t]*- Link \[\d+\][ \t]*\r?$", output, flags=re.MULTILINE)
+        poses = []
+        for section in sections:
+            match = re.search(pattern, section, flags=re.DOTALL | re.MULTILINE)
+            if match is None:
+                raise ValueError(f"DRONE_Gripper: azebo returned an unknown pose format: {section!r}")
+            poses.append((match.group(1).strip(), [float(value) for value in match.groups()[1:]]))
 
-    def _get_pose(self, model_name, tag=None):
-        if tag:
-            cmd = ["gz", "model", "--model", model_name, "--link", tag, "--pose"]
-        else:
-            cmd = ["gz", "model", "--model", model_name, "--pose"]
+        model_pose = poses[0][1]
+        model_x, model_y, model_z, roll, pitch, yaw = model_pose
+        cr, sr = math.cos(roll), math.sin(roll)
+        cp, sp = math.cos(pitch), math.sin(pitch)
+        cy, sy = math.cos(yaw), math.sin(yaw)
+
+        absolute_positions = {}
+        for name, pose in poses[1:]:
+            x, y, z = pose[:3]
+            y, z = cr * y - sr * z, sr * y + cr * z
+            x, z = cp * x + sp * z, -sp * x + cp * z
+            x, y = cy * x - sy * y, sy * x + cy * y
+            absolute_positions[name] = [model_x + x, model_y + y, model_z + z]
+        return model_pose[:3], absolute_positions
+
+    def _get_poses(self, model_name, include_links=False):
+        cmd = ["gz", "model", "--model", model_name, "--pose"]
+        if include_links:
+            cmd.append("--link")
         result = subprocess.run(
             cmd,
             check=True,
             capture_output=True,
             text=True,
-            timeout=2.0
+            timeout=2.0,
         )
-        return self._parse_pose(result.stdout)
+        return self._parse_poses(result.stdout)
 
     def _is_attachable(self, drone_pose, cargo_pose):   
         good_x = abs(drone_pose[0] - cargo_pose[0]) <= 0.3
@@ -86,14 +108,17 @@ class DRONE_Gripper:
         return good_x and good_y and good_z
 
     def _nearest(self):
-        drone_pose = self._get_pose(self.drone_name)
-        goods_poses = [
-            (tag, self._get_pose(self.cargo_name, tag))
-            for tag in self.tags_list
-        ]
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            drone_future = executor.submit(self._get_poses, self.model_name)
+            cargo_future = executor.submit(self._get_poses, self.cargo_name, include_links=True)
+            drone_pose, _ = drone_future.result()
+            _, goods_poses = cargo_future.result()
         min_distance = float("inf")
         nearest_tag = None
-        for tag, cargo_pose in goods_poses:
+        for tag in self.tags_list:
+            if tag not in goods_poses:
+                raise ValueError(f"DRONE_Gripper: Gazebo did not return a pose for link {tag!r}")
+            cargo_pose = goods_poses[tag]
             attachable = self._is_attachable(drone_pose, cargo_pose)
             if attachable:
                 distance = math.sqrt(
@@ -112,7 +137,9 @@ class DRONE_Gripper:
     def _attach_nearest(self):
         nearest_tag = self._nearest()
         if nearest_tag is not None:
+            self._attach(cargo_tag=nearest_tag)
             self.attached_tag = nearest_tag
+            self.logger.debug(f"DRONE_Gripper: Nearest cargo: {nearest_tag}")
         else:
             self.logger.warning("DRONE_Gripper: No attachable cargo found nearby.")
 

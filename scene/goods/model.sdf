@@ -32,7 +32,7 @@
     </link>
     
     <link name='tag36h11-00'>
-      <pose relative_to='no_tag'>0 0.6 0.05 0 0 0</pose>
+      <pose relative_to='no_tag'>0 0.6 0 0 0 0</pose>
       <visual name="visual">
         <geometry>
           <mesh>
@@ -59,7 +59,7 @@
     </link>
     
     <link name='tag36h11-01'>
-      <pose relative_to='no_tag'>0.2 0.6 0.05 0 0 0</pose>
+      <pose relative_to='no_tag'>0.2 0.6 0 0 0 0</pose>
       <visual name="visual">
         <geometry>
           <mesh>
@@ -86,7 +86,7 @@
     </link>
     
     <link name='tag36h11-02'>
-      <pose relative_to='no_tag'>0 0.4 0.05 0 0 0</pose>
+      <pose relative_to='no_tag'>0 0.4 0 0 0 0</pose>
       <visual name="visual">
         <geometry>
           <mesh>
@@ -113,7 +113,7 @@
     </link>
     
     <link name='tag36h11-03'>
-      <pose relative_to='no_tag'>0.2 0.4 0.05 0 0 0</pose>
+      <pose relative_to='no_tag'>0.2 0.4 0 0 0 0</pose>
       <visual name="visual">
         <geometry>
           <mesh>
@@ -140,7 +140,7 @@
     </link>
     
     <link name='tag36h11-04'>
-      <pose relative_to='no_tag'>0 0.2 0.05 0 0 0</pose>
+      <pose relative_to='no_tag'>0 0.2 0 0 0 0</pose>
       <visual name="visual">
         <geometry>
           <mesh>
@@ -167,7 +167,7 @@
     </link>
 
     <link name='tag36h11-05'>
-      <pose relative_to='no_tag'>0.2 0.2 0.05 0 0 0</pose>
+      <pose relative_to='no_tag'>0.2 0.2 0 0 0 0</pose>
       <visual name="visual">
         <geometry>
           <mesh>

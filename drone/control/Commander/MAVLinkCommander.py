@@ -1,10 +1,10 @@
 from pymavlink import mavutil
 import logging
 
-from utils import DRONE_ConnConfig, DRONE_FlyCommand
+from drone.control.Utils.Configs import DRONE_ConnConfig, DRONE_FlyCommand
 
 
-class DRONE_MAVLinkConn:
+class DRONE_MAVLinkCommander:
     def __init__(
         self, 
         conn_config : DRONE_ConnConfig,

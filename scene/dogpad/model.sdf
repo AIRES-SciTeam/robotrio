@@ -1,0 +1,31 @@
+<?xml version='1.0'?>
+
+<sdf version='1.7'>
+  <model name='dogpad'>
+    <static>true</static>
+
+    <link name="dogpad_link">
+      <pose>0 0 0.001 0 0 0</pose>
+      <visual name='visual'>
+        <geometry>
+          <box><size>0.5 0.5 0.01</size></box>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <pbr>
+            <metal>
+              <metalness>0</metalness>
+              <roughness>0.9</roughness>
+              <albedo_map>
+                materials/textures/tag36h11-584.png
+              </albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+    </link>
+
+  </model>
+</sdf>

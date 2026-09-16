@@ -23,61 +23,75 @@
       <uri>model://ground/model.sdf</uri>
       <name>ground</name>
       <pose>0 0 0 0 0 0</pose>
-    </include>   
-
+    </include>
     <include>
       <uri>model://helipad/model.sdf</uri>
       <name>helipad</name>
-      <pose>-4.98 4.1 0.01 0 0 0</pose>
+      <pose>-4.98 4.75 0 0 0 0</pose>
     </include>
-
     <include>
-      <uri>model://x500_gripper</uri>
-      <name>x500</name>
-      <pose>-5.0 4.7 0.01 0 0 0</pose>
+      <uri>model://dogpad/model.sdf</uri>
+      <name>dogpad</name>
+      <pose>3.8 4.6 0 0 0 0</pose>
     </include>
-
     <include>
-      <uri>model://goods/no_tag/model.sdf</uri>
+      <uri>model://goods_pads/model.sdf</uri>
+      <name>goods_pads</name>
+      <pose>3.6 4 0 0 0 0</pose>
+    </include>
+    <include>
+      <uri>model://goods/model.sdf</uri>
       <name>goods</name>
       <pose>-4.5 4.1 0.05 0 0 0</pose>
     </include>
 
     <include>
-      <uri>model://goods/tag00/model.sdf</uri>
-      <name>goods#00</name>
-      <pose>-4.5 4.7 0.05 0 0 0</pose>
+      <uri>model://x500_gripper</uri>
+      <name>x500</name>
+      <pose>-4.98 4.75 0 0 0 1.5707</pose>
     </include>
 
-    <include>
-      <uri>model://goods/tag01/model.sdf</uri>
-      <name>goods#01</name>
-      <pose>-4.3 4.7 0.05 0 0 0</pose>
-    </include>
-
-    <include>
-      <uri>model://goods/tag02/model.sdf</uri>
-      <name>goods#02</name>
-      <pose>-4.5 4.5 0.05 0 0 0</pose>
-    </include>
-
-    <include>
-      <uri>model://goods/tag03/model.sdf</uri>
-      <name>goods#03</name>
-      <pose>-4.3 4.5 0.05 0 0 0</pose>
-    </include>
-
-    <include>
-      <uri>model://goods/tag04/model.sdf</uri>
-      <name>goods#04</name>
-      <pose>-4.5 4.3 0.05 0 0 0</pose>
-    </include>
-
-    <include>
-      <uri>model://goods/tag05/model.sdf</uri>
-      <name>goods#05</name>
-      <pose>-4.3 4.3 0.05 0 0 0</pose>
-    </include>
+    <model name='walls'>
+      <static>true</static>
+      <link name='walls_link'>
+        <collision name='-z'>
+          <pose>0 0 -0.01 0 0 0</pose>
+          <geometry>
+            <box><size>15 15 0.01</size></box>
+          </geometry>
+        </collision>
+        <collision name='z'>
+          <pose>0 0 25 0 0 0</pose>
+          <geometry>
+            <box><size>15 15 0.01</size></box>
+          </geometry>
+        </collision>
+        <collision name='-x'>
+          <pose>-7.5 0 12.5 0 1.5707 0</pose>
+          <geometry>
+            <box><size>25 15 0.01</size></box>
+          </geometry>
+        </collision>
+        <collision name='x'>
+          <pose>7.5 0 12.5 0 1.5707 0</pose>
+          <geometry>
+            <box><size>25 15 0.01</size></box>
+          </geometry>
+        </collision>
+        <collision name='-y'>
+          <pose>0 -7.5 12.5 1.5707 0 0</pose>
+          <geometry>
+            <box><size>15 25 0.01</size></box>
+          </geometry>
+        </collision>
+        <collision name='y'>
+          <pose>0 7.5 12.5 1.5707 0 0</pose>
+          <geometry>
+            <box><size>15 25 0.01</size></box>
+          </geometry>
+        </collision>
+       </link>
+    </model>
 
     <light type="directional" name="sun">
       <pose>0 0 500 0 0 0</pose>

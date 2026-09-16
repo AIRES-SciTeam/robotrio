@@ -3,37 +3,40 @@ import re
 import math
 import logging
 
-from utils import DRONE_ModelConfig
+from utils import DRONE_ModelConfig, DRONE_TagConfig
 
 
 class DRONE_Gripper:
     def __init__(
         self, 
         model_config: DRONE_ModelConfig,
+        tag_config : DRONE_TagConfig,
         logger: logging.Logger,
         grip_distance: int = 0.6,
     ):
-        self.config = model_config
+        self.drone_name = model_config.model
+        self.cargo_name = model_config.cargo
+        self.tags_list = [tag_config.family + "-" + tag for tag in tag_config.list]
         self.grip_distance = grip_distance
 
         self.logger = logger
 
-        self.attached_id = None
+        self.attached_tag = None
 
-        for i in self.config.cargo_ids:
-            self._detach(cargo_id=i)
+        for tag in self.tags_list:
+            self._detach(cargo_tag=tag)
 
         self.logger.debug("DRONE_Gripper: GripperCTRL initialized.")
 
-    def _attach(self, cargo_id=None):
-        topic = f"/model/{self.config.model}/gripper/{self.config.cargo}#{cargo_id}/attach"
+    def _attach(self, cargo_tag):
+        topic = f"/model/{self.drone_name}/gripper/{self.cargo_name}/{cargo_tag}/attach"
         self._publish(topic)
-        self.logger.info(f"DRONE_Gripper: Attached cargo {self.config.cargo}#{cargo_id}.")
+        self.logger.info(f"DRONE_Gripper: Attached cargo {self.cargo_name}/{cargo_tag}")
 
-    def _detach(self, cargo_id):
-        topic = f"/model/{self.config.model}/gripper/{self.config.cargo}#{cargo_id}/detach"
+    def _detach(self, cargo_tag):
+        topic = f"/model/{self.drone_name}/gripper/{self.cargo_name}/{cargo_tag}/detach"
         self._publish(topic)
-        self.logger.info(f"DRONE_Gripper: Detached cargo {self.config.cargo}#{cargo_id}.")
+        self.logger.info(f"DRONE_Gripper: Detached cargo {self.cargo_name}/{cargo_tag}")
 
     def _publish(self, topic):
         cmd = [
@@ -55,13 +58,17 @@ class DRONE_Gripper:
             r"\[?\s*([-+\d.eE]+)[,\s]+([-+\d.eE]+)[,\s]+([-+\d.eE]+)",
             output,
         )
+        self.logger.debug(f"DRONE_Gripper: Got match: {match}")
         if not match:
             self.logger.error(f"DRONE_Gripper: Failed: Gazebo returned an unknown pose format: {output!r}")
             raise ValueError(f"Failed: Gazebo returned an unknown pose format: {output!r}")
         return [float(value) for value in match.groups()]
 
-    def _get_pose(self, model_name):
-        cmd = ["gz", "model", "--model", model_name, "--pose"]
+    def _get_pose(self, model_name, tag=None):
+        if tag:
+            cmd = ["gz", "model", "--model", model_name, "--link", tag, "--pose"]
+        else:
+            cmd = ["gz", "model", "--model", model_name, "--pose"]
         result = subprocess.run(
             cmd,
             check=True,
@@ -79,14 +86,14 @@ class DRONE_Gripper:
         return good_x and good_y and good_z
 
     def _nearest(self):
-        drone_pose = self._get_pose(self.config.model)
+        drone_pose = self._get_pose(self.drone_name)
         goods_poses = [
-            (i, self._get_pose(f"{self.config.cargo}#{i}"))
-            for i in self.config.cargo_ids
+            (tag, self._get_pose(self.cargo_name, tag))
+            for tag in self.tags_list
         ]
         min_distance = float("inf")
-        nearest_id = None
-        for cargo_id, cargo_pose in goods_poses:
+        nearest_tag = None
+        for tag, cargo_pose in goods_poses:
             attachable = self._is_attachable(drone_pose, cargo_pose)
             if attachable:
                 distance = math.sqrt(
@@ -94,27 +101,26 @@ class DRONE_Gripper:
                     (drone_pose[1] - cargo_pose[1]) ** 2 +
                     (drone_pose[2] - cargo_pose[2]) ** 2
                 )
-                self.logger.debug(f"DRONE_Gripper: Cargo #{cargo_id} is attachable. Pose: {cargo_pose}, distance:{distance}")
+                self.logger.debug(f"DRONE_Gripper: Cargo {self.cargo_name}/{tag} is attachable. Pose: {cargo_pose}, distance:{distance}")
                 if distance < min_distance:
                     min_distance = distance
-                    nearest_id = cargo_id
+                    nearest_tag = tag
             else:
-                self.logger.debug(f"DRONE_Gripper: Cargo #{cargo_id} is not attachable.")
-        return nearest_id
+                self.logger.debug(f"DRONE_Gripper: Cargo {self.cargo_name}/{tag} is not attachable.")
+        return nearest_tag
 
     def _attach_nearest(self):
-        nearest_id = self._nearest()
-        if nearest_id is not None:
-            self._attach(cargo_id=nearest_id)
-            self.attached_id = nearest_id
+        nearest_tag = self._nearest()
+        if nearest_tag is not None:
+            self.attached_tag = nearest_tag
         else:
             self.logger.warning("DRONE_Gripper: No attachable cargo found nearby.")
 
     def toggle(self):
         self.logger.debug("DRONE_Gripper: toggle cargo")
-        if self.attached_id is not None:
-            self._detach(cargo_id=self.attached_id)
-            self.logger.info(f"DRONE_Gripper: Detached cargo {self.config.cargo}#{self.attached_id}.")
-            self.attached_id = None 
+        if self.attached_tag is not None:
+            self._detach(cargo_tag=self.attached_tag)
+            self.logger.info(f"DRONE_Gripper: Detached cargo {self.cargo_name}/{self.attached_tag}.")
+            self.attached_tag = None 
         else:
             self._attach_nearest()

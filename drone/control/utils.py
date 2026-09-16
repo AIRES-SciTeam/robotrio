@@ -7,7 +7,6 @@ class DRONE_ModelConfig:
     world : str
     model : str
     cargo : str
-    cargo_ids : List[int]
 
 
 @dataclass
@@ -20,6 +19,7 @@ class DRONE_ConnConfig:
 @dataclass 
 class DRONE_TagConfig:
     family : str
+    list : List
 
 
 @dataclass

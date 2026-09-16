@@ -1,0 +1,146 @@
+<?xml version='1.0'?>
+
+<sdf version='1.7'>
+  <model name='goods_pads'>
+    <static>true</static>
+
+    <link name="goods#00">
+      <pose>0 0 0.001 0 0 0</pose>
+      <visual name='visual'>
+        <geometry>
+          <box><size>0.15 0.15 0.01</size></box>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <pbr>
+            <metal>
+              <metalness>0</metalness>
+              <roughness>0.9</roughness>
+              <albedo_map>
+                materials/textures/tag36h11-100.png
+              </albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+    </link>
+
+    <link name="goods#01">
+      <pose>0.4 0 0.001 0 0 0</pose>
+      <visual name='visual'>
+        <geometry>
+          <box><size>0.15 0.15 0.01</size></box>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <pbr>
+            <metal>
+              <metalness>0</metalness>
+              <roughness>0.9</roughness>
+              <albedo_map>
+                materials/textures/tag36h11-101.png
+              </albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+    </link>
+
+    <link name="goods#02">
+      <pose>0 -0.4 0.001 0 0 0</pose>
+      <visual name='visual'>
+        <geometry>
+          <box><size>0.15 0.15 0.01</size></box>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <pbr>
+            <metal>
+              <metalness>0</metalness>
+              <roughness>0.9</roughness>
+              <albedo_map>
+                materials/textures/tag36h11-102.png
+              </albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+    </link>
+
+    <link name="goods#03">
+      <pose>0.4 -0.4 0.001 0 0 0</pose>
+      <visual name='visual'>
+        <geometry>
+          <box><size>0.15 0.15 0.01</size></box>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <pbr>
+            <metal>
+              <metalness>0</metalness>
+              <roughness>0.9</roughness>
+              <albedo_map>
+                materials/textures/tag36h11-103.png
+              </albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+    </link>
+
+    <link name="goods#04">
+      <pose>0 -0.8 0.001 0 0 0</pose>
+      <visual name='visual'>
+        <geometry>
+          <box><size>0.15 0.15 0.01</size></box>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <pbr>
+            <metal>
+              <metalness>0</metalness>
+              <roughness>0.9</roughness>
+              <albedo_map>
+                materials/textures/tag36h11-104.png
+              </albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+    </link>
+
+    <link name="goods#05">
+      <pose>0.4 -0.8 0.001 0 0 0</pose>
+      <visual name='visual'>
+        <geometry>
+          <box><size>0.15 0.15 0.01</size></box>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0 0 0 1</specular>
+          <pbr>
+            <metal>
+              <metalness>0</metalness>
+              <roughness>0.9</roughness>
+              <albedo_map>
+                materials/textures/tag36h11-105.png
+              </albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+    </link>
+
+  </model>
+</sdf>

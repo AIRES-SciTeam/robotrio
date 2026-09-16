@@ -26,7 +26,7 @@ if __name__ == "__main__":
     logs_dir.mkdir(parents=True, exist_ok=True)
 
     logging.basicConfig(
-        level=logging.INFO,
+        level=logging.DEBUG,
         format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
         handlers=[
@@ -44,8 +44,7 @@ if __name__ == "__main__":
         model_config = DRONE_ModelConfig(
             world = "scene",
             model = "x500",
-            cargo = "goods",
-            cargo_ids = ["00", "01", "02", "03", "04", "05"]
+            cargo = "goods"
         )
         conn_config = DRONE_ConnConfig(
             type = "udp",
@@ -53,7 +52,8 @@ if __name__ == "__main__":
             port = 18571
         )
         tag_config = DRONE_TagConfig(
-            family = "tag36h11"
+            family = "tag36h11",
+            list = ["00", "01", "02", "03", "04", "05"]
         )
 
         connection = DRONE_MAVLinkConn(
@@ -62,6 +62,7 @@ if __name__ == "__main__":
         )
         gripper = DRONE_Gripper(
             model_config = model_config,
+            tag_config = tag_config,
             logger = logger,
             grip_distance = 0.6
         )

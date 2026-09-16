@@ -21,7 +21,7 @@
     <!-- Down camera -->
     <include>
       <uri>model://mono_cam</uri>
-      <pose>0 0 0.185 0 1.5707 0</pose>
+      <pose>0.1 0 0.22 0 1.5707 0</pose>
       <name>down_cam</name>
     </include>
     <joint name='DownCamJoint' type='fixed'>
@@ -30,10 +30,22 @@
       <pose relative_to='base_link'>0 0 0 0 1.5707 0</pose>
     </joint>
 
+    <!-- Back cam -->
+    <include>
+      <uri>model://mono_cam</uri>
+      <pose>-0.1 0 0.22 0 1.17809 0</pose>
+      <name>back_cam</name>
+    </include>
+    <joint name='ControlCamJoint' type='fixed'>
+      <parent>base_link</parent>
+      <child>back_cam::camera_link</child>
+      <pose relative_to='base_link'>0 0 0 0 1.17809 0</pose>
+    </joint>
+
     <!-- Down Lidar -->
     <include merge='true'>
       <uri>model://LW20</uri>
-      <pose relative_to="base_link">-0.03 0 -0.079 0 1.57 0</pose>
+      <pose>0.08 0 0.22 0 1.57 0</pose>
     </include>
     <joint name="lidar_model_joint" type="fixed">
       <parent>base_link</parent>
@@ -58,7 +70,6 @@
         </inertia>
       </inertial>
       <sensor name='lidar' type='gpu_lidar'>
-        <gz_frame_id>lidar_sensor_link</gz_frame_id>
         <pose>0 0 0 3.14 0 0</pose>
         <update_rate>50</update_rate>
         <ray>
@@ -91,61 +102,61 @@
     <plugin filename="gz-sim-detachable-joint-system"
             name="gz::sim::systems::DetachableJoint">
       <parent_link>base_link</parent_link>
-      <child_model>goods#00</child_model>
-      <child_link>goods_link</child_link>
-      <attach_topic>/model/x500/gripper/goods#00/attach</attach_topic>
-      <detach_topic>/model/x500/gripper/goods#00/detach</detach_topic>
-      <output_topic>/model/x500/gripper/goods#00/state</output_topic>
+      <child_model>goods</child_model>
+      <child_link>tag36h11-00</child_link>
+      <attach_topic>/model/x500/gripper/goods/tag36h11-00/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods/tag36h11-00/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods/tag36h11-00/state</output_topic>
     </plugin>
 
     <plugin filename="gz-sim-detachable-joint-system"
             name="gz::sim::systems::DetachableJoint">
       <parent_link>base_link</parent_link>
-      <child_model>goods#01</child_model>
-      <child_link>goods_link</child_link>
-      <attach_topic>/model/x500/gripper/goods#01/attach</attach_topic>
-      <detach_topic>/model/x500/gripper/goods#01/detach</detach_topic>
-      <output_topic>/model/x500/gripper/goods#01/state</output_topic>
+      <child_model>goods</child_model>
+      <child_link>tag36h11-01</child_link>
+      <attach_topic>/model/x500/gripper/goods/tag36h11-01/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods/tag36h11-01/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods/tag36h11-01/state</output_topic>
     </plugin>
 
     <plugin filename="gz-sim-detachable-joint-system"
             name="gz::sim::systems::DetachableJoint">
       <parent_link>base_link</parent_link>
-      <child_model>goods#02</child_model>
-      <child_link>goods_link</child_link>
-      <attach_topic>/model/x500/gripper/goods#02/attach</attach_topic>
-      <detach_topic>/model/x500/gripper/goods#02/detach</detach_topic>
-      <output_topic>/model/x500/gripper/goods#02/state</output_topic>
+      <child_model>goods</child_model>
+      <child_link>tag36h11-02</child_link>
+      <attach_topic>/model/x500/gripper/goods/tag36h11-02/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods/tag36h11-02/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods/tag36h11-02/state</output_topic>
     </plugin>
 
     <plugin filename="gz-sim-detachable-joint-system"
             name="gz::sim::systems::DetachableJoint">
       <parent_link>base_link</parent_link>
-      <child_model>goods#03</child_model>
-      <child_link>goods_link</child_link>
-      <attach_topic>/model/x500/gripper/goods#03/attach</attach_topic>
-      <detach_topic>/model/x500/gripper/goods#03/detach</detach_topic>
-      <output_topic>/model/x500/gripper/goods#03/state</output_topic>
+      <child_model>goods</child_model>
+      <child_link>tag36h11-03</child_link>
+      <attach_topic>/model/x500/gripper/goods/tag36h11-03/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods/tag36h11-03/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods/tag36h11-03/state</output_topic>
     </plugin>
 
     <plugin filename="gz-sim-detachable-joint-system"
             name="gz::sim::systems::DetachableJoint">
       <parent_link>base_link</parent_link>
-      <child_model>goods#04</child_model>
-      <child_link>goods_link</child_link>
-      <attach_topic>/model/x500/gripper/goods#04/attach</attach_topic>
-      <detach_topic>/model/x500/gripper/goods#04/detach</detach_topic>
-      <output_topic>/model/x500/gripper/goods#04/state</output_topic>
+      <child_model>goods</child_model>
+      <child_link>tag36h11-04</child_link>
+      <attach_topic>/model/x500/gripper/goods/tag36h11-04/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods/tag36h11-04/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods/tag36h11-04/state</output_topic>
     </plugin>
 
     <plugin filename="gz-sim-detachable-joint-system"
             name="gz::sim::systems::DetachableJoint">
       <parent_link>base_link</parent_link>
-      <child_model>goods#05</child_model>
-      <child_link>goods_link</child_link>
-      <attach_topic>/model/x500/gripper/goods#05/attach</attach_topic>
-      <detach_topic>/model/x500/gripper/goods#05/detach</detach_topic>
-      <output_topic>/model/x500/gripper/goods#05/state</output_topic>
+      <child_model>goods</child_model>
+      <child_link>tag36h11-05</child_link>
+      <attach_topic>/model/x500/gripper/goods/tag36h11-05/attach</attach_topic>
+      <detach_topic>/model/x500/gripper/goods/tag36h11-05/detach</detach_topic>
+      <output_topic>/model/x500/gripper/goods/tag36h11-05/state</output_topic>
     </plugin>
 
   </model>

@@ -8,8 +8,8 @@ import time
 
 @dataclass
 class DRONE_DroneState:
-    flight_mode : str | None = None                         # режим полёта
-    armed : bool | None = None                              # взведённость 
+    flight_mode : str | None = None     # режим полёта
+    armed : bool | None = None          # взведённость 
 
     x: float | None = None                                  # позиция, м, локальная NED
     y: float | None = None
@@ -19,9 +19,9 @@ class DRONE_DroneState:
     vy: float | None = None
     vz: float | None = None
 
-    last_heartbeat_at: float | None = None  # время получения последнего heartbeat, time.monotonic()
-    last_position_at: float | None = None   # время получения последнего положения, time.monotonic()
-    last_attitude_at: float | None = None   # время получения последнего кватерниона, time.monotonic()
+    last_heartbeat_at: float | None = None      # время получения последнего heartbeat, time.monotonic()
+    last_position_at: float | None = None       # время получения последнего положения, time.monotonic()
+    last_attitude_at: float | None = None       # время получения последнего кватерниона, time.monotonic()
     
 
 class DRONE_MAVLinkCommander:
@@ -249,10 +249,20 @@ class DRONE_MAVLinkCommander:
     def get_drone_position(self):
         return self.drone_state.x, self.drone_state.y, self.drone_state.z, self.drone_state.q
 
+    def is_armed(self):
+        if not self.ready or self.conn is None:
+            return None
+        if self.drone_state.armed:
+            return True
+        else:
+            return False
+
     def arm(self, check : bool = True):
         with self._conn_lock:
             if not self.ready or self.conn is None:
                 return False
+            if self.drone_state.armed:
+                return True
             self.logger.info("DRONE_MAVLinkCommander: Requesting PX4 arm")
             self.conn.mav.command_long_send(
                 self.conn.target_system, self.conn.target_component,
@@ -274,6 +284,8 @@ class DRONE_MAVLinkCommander:
         with self._conn_lock:
             if not self.ready or self.conn is None:
                 return False
+            if not self.drone_state.armed:
+                return True
             self.logger.info("DRONE_MAVLinkCommander: Requesting PX4 disarm")
             self.conn.mav.command_long_send(
                 self.conn.target_system, self.conn.target_component,
@@ -299,7 +311,7 @@ class DRONE_MAVLinkCommander:
                 return
             self.conn.mav.manual_control_send(
                 self.conn.target_system,
-                roll, pitch, throttle, yaw, 0
+                pitch, roll, throttle, yaw, 0
             )
 
     def flight_mode(self, name: str, check: bool = True) -> bool:

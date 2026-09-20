@@ -5,110 +5,129 @@ import logging
 from Commander.MAVLinkCommander import DRONE_MAVLinkCommander
 from ManualController.ManualController import DRONE_ManualController
 from GripController.GripController import DRONE_GripController
-from Utils.Configs import DRONE_FlyCommand
 
 
 class DRONE_GamepadController(DRONE_ManualController):
+    """
+    Ручное управление дроном с геймпада через pygame.
+    Ответственность:
+        * Преобразование осей и кнопок геймпада в команды ручного управления.
+        * Передача команд включения/выключения двигателей и управления захватом.
+    Интерфейс:
+        1. __init__(com, gripper, logger, rate, deadzone) -- создаёт окно управления.
+           deadzone -- порог игнорирования отклонений осей.
+        2. run() -- считывает геймпад и отправляет manual_control с частотой rate.
+           Start завершает цикл и закрывает pygame.
+    Кнопки и оси геймпада Xbox:
+        * Левый стик вверх/вниз -- тангаж
+        * Левый стик влево/вправо -- крен
+        * Правый стик влево/вправо -- рысканье
+        * Правый/левый триггер -- увеличение/уменьшение тяги
+        * A -- включение/выключение двигателей
+        * X -- захват/освобождение груза
+        * B -- включение/выключение медленного режима
+        * Start -- выход
+    """
+
     def __init__(
         self,
-        com : DRONE_MAVLinkCommander,
-        gripper : DRONE_GripController,
-        logger : logging.Logger,
-        deadzone = 0.1
-    ):
+        com: DRONE_MAVLinkCommander,
+        gripper: DRONE_GripController,
+        logger: logging.Logger,
+        rate : int = 50,
+        deadzone: float = 0.1,
+    ) -> None:
         super().__init__(
-            com=com, 
+            com=com,
             gripper=gripper,
-            logger=logger
+            logger=logger,
+            rate=rate
         )
 
         pygame.init()
         pygame.joystick.init()
         if pygame.joystick.get_count() == 0:
-            self.logger.error("Failed: no gamepad found")
+            self.logger.error("DRONE_ManualController: No gamepad found")
             raise RuntimeError("Failed: no gamepad found")
 
         self.js = pygame.joystick.Joystick(0)
         self.js.init()
-        self.logger.debug(f"Gamepad: {self.js.get_name()}")
+        self.logger.debug(f"DRONE_ManualController: Gamepad: {self.js.get_name()}")
 
         self.deadzone = deadzone
         self.slow_multiplier = 1.0
         self.running = False
 
-        self.logger.debug("Gamepad Commander initialized")
+        self.logger.info(f"DRONE_ManualController: Initialized gamepad controller at {self.rate} Hz")
 
         self._help_prompt()
         
-    def _help_prompt(self):
+    def _help_prompt(self) -> None:
         print(
             "   Left Stick: Control Roll and Pitch\n",
             "   Right Stick: Control Yaw\n",
             "   Right Trigger: Up Throttle\n",
             "   Left Trigger: Down Throttle\n",
             "   Button A: Arm\n",
+            "   Button Y: Disarm\n",
             "   Button B: Toggle Slow Mode\n",
             "   Button X: Grip/Release\n",
             "   Button Start: Exit"
         )
 
-    def _normalize_axis(self, value, invert=False, name=None):
+    def _normalize_axis(self, value: float, invert: bool = False) -> int:
         res = 0
         if np.abs(value) >= self.deadzone:
             res = int((value if not invert else -value) * 1000)
-        self.logger.debug(f"Normalizing {name}-axis, value={value}, result={res}")
         return res
 
-    def _normalize_throttle(self, value, p=2.0, name=None):
+    def _normalize_throttle(self, value: float, p: float = 2.0) -> int:
         res = 0
         value = max(min(value, 1), -1)
         if value + 1 > self.deadzone:
             res = int(500 * (1 + np.sign(value) * (np.abs(value) ** p)))
-        self.logger.debug(f"Normalizing {name}-throttle, value={value}, result={res}")
         return res
 
-    def _get_attitude(self):
-        roll = self.slow_multiplier * self.js.get_axis(1)
-        pitch = self.slow_multiplier * self.js.get_axis(0)
+    def _get_attitude(self) -> tuple[int, int, int]:
+        roll = self.slow_multiplier * self.js.get_axis(0)
+        pitch = self.slow_multiplier * self.js.get_axis(1)
         yaw = self.slow_multiplier * self.js.get_axis(2)
 
-        self.logger.debug(f"Get attitude: roll - {roll}, pitch - {pitch}, yaw - {yaw}")
-
-        roll = self._normalize_axis(roll, invert=True, name="roll")
-        pitch = self._normalize_axis(pitch, name="pitch")
-        yaw = self._normalize_axis(yaw, name="yaw")
+        roll = self._normalize_axis(roll)
+        pitch = self._normalize_axis(pitch, invert=True)
+        yaw = self._normalize_axis(yaw)
 
         return roll, pitch, yaw
 
-    def _get_throttle(self):
+    def _get_throttle(self) -> int:
         up = self.slow_multiplier * self.js.get_axis(5)
         down = self.slow_multiplier * self.js.get_axis(4)
-
-        self.logger.debug(f"Get throttle: up - {up}, down - {down}")
 
         up = self._normalize_throttle(up)
         down = self._normalize_throttle(down)
 
         throttle = 500 + (up - down) // 2
-        self.logger.debug(f"Get throttle: throttle - {throttle}")
-
         return throttle
 
-    def _handle_button(self, button):
+    def _handle_button(self, button: int) -> None:
         match button:
             case 0: # XBox A
-                self._arm()
+                self.logger.info("DRONE_ManualController: Gamepad arming toggle requested")
+                self.toggle_arming()
             case 1: # XBox B
                 self.slow_multiplier = 1.5 - self.slow_multiplier
-                self.logger.info(f"Slow mode is {"on" if self.slow_multiplier == 0.5 else "off"}")
+                self.logger.info(f"DRONE_ManualController: Gamepad slow mode is {'on' if self.slow_multiplier == 0.5 else 'off'}")
             case 2: # XBox X
-                self._grip()
+                self.logger.info("DRONE_ManualController: Gamepad gripper toggle requested")
+                self.toggle_gripping()
             case 7: # XBox Start
+                self.logger.info("DRONE_ManualController: Gamepad exit requested")
                 self.running = False
 
-    def run(self):
+    def run(self) -> None:
         clock = pygame.time.Clock()
         self.running = True
+        self.logger.info(f"DRONE_ManualController: Gamepad control started at {self.rate} Hz")
         try: 
             while self.running:
                 pygame.event.pump()
@@ -116,21 +135,52 @@ class DRONE_GamepadController(DRONE_ManualController):
                 roll, pitch, yaw = self._get_attitude()
                 throttle = self._get_throttle()
 
-                flycommand = DRONE_FlyCommand(roll, pitch, yaw, throttle)
-
-                self._send_flycommand(flycommand)
+                self.logger.debug(
+                    f"DRONE_ManualController: Manual control: "
+                    f"roll={roll}, pitch={pitch}, yaw={yaw}, throttle={throttle}"
+                )
+                self.manual_control(roll, pitch, yaw, throttle)
 
                 for event in pygame.event.get():
                     if event.type == pygame.JOYBUTTONDOWN:
                         button = event.button
                         self._handle_button(button)
 
-                self._send_heartbeat()
-
-                clock.tick(50)
+                clock.tick(self.rate)
 
         except KeyboardInterrupt:
             self.running = False
-            self.logger.warning("Bridge stopped by KeyboardInterrupt")
+            self.logger.info("DRONE_ManualController: Gamepad control interrupted")
         finally:
+            self.commander.stop()
             pygame.quit()
+            self.logger.info("DRONE_ManualController: Gamepad control stopped")
+
+
+if __name__ == "__main__":
+    from Utils.Configs import DRONE_ModelConfig, DRONE_TagConfig
+
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+        handlers=[logging.StreamHandler()],
+    )
+    logger = logging.getLogger("DRONE_ManualController")
+    commander: DRONE_MAVLinkCommander | None = None
+
+    try:
+        commander = DRONE_MAVLinkCommander(
+            conn_address="udpin:127.0.0.1:14541",
+            logger=logger,
+        )
+        gripper = DRONE_GripController(
+            model_config=DRONE_ModelConfig(world="scene", model="x500", cargo="goods"),
+            tag_config=DRONE_TagConfig(family="tag36h11", list=["00", "01", "02", "03", "04", "05"]),
+            logger=logger,
+            grip_distance=0.6,
+        )
+        DRONE_GamepadController(com=commander, gripper=gripper, logger=logger).run()
+    finally:
+        if commander is not None and commander.conn is not None:
+            commander.stop()

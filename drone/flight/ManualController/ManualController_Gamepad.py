@@ -2,10 +2,10 @@ import pygame
 import numpy as np
 import logging
 
-from drone.control.MAVLinkCommander import DRONE_MAVLinkCommander
-from drone.control.ManualController.ManualController import DRONE_ManualController
-from drone.control.GripContorller.GripController import DRONE_GripController
-from drone.control.Utils.Configs import DRONE_FlyCommand
+from Commander.MAVLinkCommander import DRONE_MAVLinkCommander
+from ManualController.ManualController import DRONE_ManualController
+from GripController.GripController import DRONE_GripController
+from Utils.Configs import DRONE_FlyCommand
 
 
 class DRONE_GamepadController(DRONE_ManualController):

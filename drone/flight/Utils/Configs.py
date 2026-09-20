@@ -11,9 +11,9 @@ class DRONE_ModelConfig:
 
 @dataclass
 class DRONE_ConnConfig:
-    type : str
-    ip : str
-    port : int
+    control_conn : str
+    image_topic : str
+    camerainfo_topic : str
 
 
 @dataclass 

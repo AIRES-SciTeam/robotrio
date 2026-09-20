@@ -1,25 +1,12 @@
 #!/opt/python-venv/bin/python3
 import logging
 from pathlib import Path
-import rclpy # type: ignore
-from rclpy.executors import ExternalShutdownException # type: ignore
-from threading import Thread
 
-from drone.control.Utils.Configs import DRONE_ModelConfig, DRONE_ConnConfig, DRONE_TagConfig
-from drone.control.ManualController.ManualController_Gamepad import DRONE_GamepadController
-from drone.control.GripContorller.GripController import DRONE_GripController
-from drone.control.Commander.MAVLinkCommander import DRONE_MAVLinkCommander
-from drone.control.MissionController.TagDetector import DRONE_TagDetector
-
-
-def spin_detector(node, logger):
-    try:
-        rclpy.spin(node)
-    except ExternalShutdownException:
-        pass
-    except Exception:
-        logger.exception("TagDetector: processing failed; detector stopped")
-
+from Utils.Configs import DRONE_ModelConfig, DRONE_ConnConfig, DRONE_TagConfig
+from ManualController.ManualController_Keyboard import DRONE_KeyboardController
+from ManualController.ManualController_Gamepad import DRONE_GamepadController
+from GripController.GripController import DRONE_GripController
+from Commander.MAVLinkCommander import DRONE_MAVLinkCommander
 
 if __name__ == "__main__":
     logs_dir = Path(__file__).resolve().parents[2] / "logs"
@@ -36,57 +23,41 @@ if __name__ == "__main__":
     )
     logger = logging.getLogger("drone.control")
 
-    rclpy.init()
+    model_config = DRONE_ModelConfig(
+        world = "scene",
+        model = "x500",
+        cargo = "goods"
+    )
+    conn_config = DRONE_ConnConfig(
+        control_conn="udpin:127.0.0.1:14541",
+        image_topic="",
+        camerainfo_topic=""
+    )
+    tag_config = DRONE_TagConfig(
+        family = "tag36h11",
+        list = ["00", "01", "02", "03", "04", "05"]
+    )
 
-    tag_detector = None
-    tag_detector_thread = None
-    try:
-        model_config = DRONE_ModelConfig(
-            world = "scene",
-            model = "x500",
-            cargo = "goods"
-        )
-        conn_config = DRONE_ConnConfig(
-            type = "udp",
-            ip = "127.0.0.1",
-            port = 18571
-        )
-        tag_config = DRONE_TagConfig(
-            family = "tag36h11",
-            list = ["00", "01", "02", "03", "04", "05"]
-        )
+    commander = DRONE_MAVLinkCommander(
+        conn_config = conn_config, 
+        logger = logger
+    )
+    gripper = DRONE_GripController(
+        model_config = model_config,
+        tag_config = tag_config,
+        logger = logger,
+        grip_distance = 0.6
+    )
+    controller = DRONE_KeyboardController(
+        com = commander,
+        gripper = gripper,
+        logger = logger
+    )
+    # controller = DRONE_GamepadController(
+    #     com = commander,
+    #     gripper = gripper,
+    #     logger = logger,
+    #     deadzone = 0.1
+    # )
 
-        connection = DRONE_MAVLinkCommander(
-            conn_config = conn_config, 
-            logger = logger
-        )
-        gripper = DRONE_GripController(
-            model_config = model_config,
-            tag_config = tag_config,
-            logger = logger,
-            grip_distance = 0.6
-        )
-        commander = DRONE_GamepadController(
-            com = connection,
-            gripper = gripper,
-            logger = logger,
-            deadzone = 0.1
-        )
-        tag_detector = DRONE_TagDetector(
-            tag_config = tag_config,
-            logger = logger
-        )
-
-        tag_detector_thread = Thread(
-            target = spin_detector, args=(tag_detector, logger),
-            name="tag-detector",
-        )
-        tag_detector_thread.start()
-
-        commander.run()
-    finally:
-        rclpy.try_shutdown()
-        if tag_detector_thread is not None and tag_detector_thread.ident is not None:
-            tag_detector_thread.join()
-        if tag_detector is not None:
-            tag_detector.destroy_node()
+    controller.run()

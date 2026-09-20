@@ -4,7 +4,7 @@ import math
 import logging
 from concurrent.futures import ThreadPoolExecutor
 
-from drone.control.Utils.Configs import DRONE_ModelConfig, DRONE_TagConfig
+from Utils.Configs import DRONE_ModelConfig, DRONE_TagConfig
 
 
 class DRONE_GripController:

@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 import logging
 
-from drone.control.GripContorller.GripController import DRONE_GripController
-from drone.control.MAVLinkCommander import DRONE_MAVLinkCommander
-from drone.control.Utils.Configs import DRONE_FlyCommand
+from GripController.GripController import DRONE_GripController
+from Commander.MAVLinkCommander import DRONE_MAVLinkCommander
+from Utils.Configs import DRONE_FlyCommand
 
 
 class DRONE_ManualController(ABC):

@@ -5,6 +5,39 @@ import logging
 
 
 class DRONE_TagDetector:
+    """
+    Обнаружение AprilTag и оценка положения тега относительно камеры.
+    Инициализация __init__. Аргументы:
+        * tag_family : str -- семейство тегов для pupil_apriltags.Detector.
+        * logger : logging.Logger -- объект журнала.
+    Создаёт один детектор и использует его при последующих вызовах.
+    Интерфейс:
+        * detect(frame) -- принимает изображение BGR, преобразует его в серое
+          и возвращает список Detection. Если тегов нет, возвращает [].
+          Оценка позы в pupil_apriltags отключена; порядок списка не задаётся.
+        * estimate_pose(detection, camera_params, dist_coeffs, tag_size):
+            * detection -- объект Detection с corners формы (4, 2).
+            * camera_params -- (fx, fy, cx, cy), параметры камеры в пикселях.
+            * dist_coeffs -- коэффициенты дисторсии для OpenCV; None означает
+              отсутствие дисторсии.
+            * tag_size -- размер стороны тега в метрах.
+          Оценивает позу методом solvePnP с SOLVEPNP_IPPE_SQUARE.
+          Возвращает (position, rotation): numpy.ndarray формы (3,) в метрах
+          и матрицу вращения формы (3, 3).
+          Преобразование: point_camera = rotation @ point_tag + position.
+          Начало системы тега находится в центре его квадрата; координаты углов
+          задаются в плоскости Z=0 в порядке (-h,h), (h,h), (h,-h), (-h,-h),
+          где h = tag_size / 2. Оптические оси камеры: X вправо, Y вниз, Z вперёд.
+          Возвращает None, если решение не найдено, векторы содержат нечисловые
+          или бесконечные значения либо центр тега находится при Z <= 0.
+        * get_tag_position(frame, tag_id, camera_params, dist_coeffs, tag_size) --
+          обнаруживает теги и оценивает позу первого Detection с указанным ID.
+          Возвращает (position, rotation) либо None при отсутствии тега
+          или отклонённом решении оценки позы.
+    Класс не переводит позу в систему корпуса или NED и не сглаживает измерения.
+    Некорректные входные данные могут вызвать исключения OpenCV или Python;
+    они не преобразуются в None.
+    """
     def __init__(
         self, 
         tag_family : str,
@@ -22,7 +55,7 @@ class DRONE_TagDetector:
         return detections
 
     def estimate_pose(self, detection, camera_params, dist_coeffs, tag_size):
-        _, corners = detection
+        corners = detection.corners
 
         fx, fy, cx, cy = camera_params
         camera_matrix = np.array([
@@ -49,7 +82,7 @@ class DRONE_TagDetector:
             flags=cv2.SOLVEPNP_IPPE_SQUARE,
         )
 
-        if not success or not np.isfinite(tvec).all():
+        if not success or not np.isfinite(tvec).all() or not np.isfinite(rvec).all():
             return None
         if tvec[2, 0] <= 0:
             return None
@@ -70,6 +103,4 @@ class DRONE_TagDetector:
         else:
             return None
 
-        pos, rot = self.estimate_pose(det_idx, camera_params, dist_coeffs, tag_size)
-
-        return pos, rot
+        return self.estimate_pose(detections[det_idx], camera_params, dist_coeffs, tag_size)

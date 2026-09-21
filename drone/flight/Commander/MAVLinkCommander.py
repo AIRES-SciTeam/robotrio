@@ -10,12 +10,14 @@ import time
 class DRONE_DroneState:
     flight_mode : str | None = None     # режим полёта
     armed : bool | None = None          # взведённость 
+    landed : bool | None = None
+    last_landed_at : float | None = None
 
     x: float | None = None                                  # позиция, м, локальная NED
     y: float | None = None
     z: float | None = None                                  # вниз — положительное направление
     q : tuple[float, float, float, float] | None = None     # Кватернион ориентации дрона
-    vx: float | None = None                                 # скоротсть, м/с, локальная NED
+    vx: float | None = None                                 # скорость, м/с, локальная NED
     vy: float | None = None
     vz: float | None = None
 
@@ -26,71 +28,84 @@ class DRONE_DroneState:
 
 class DRONE_MAVLinkCommander:
     """
-    Класс, реализуюший двустороннюю связь с дроном.
+    Двусторонняя связь с PX4 и отправка команд управления через MAVLink.
     Ответственность:
-        1.  Роль передатчика.
-            * Отправка heartbeat, как системы GCS.
-            * Отправка команд запуска и остановки моторов.
-            * Отправка команды ручного управления дроном.
-            * Отправка команды смены режима полёта.
-            * Отправка команды управления дроном через целевое положение.
-            * Отправка команды управления дроном через целевую скорость. (coming soon)
-        2. Роль приёмника
-            * Контроль подключения к дрону через heartbeat от PX4.
-            * Контроль режима полёта.
-            * Контроль текущего положения дрона.
-            * Контроль исполнения команды.
-    Интерфейс:
-        Подключение и завершение:
-        1. Инициализация __init__. Аргументы:
-            * conn_address : str -- адрес соединения с PX4.
-            * logger : logging.Logger -- объект для записи сообщений в лог.
-            * heartbeat_period : float = 1.0 -- период отправки heartbeat в секундах.
-            * heartbeat_timeout : float = 5.0 -- таймаут получения heartbeat в секундах.
-            * offboard_period : float = 0.05 -- период отправки цели в Offboard в секундах.
-            * offboard_timeout : float = 1.0 -- максимальный интервал между вызовами
-              set_target_position() в секундах.
-        2. Метод _reconnect() -- сбрасывает состояние и пытается переподключиться к дрону.
-        3. Метод stop() -- останавливает потоки состояния, heartbeat и Offboard, ожидает их
-           завершения и закрывает соединение с дроном.
+        * Отправка heartbeat от GCS и приём телеметрии в фоновых потоках.
+        * Контроль соединения по heartbeat, переподключение при его потере.
+        * Взведение и выключение моторов, смена режима, посадка, ручное управление.
+        * Периодическая отправка цели положения или скорости и параметров поворота.
 
-        Служебная отправка:
-        4. Метод _heartbeat() -- отправка heartbeat для PX4.
+    Инициализация __init__. Аргументы:
+        * conn_address : str -- адрес соединения с PX4.
+        * logger : logging.Logger -- журнал сообщений.
+        * heartbeat_period : float = 1.0 -- период отправки heartbeat, с.
+        * heartbeat_timeout : float = 5.0 -- таймаут приёма heartbeat, с;
+          также используется для проверки давности состояния приземления.
+        * offboard_period : float = 0.05 -- период отправки цели Offboard, с.
+        * offboard_timeout : float = 1.0 -- максимальный интервал между
+          вызовами set_target() после включения Offboard, с.
 
-        Получение состояния:
-        5. Метод _get_state() -- получение сообщений от PX4, отслеживание состояния дрона. 
-           Если heartbeat не приходит в течение heartbeat_timeout -- пытается переоткрыть соединение.
-        6. Метод get_drone_position() -- возвращает положение дрона в формате (x, y, z).
+    Получение состояния:
+        * get_drone_position() -- возвращает (x, y, z, q): координаты в метрах
+          в локальной NED (север, восток, вниз) и кватернион q=(w, x, y, z).
+          Неполученные значения равны None; метод не проверяет давность данных.
+        * is_armed() -- None при отсутствии готового соединения, иначе bool.
+          В текущей реализации неизвестное значение armed также даёт False.
+        * is_landed() -- True при подтверждённом нахождении на земле,
+          False при другом определённом landed_state, None при неизвестном,
+          устаревшем состоянии или отсутствии готового соединения.
+          Источник -- EXTENDED_SYS_STATE от целевого компонента PX4.
 
-        Ручное управление и режимы:
-        7. Методы arm()/disarm() -- включение/выключение двигателей. Аргументы:
-            * check : bool = True -- требовать подтверждения исполнения команды от дрона.
-           Подтверждение определяется по текущему режиму дрона в течение 10 мс.
-        8. Метод manual_control() -- оправка команды ручного управления. Аргументы:
-            * roll : int[-1000, 1000] -- значение крена.
-            * pitch : int[-1000, 1000] -- значение тангажа.
-            * yaw : int[-1000, 1000] -- значение рысканья.
-            * throttle : int[0, 1000] -- значение тяги.
-           Обеспечить необходимую частоту должен вызывющий класс.
-        9. Метод flight_mode() -- отправка команды на изменение режима полёта. Аргументы:
-            * name : str -- название режима. 
-            * check : bool = True -- ожидание подтверждения перехода.
+    Команды и режимы:
+        * arm(check=True) / disarm(check=True) -- взведение / выключение моторов.
+          При check=True ожидают нужное значение armed до 2 с; уже достигнутое
+          состояние считается успехом. Возвращают True при успехе и False
+          при отсутствии соединения или таймауте подтверждения.
+          При check=False успешная отправка считается успехом без ожидания.
+        * flight_mode(name, check=True) -- запрашивает режим по имени из таблицы
+          соединения. При check=True ожидает его подтверждения до 2 с.
+          Возвращает False при отсутствии соединения, неизвестном имени или
+          таймауте; True при подтверждении либо отправке с check=False.
+          Сам по себе этот метод не останавливает поток Offboard.
+        * manual() -- останавливает поток Offboard, ожидает его завершения
+          и вызывает flight_mode("MANUAL"). Возвращает результат смены режима.
+        * land() -- останавливает поток Offboard, ожидает его завершения,
+          сбрасывает состояние приземления и вызывает flight_mode("LAND").
+          Возвращаемый True подтверждает режим, а не приземление;
+          приземление проверяется последующими вызовами is_landed().
+        * manual_control(roll, pitch, yaw, throttle) -- отправляет ручную команду
+          только при текущем режиме MANUAL и готовом соединении.
+          roll, pitch, yaw -- значения от -1000 до 1000; throttle -- от 0 до 1000.
+          Не переключает режим и не поддерживает частоту отправки самостоятельно;
+          её обеспечивает вызывающий контроллер. Возвращает None.
 
-        Управление в Offboard:
-        10. Метод set_target_position() -- назначить параметры команды управления через указание 
-           целевой позиции в системе координат NED. Аргументы:
-            * x : float -- положение по оси X в м.
-            * y : float -- положение по оси Y в м.
-            * z : float -- положение по оси Z в м (направлена вниз).
-           Первый запуск запускает постоянную отправку цели, запрашивает переход в режим Offboard, 
-           ожидает подтвержения смены по текущему состоянию дрона, возвращает True. При отсутсвии 
-           подтверждения перехода прекращает отправку, выводит warning. Возвращает False.
-        11. Метод _send_target_position() -- отправка команды управления через целевую позицию. Аргументы:
-            * perios_ms : int = 50 -- частота отправки в мс.
-           Обеспечивает постоянную отправку команды. При отсутствии вызова команды set_target_position
-           в течение timeout переводит дрон в ручной режим.
+    Управление в Offboard:
+        * set_target(pos=None, vel=None, yaw=None, yaw_rate=None):
+            * pos -- (x, y, z), м, локальная NED. При наличии имеет приоритет:
+              vel игнорируется независимо от переданного значения.
+            * vel -- (vx, vy, vz), м/с, локальная NED, используется при pos=None.
+              Если pos и vel равны None, задаётся нулевая линейная скорость.
+            * yaw -- абсолютный курс NED, рад; None отключает это поле.
+            * yaw_rate -- угловая скорость вокруг оси Z NED, рад/с;
+              None отключает это поле. Если заданы оба поля поворота, активны оба.
+          Атомарно обновляет маску, данные цели и время последнего вызова.
+          Если поток работает, возвращает True после обновления цели.
+          Иначе запускает поток, ждёт 1.1 с перед запросом OFFBOARD и ожидает
+          подтверждения режима. При неудаче останавливает поток и возвращает False.
+          При отсутствии готового соединения также возвращает False.
+          Достижение цели не проверяется. Для продолжения управления нужно
+          регулярно вызывать set_target(), даже если сама цель не меняется.
+        * _offboard_control() -- отправляет сохранённую цель с offboard_period.
+          По истечении offboard_timeout запрашивает MANUAL и повторяет запрос
+          не чаще раза в секунду до подтверждения. До выхода из цикла продолжает
+          отправлять последнюю цель. При завершении очищает цель и таймер.
 
-    По контракту класса ручное управление должно быть доступно и отправлять команды всегда при жизни класса.
+    Жизненный цикл:
+        * _heartbeat() -- фоновая отправка heartbeat.
+        * _get_state() -- приём состояния и контроль потери heartbeat.
+        * _reconnect() -- сброс состояния и попытка восстановления соединения.
+        * stop() -- остановка потоков состояния, heartbeat и Offboard,
+          ожидание их завершения и закрытие соединения. Режим полёта не меняет.
     """
     def __init__(
         self,
@@ -131,7 +146,8 @@ class DRONE_MAVLinkCommander:
         )
         self.heartbeat_thread.start()
 
-        self.target_position = None
+        self.offboard_mask = None
+        self.offboard_target = None
         self.last_target_at = None
         self._target_lock = threading.Lock()
         self._offboard_stop = threading.Event()
@@ -235,6 +251,13 @@ class DRONE_MAVLinkCommander:
                         self.drone_state.vx = msg.vx
                         self.drone_state.vy = msg.vy
                         self.drone_state.vz = msg.vz
+                elif msg.get_type() == "EXTENDED_SYS_STATE" and msg.get_srcSystem() == conn.target_system and msg.get_srcComponent() == conn.target_component:
+                    with self._state_lock:
+                        self.drone_state.last_landed_at = time.monotonic()
+                        if msg.landed_state == mavutil.mavlink.MAV_LANDED_STATE_UNDEFINED:
+                            self.drone_state.landed = None
+                        else:
+                            self.drone_state.landed = msg.landed_state == mavutil.mavlink.MAV_LANDED_STATE_ON_GROUND
                 elif msg.get_type() == "ATTITUDE_QUATERNION":
                     with self._state_lock:
                         self.drone_state.last_attitude_at = time.monotonic()
@@ -248,6 +271,24 @@ class DRONE_MAVLinkCommander:
 
     def get_drone_position(self):
         return self.drone_state.x, self.drone_state.y, self.drone_state.z, self.drone_state.q
+
+    def is_landed(self):
+        if not self.ready or self.conn is None:
+            return None
+        with self._state_lock:
+            last_at = self.drone_state.last_landed_at
+            if last_at is None or time.monotonic() - last_at > self.heartbeat_timeout:
+                return None
+            return self.drone_state.landed
+
+    def land(self):
+        self._offboard_stop.set()
+        if self.offboard_thread is not None and self.offboard_thread.is_alive():
+            self.offboard_thread.join()
+        with self._state_lock:
+            self.drone_state.landed = None
+            self.drone_state.last_landed_at = None
+        return self.flight_mode("LAND")
 
     def is_armed(self):
         if not self.ready or self.conn is None:
@@ -284,7 +325,7 @@ class DRONE_MAVLinkCommander:
         with self._conn_lock:
             if not self.ready or self.conn is None:
                 return False
-            if not self.drone_state.armed:
+            if self.drone_state.armed is False:
                 return True
             self.logger.info("DRONE_MAVLinkCommander: Requesting PX4 disarm")
             self.conn.mav.command_long_send(
@@ -302,6 +343,12 @@ class DRONE_MAVLinkCommander:
             return False
         self.logger.debug("DRONE_MAVLinkCommander: PX4 disarm command sent without waiting for confirmation")
         return True
+
+    def manual(self):
+        self._offboard_stop.set()
+        if self.offboard_thread is not None and self.offboard_thread.is_alive():
+            self.offboard_thread.join()
+        return self.flight_mode("MANUAL")
 
     def manual_control(self, roll, pitch, yaw, throttle):
         if self.drone_state.flight_mode != "MANUAL":
@@ -343,12 +390,52 @@ class DRONE_MAVLinkCommander:
         return True
 
 
-    def set_target_position(self, x, y, z):
+    def set_target(self, pos : tuple[float, float, float] = None, vel : tuple[float, float, float] = None, yaw=None, yaw_rate=None):
         if not self.ready or self.conn is None:
             return False
 
         with self._target_lock:
-            self.target_position = (x, y, z)
+            self.offboard_mask = (
+                mavutil.mavlink.POSITION_TARGET_TYPEMASK_AX_IGNORE
+                | mavutil.mavlink.POSITION_TARGET_TYPEMASK_AY_IGNORE
+                | mavutil.mavlink.POSITION_TARGET_TYPEMASK_AZ_IGNORE
+            )
+
+            if pos is not None:
+                self.offboard_mask |= (
+                    mavutil.mavlink.POSITION_TARGET_TYPEMASK_VX_IGNORE
+                    | mavutil.mavlink.POSITION_TARGET_TYPEMASK_VY_IGNORE
+                    | mavutil.mavlink.POSITION_TARGET_TYPEMASK_VZ_IGNORE
+                )
+                self.offboard_target = pos
+            else:
+                self.offboard_mask |= (
+                    mavutil.mavlink.POSITION_TARGET_TYPEMASK_X_IGNORE
+                    | mavutil.mavlink.POSITION_TARGET_TYPEMASK_Y_IGNORE
+                    | mavutil.mavlink.POSITION_TARGET_TYPEMASK_Z_IGNORE
+                )
+                self.offboard_target = (0, 0, 0)
+
+            self.offboard_target = (*self.offboard_target, *vel) if vel is not None else (*self.offboard_target, 0, 0, 0)
+
+            self.offboard_target = (*self.offboard_target, 0, 0, 0)
+
+            if yaw is None:
+                self.offboard_mask |= (
+                    mavutil.mavlink.POSITION_TARGET_TYPEMASK_YAW_IGNORE
+                )
+                self.offboard_target = (*self.offboard_target, 0)
+            else:
+                self.offboard_target = (*self.offboard_target, yaw)
+
+            if yaw_rate is None:
+                self.offboard_mask |= (
+                    mavutil.mavlink.POSITION_TARGET_TYPEMASK_YAW_RATE_IGNORE
+                )
+                self.offboard_target = (*self.offboard_target, 0)
+            else:
+                self.offboard_target = (*self.offboard_target, yaw_rate)
+
             self.last_target_at = time.monotonic()
             if self.offboard_thread is not None and self.offboard_thread.is_alive():
                 return True
@@ -356,7 +443,7 @@ class DRONE_MAVLinkCommander:
             self._offboard_starting = True
             self._offboard_stop.clear()
             self.offboard_thread = threading.Thread(
-                target=self._send_target_position,
+                target=self._offboard_control,
                 daemon=True,
             )
             self.offboard_thread.start()
@@ -373,23 +460,14 @@ class DRONE_MAVLinkCommander:
             self._offboard_starting = False
         return True
 
-    def _send_target_position(self):
+    def _offboard_control(self):
         m = mavutil.mavlink
         manual_requested_at = None
-        mask = (
-            m.POSITION_TARGET_TYPEMASK_VX_IGNORE
-            | m.POSITION_TARGET_TYPEMASK_VY_IGNORE
-            | m.POSITION_TARGET_TYPEMASK_VZ_IGNORE
-            | m.POSITION_TARGET_TYPEMASK_AX_IGNORE
-            | m.POSITION_TARGET_TYPEMASK_AY_IGNORE
-            | m.POSITION_TARGET_TYPEMASK_AZ_IGNORE
-            | m.POSITION_TARGET_TYPEMASK_YAW_IGNORE
-            | m.POSITION_TARGET_TYPEMASK_YAW_RATE_IGNORE
-        )
 
         while not self._offboard_stop.is_set():
             with self._target_lock:
-                target = self.target_position
+                target = self.offboard_target
+                mask = self.offboard_mask
                 last_target_at = self.last_target_at
                 starting = self._offboard_starting
 
@@ -421,15 +499,13 @@ class DRONE_MAVLinkCommander:
                     self.conn.target_component,
                     m.MAV_FRAME_LOCAL_NED,
                     mask,
-                    *target,
-                    0, 0, 0,
-                    0, 0, 0,
-                    0, 0,
+                    *target
                 )
             self._offboard_stop.wait(self.offboard_period)
 
         with self._target_lock:
-            self.target_position = None
+            self.offboard_target = None
+            self.offboard_mask = None
             self.last_target_at = None
             self._offboard_starting = False
 

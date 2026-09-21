@@ -11,6 +11,32 @@ from Utils.Configs import DRONE_ConnConfig
 
 
 class DRONE_ImageReciever(Node):
+    """
+    ROS 2 узел для получения изображения и калибровки камеры.
+    Инициализация __init__. Аргументы:
+        * conn_config : DRONE_ConnConfig -- настройки топиков:
+          image_topic для Image, camerainfo_topic для CameraInfo.
+        * logger : logging.Logger -- журнал ошибок преобразования изображения.
+    Создаёт подписки с qos_profile_sensor_data. Для приёма сообщений вызывающая
+    сторона должна инициализировать rclpy и выполнять узел через executor/spin.
+    Собственный поток обработки ROS класс не запускает.
+
+    Интерфейс:
+        * get_image() -- возвращает последний кадр BGR8 как numpy.ndarray
+          формы (height, width, 3) либо None до первого успешного приёма.
+          Возвращается сохранённый массив без копирования и проверки давности.
+        * get_camerainfo() -- возвращает (camera_params, dist_coeffs).
+          camera_params -- (fx, fy, cx, cy) из матрицы K, в пикселях;
+          dist_coeffs -- numpy.ndarray коэффициентов дисторсии типа float64.
+          До получения CameraInfo возвращает (None, None).
+
+    Обработка сообщений:
+        * _image_callback() -- преобразует Image через CvBridge в BGR8.
+          При CvBridgeError пишет ошибку в журнал и сохраняет предыдущий кадр.
+        * _camerainfo_callback() -- сохраняет первую калибровку и удаляет
+          подписку CameraInfo; последующие изменения калибровки не принимаются.
+    Освобождение узла через destroy_node() организует владелец объекта.
+    """
     def __init__(
         self, 
         conn_config : DRONE_ConnConfig, 

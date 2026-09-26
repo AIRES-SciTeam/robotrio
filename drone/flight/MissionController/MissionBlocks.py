@@ -6,8 +6,8 @@ import logging
 import time
 import subprocess
 
-from TagDetector import DRONE_TagDetector
-from ImageReciever import DRONE_ImageReciever
+from .TagDetector import DRONE_TagDetector
+from .ImageReciever import DRONE_ImageReciever
 from Commander.MAVLinkCommander import DRONE_MAVLinkCommander
 
 
@@ -85,6 +85,9 @@ class DRONE_MissionBlock(ABC):
     def start(self):
         self.env.logger.info(f"DRONE_MissionBlock: {self.name} Started")
         self.status = DRONE_MissionBlockStatus.RUNNING
+
+    def is_stated(self):
+        return self.status != DRONE_MissionBlockStatus.PENDING
 
     def cancel(self):
         self.env.logger.info(f"DRONE_MissionBlock: {self.name} Cancelled")

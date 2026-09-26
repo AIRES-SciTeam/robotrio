@@ -1,10 +1,14 @@
 import pygame
 import numpy as np
 import logging
+from typing import TYPE_CHECKING
 
 from Commander.MAVLinkCommander import DRONE_MAVLinkCommander
 from ManualController.ManualController import DRONE_ManualController
 from GripController.GripController import DRONE_GripController
+
+if TYPE_CHECKING:
+    from MissionController.MissionController import DRONE_MissionController
 
 
 class DRONE_GamepadController(DRONE_ManualController):
@@ -14,7 +18,8 @@ class DRONE_GamepadController(DRONE_ManualController):
         * Преобразование осей и кнопок геймпада в команды ручного управления.
         * Передача команд включения/выключения двигателей и управления захватом.
     Интерфейс:
-        1. __init__(com, gripper, logger, rate, deadzone) -- создаёт окно управления.
+        1. __init__(com, gripper, logger, mission_controller, rate, deadzone) --
+           подключает геймпад и принимает контроллер миссии для её управления.
            deadzone -- порог игнорирования отклонений осей.
         2. run() -- считывает геймпад и отправляет manual_control с частотой rate.
            Start завершает цикл и закрывает pygame.
@@ -26,6 +31,9 @@ class DRONE_GamepadController(DRONE_ManualController):
         * A -- включение/выключение двигателей
         * X -- захват/освобождение груза
         * B -- включение/выключение медленного режима
+        * Y -- запуск/остановка миссии
+        * Крестовина вверх/вниз -- пауза/продолжение миссии
+        * Крестовина влево/вправо -- предыдущий/следующий блок миссии
         * Start -- выход
     """
 
@@ -34,6 +42,7 @@ class DRONE_GamepadController(DRONE_ManualController):
         com: DRONE_MAVLinkCommander,
         gripper: DRONE_GripController,
         logger: logging.Logger,
+        mission_controller: "DRONE_MissionController | None" = None,
         rate : int = 50,
         deadzone: float = 0.1,
     ) -> None:
@@ -69,11 +78,21 @@ class DRONE_GamepadController(DRONE_ManualController):
             "   Right Trigger: Up Throttle\n",
             "   Left Trigger: Down Throttle\n",
             "   Button A: Arm\n",
-            "   Button Y: Disarm\n",
+            "   Button Y: Start/Stop Mission\n",
             "   Button B: Toggle Slow Mode\n",
             "   Button X: Grip/Release\n",
+            "   D-pad Up/Down: Pause/Resume Mission\n",
+            "   D-pad Left/Right: Previous/Next Mission Step\n",
             "   Button Start: Exit"
         )
+
+    def _mission_action(self, action: str) -> None:
+        if self.mission_controller is None:
+            self.logger.warning(
+                f"DRONE_ManualController: Mission action ignored without MissionController: {action}"
+            )
+            return
+        getattr(self.mission_controller, action)()
 
     def _normalize_axis(self, value: float, invert: bool = False) -> int:
         res = 0
@@ -120,9 +139,27 @@ class DRONE_GamepadController(DRONE_ManualController):
             case 2: # XBox X
                 self.logger.info("DRONE_ManualController: Gamepad gripper toggle requested")
                 self.toggle_gripping()
+            case 3: # XBox Y
+                self.logger.info("DRONE_ManualController: Gamepad mission start/stop requested")
+                self._mission_action("toggle")
             case 7: # XBox Start
                 self.logger.info("DRONE_ManualController: Gamepad exit requested")
                 self.running = False
+
+    def _handle_hat(self, value: tuple[int, int]) -> None:
+        match value:
+            case (0, 1):
+                self.logger.info("DRONE_ManualController: Gamepad mission pause requested")
+                self._mission_action("pause")
+            case (0, -1):
+                self.logger.info("DRONE_ManualController: Gamepad mission resume requested")
+                self._mission_action("resume")
+            case (-1, 0):
+                self.logger.info("DRONE_ManualController: Gamepad previous mission step requested")
+                self._mission_action("prev")
+            case (1, 0):
+                self.logger.info("DRONE_ManualController: Gamepad next mission step requested")
+                self._mission_action("next")
 
     def run(self) -> None:
         clock = pygame.time.Clock()
@@ -145,6 +182,11 @@ class DRONE_GamepadController(DRONE_ManualController):
                     if event.type == pygame.JOYBUTTONDOWN:
                         button = event.button
                         self._handle_button(button)
+                    elif event.type == pygame.JOYHATMOTION:
+                        self.logger.debug(
+                            f"DRONE_ManualController: Gamepad hat value={event.value}"
+                        )
+                        self._handle_hat(event.value)
 
                 clock.tick(self.rate)
 

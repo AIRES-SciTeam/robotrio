@@ -1,4 +1,5 @@
 import rclpy
+from rclpy.context import  Context
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import Image, CameraInfo
@@ -40,9 +41,10 @@ class DRONE_ImageReciever(Node):
     def __init__(
         self, 
         conn_config : DRONE_ConnConfig, 
-        logger : logging.Logger
+        logger : logging.Logger,
+        ros_context : Context | None = None
     ):
-        super().__init__("DRONE_ImageReciever")
+        super().__init__("DRONE_ImageReciever", context=ros_context)
         self.logger = logger
         self.cv_bridge = CvBridge()
 

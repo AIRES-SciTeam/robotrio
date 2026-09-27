@@ -4,7 +4,7 @@ import time
 import threading
 from typing import Callable
 
-from Logger.LoggerFabric import LoggerFabric
+from Modules.Logger.LoggerFabric import LoggerFabric
 
 
 @dataclass
@@ -45,6 +45,7 @@ class DroneTelemetry:
             match msg.get_type():
                 case "HEARTBEAT":
                     if msg.autopilot != mavutil.mavlink.MAV_AUTOPILOT_PX4:
+                        self._logger.debug("Not PX4 heartbeat")
                         return
                     self._state.last_heartbeat_at = recieved_at
 
@@ -57,6 +58,8 @@ class DroneTelemetry:
                     self._state.flight_mode = mavutil.mode_string_v10(msg)
                     if self._state.flight_mode != prev_mode:
                         self._logger.info('PX4 flight mode: %s', self._state.flight_mode)
+
+                    self._logger.debug("Armed: %s, flight_mode: %s", self._state.armed, self._state.flight_mode)
                 case "LOCAL_POSITION_NED":
                     self._state.last_position_at = recieved_at
 

@@ -1,8 +1,8 @@
 from pymavlink import mavutil
 from enum import Enum, auto
 
-from MAVLinkConn import MAVLinkConn, SendingResult
-from Logger.LoggerFabric import LoggerFabric
+from Modules.SimpleCommander.MAVLinkConn import MAVLinkConn, SendingResult
+from Modules.Logger.LoggerFabric import LoggerFabric
 
 
 class FlightControl:

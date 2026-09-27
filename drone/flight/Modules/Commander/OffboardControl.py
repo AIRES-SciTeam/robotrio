@@ -6,8 +6,8 @@ import threading
 from enum import Enum, auto
 from typing import Callable
 
-from MAVLinkConn import MAVLinkConn, SendingResult
-from Logger.LoggerFabric import LoggerFabric
+from Modules.Commander.MAVLinkConn import MAVLinkConn, SendingResult
+from Modules.Logger.LoggerFabric import LoggerFabric
 
 
 class TargetResult(Enum):
@@ -34,22 +34,19 @@ class OffboardControl:
         offboard_config : OffboardConfig,
         conn : MAVLinkConn,
         logger_fabric : LoggerFabric,
-        callback : Callable
+        callback : Callable[[Exception], None],
+        on_deactivate: Callable[[], None] | None = None,
     ):
         self._logger = logger_fabric.get_logger("offboard_control")
         self.conn = conn
         self.offboard_config = offboard_config
         self.callback = callback
+        self.on_deactivate = on_deactivate
 
         self._target_lock = threading.Lock()
         self._last_target_at = None
         self._target = None
         self._mask = None
-        self._revision = 0
-        self._sent_revision = 0
-        self._stream_started = None
-        self._last_sent = None
-        self._send_error = None
 
         self._state = OffboardState.IDLE
         self._state_lock = threading.Lock()
@@ -67,6 +64,11 @@ class OffboardControl:
         with self._state_lock:
             return not self._stop_event.is_set() and self._state in (OffboardState.STARTING, OffboardState.ACTIVE)
 
+    @property
+    def state(self):
+        with self._state_lock:
+            return self._state
+
     def activate(self):
         with self._state_lock:
             if self._stop_event.is_set():
@@ -76,13 +78,11 @@ class OffboardControl:
                     return OffboardState.IDLE
             if self._state == OffboardState.IDLE:
                 self._state = OffboardState.STARTING
-                self._stream_started = self._last_sent = None
-                self._send_error = None
             return self._state
 
     def mark_active(self) -> bool:
         with self._state_lock:
-            if self._stop_event.is_set() or self._state == OffboardState.IDLE:
+            if self._stop_event.is_set() or self._state not in (OffboardState.STARTING, OffboardState.ACTIVE):
                 return False
             if self._state != OffboardState.ACTIVE:
                 with self._target_lock:
@@ -92,24 +92,37 @@ class OffboardControl:
 
     def deactivate(self, inner: bool = False):
         with self._state_lock:
-            was_active = self._state != OffboardState.IDLE
+            changed = (
+                not self._stop_event.is_set()
+                and self._state in (OffboardState.STARTING, OffboardState.ACTIVE)
+            )
+            if changed:
+                self._state = OffboardState.STOPPING
+            state = self._state
+        if inner and changed and self.on_deactivate is not None:
+            self.on_deactivate()
+        return state
+
+    def mark_idle(self):
+        with self._state_lock:
             self._state = OffboardState.IDLE
-            self._stream_started = self._last_sent = None
-        if inner and was_active:
-            self.callback()
         return OffboardState.IDLE
 
-    def target_revision(self):
-        with self._target_lock:
-            return self._revision
-
-    def stream_status(self):
+    def _shutdown(self) -> bool:
         with self._state_lock:
-            return (not self._stop_event.is_set() and self._state != OffboardState.IDLE,
-                    self._stream_started, self._last_sent, self._sent_revision, self._send_error)
+            if self._stop_event.is_set():
+                return False
+            self._stop_event.set()
+            self._state = OffboardState.IDLE
+            return True
+
+    def _fail(self, error: Exception):
+        if self._shutdown():
+            self._logger.error("Offboard failed: %s", error)
+            self.callback(error)
 
     def stop(self):
-        self._stop_event.set()
+        self._shutdown()
         if (
             self._spin_thread is not None
             and self._spin_thread.is_alive()
@@ -187,42 +200,37 @@ class OffboardControl:
             self._form_mask(use_pos, ignore_yaw, ignore_yaw_rate)
             self._target = (*pos, *vel, 0, 0, 0, yaw, yaw_rate)
             self._last_target_at = time.monotonic()
-            self._revision += 1
             self._logger.log(5, "New target: %s, at: %s", self._target, self._last_target_at)
         return TargetResult.SUCCESS
 
     def _spin(self):
         self._logger.info("Spin thread started")
         while not self._stop_event.is_set():
-            notify = False
+            failure = None
+            timed_out = False
             with self._state_lock:
                 if self._state != OffboardState.IDLE:
                     with self._target_lock:
                         mask, target = self._mask, self._target
-                        last_target_at, revision = self._last_target_at, self._revision
-                    now = time.monotonic()
-                    if (self._state == OffboardState.ACTIVE and
-                            now - last_target_at >= self.offboard_config.notarget_timeout):
-                        self._logger.warning("Target timeout")
-                        notify = True
-                    else:
+                        last_target_at = self._last_target_at
+                    timed_out = (
+                        self._state == OffboardState.ACTIVE
+                        and (target is None or last_target_at is None
+                             or time.monotonic() - last_target_at >= self.offboard_config.notarget_timeout)
+                    )
+                    if not timed_out:
                         try:
                             result = self.conn.send_local_target(mask, target)
-                        except Exception:
+                        except Exception as error:
+                            failure = error
                             self._logger.exception("Sending target failed")
                             result = SendingResult.SEND_FAILED
-                        if result != SendingResult.SENT:
-                            self._send_error = result
-                            notify = True
-                        else:
-                            sent_at = time.monotonic()
-                            if self._last_sent is None or sent_at - self._last_sent >= 0.5:
-                                self._stream_started = sent_at
-                            self._last_sent = sent_at
-                            self._sent_revision = revision
-                    if notify:
-                        self._state = OffboardState.IDLE
-                        self._stream_started = self._last_sent = None
-            if notify:
-                self.callback()
+                        if result != SendingResult.SENT and failure is None:
+                            failure = ConnectionError(f"Sending target failed: {result.name}")
+            if timed_out:
+                self._logger.warning("Target timeout; requesting deactivation")
+                self.deactivate(inner=True)
+            if failure is not None:
+                self._fail(failure)
+                return
             self._stop_event.wait(1 / self.offboard_config.publish_rate)

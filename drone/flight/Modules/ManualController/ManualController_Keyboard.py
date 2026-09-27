@@ -2,8 +2,8 @@ import pygame
 import logging
 
 from Commander.MAVLinkCommander import DRONE_MAVLinkCommander
-from ManualController.ManualController import DRONE_ManualController
-from GripController.GripController import DRONE_GripController
+from drone.flight.Modules.ManualController.ManualController import DRONE_ManualController
+from drone.flight.GripController.GripController_old import DRONE_GripController
 
 
 class DRONE_KeyboardController(DRONE_ManualController):
@@ -152,7 +152,7 @@ class DRONE_KeyboardController(DRONE_ManualController):
 
 
 if __name__ == "__main__":
-    from Utils.Configs import DRONE_ModelConfig, DRONE_TagConfig
+    from drone.flight.Modules.Utils.Configs import DRONE_ModelConfig, DRONE_TagConfig
 
     logging.basicConfig(
         level=logging.DEBUG,

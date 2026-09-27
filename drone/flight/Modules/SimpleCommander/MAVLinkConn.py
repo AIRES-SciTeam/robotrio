@@ -5,8 +5,8 @@ import threading
 from enum import Enum, auto
 from typing import Callable
 
-from Logger.LoggerFabric import LoggerFabric
-from DroneTelemetry import DroneTelemetry
+from Modules.Logger.LoggerFabric import LoggerFabric
+from Modules.SimpleCommander.DroneTelemetry import DroneTelemetry
 
 
 @dataclass
@@ -31,7 +31,7 @@ class MAVLinkConn:
         self,
         logger_fabric : LoggerFabric,
         conn_config : MAVLinkConnConfig,
-        callback : Callable
+        callback : Callable[[Exception], None]
     ):
         self.conn_config = conn_config
         self.callback = callback
@@ -42,13 +42,16 @@ class MAVLinkConn:
         self._stop_event = threading.Event()
         
         self._conn_lock = threading.Lock()
-        self._conn : mavutil.mavfile | None = None
-        self._hb_thread = None
-        self._tm_thread = None
-        self._reconnect()
-        if self._stop_event.is_set():
-            return
-
+        self._conn = mavutil.mavlink_connection(
+            self.conn_config.address,
+            source_system=self.conn_config.source_system,
+        )
+        hb = self._conn.wait_heartbeat(timeout=self.conn_config.px4_heartbeat_timeout)
+        if hb is None:
+            self._logger.error("No PX4 heartbeat")
+            raise TimeoutError("No Px4 heartbeat")
+        self._telemetry.update(hb)
+            
         self._hb_thread = threading.Thread(
             target=self._heartbeat,
             daemon=True
@@ -63,38 +66,23 @@ class MAVLinkConn:
 
         self._logger.info("Initialized")
 
-    def is_available(self) -> bool:
+    def is_available(self):
         with self._conn_lock:
-            if self._stop_event.is_set() or self._conn is None:
-                return False
-            last_hb = self._telemetry.snapshot().last_heartbeat_at
-            return (last_hb is not None and
-                    time.monotonic() - last_hb <= self.conn_config.px4_heartbeat_timeout)
+            return self._conn is not None
 
     def tm_snapshot(self):
         return self._telemetry.snapshot()
 
     def mode_mapping(self):
         with self._conn_lock:
-            if self._conn is None:
-                return None
             mapping = self._conn.mode_mapping()
-            return mapping.copy() if mapping is not None else None
-
+            return mapping.copy()
+        
     def wait_for_state(self, predicate, timeout : float):
         return self._telemetry.wait_for(predicate, timeout)
 
-    def stop(self, inner : bool = False):
-        with self._conn_lock:
-            first_stop = not self._stop_event.is_set()
-            self._stop_event.set()
-            if self._conn is not None:
-                self._conn.close()
-                self._conn = None
-        if inner:
-            if first_stop:
-                self.callback()
-            return
+    def stop(self):
+        self._stop_event.set()
         for t in [self._tm_thread, self._hb_thread]:
             if (
                 t is not None
@@ -104,105 +92,31 @@ class MAVLinkConn:
                 t.join()
         self._logger.info("Stopped.")
 
-    def _reconnect(self):
-        with self._conn_lock:
-            if self._conn is not None:
-                self._conn.close()
-                self._conn = None
-        try_n = 1                
-        while (
-            not self._stop_event.is_set()
-            and (
-                self.conn_config.max_reconnects is None
-                or try_n <= self.conn_config.max_reconnects
-            )
-        ):
-            self._telemetry.reset()
-            self._logger.debug('Connecting at %s, ss = %s, try_n = %s / %s', self.conn_config.address, self.conn_config.source_system, try_n, self.conn_config.max_reconnects)
-            
-            conn = mavutil.mavlink_connection(
-                self.conn_config.address, 
-                source_system=self.conn_config.source_system
-            )
-            
-            hb = None
-            try:
-                hb = conn.wait_heartbeat(timeout=self.conn_config.px4_heartbeat_timeout)
-            except Exception as e:
-                self._logger.error('Heartbeat waiting exception: %s', e)
-            if self._stop_event.is_set():
-                conn.close()
-                return
-            
-            if (
-                hb is not None 
-                and hb.get_srcSystem() == conn.target_system
-                and hb.autopilot == mavutil.mavlink.MAV_AUTOPILOT_PX4
-            ):
-                self._logger.info("Connected")
-                self._telemetry.update(hb)
-                with self._conn_lock:
-                    if self._stop_event.is_set():
-                        conn.close()
-                        return
-                    self._conn = conn
-                return
-            else:
-                conn.close()
-                self._logger.warning("No PX4 heartbeat")
-            
-            try_n += 1
-
-        if self._stop_event.is_set():
-            return
-            
-        self._logger.error("Connection failed")
-        self.stop(inner = True)
-        return
-
     def _heartbeat(self):
         self._logger.info("Heartbeat thread started")
         while not self._stop_event.wait(1 / self.conn_config.own_heartbeat_rate):
             with self._conn_lock:
-                if self._conn is None:
-                    self._logger.log(5, "HBT: Connection is None")
-                    continue
                 self._logger.log(5, "Heartbeat sent")
-                try:
-                    self._conn.mav.heartbeat_send(
-                        mavutil.mavlink.MAV_TYPE_GCS,
-                        mavutil.mavlink.MAV_AUTOPILOT_INVALID,
-                        0, 0, 0
-                    )
-                except Exception as e:
-                    self._logger.error("Heartbeat sending error: %s", e)
-                    break
-        if not self._stop_event.is_set():
-            self.stop(inner=True)
+                self._conn.mav.heartbeat_send(
+                    mavutil.mavlink.MAV_TYPE_GCS,
+                    mavutil.mavlink.MAV_AUTOPILOT_INVALID,
+                    0, 0, 0
+                )
 
     def _upd_telemetry(self):
         self._logger.info("Telemetry thread started")
         while not self._stop_event.is_set():
             last_hb = self._telemetry.snapshot().last_heartbeat_at
-            if last_hb is not None and time.monotonic() - last_hb <= self.conn_config.px4_heartbeat_timeout:
+            if time.monotonic() - last_hb <= self.conn_config.px4_heartbeat_timeout:
                 with self._conn_lock:
                     conn = self._conn
-                if conn is None:
-                    return
-                try:
-                    msg = conn.recv_match(blocking=True, timeout=self.conn_config.recv_match_timeout)    
-                except Exception as e:
-                    self._logger.error('recv_match error: %s', e)
-                    continue
+                msg = conn.recv_match(blocking=True, timeout=self.conn_config.recv_match_timeout) 
                 if (
                     msg is not None
                     and not self._stop_event.is_set()
                     and msg.get_srcSystem() == conn.target_system
                 ):
                     self._telemetry.update(msg)
-            else:
-                self._logger.warning('No heartbeat more than %s s. Reconnecting', self.conn_config.px4_heartbeat_timeout)
-                self._reconnect()
 
     def set_flight_mode(self, name : str) -> SendingResult:
         with self._conn_lock:

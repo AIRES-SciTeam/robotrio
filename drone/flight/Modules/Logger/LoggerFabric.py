@@ -17,26 +17,26 @@ class LoggerFabric:
         logs_dir : Path,
         run_config : dict | None = None,
     ):
-        self.level_dict = {
+        self._level_dict = {
             "trace" : 5,
             "debug": logging.DEBUG,
             "info" : logging.INFO,
             "warning" : logging.WARNING,
             "error" : logging.ERROR
         }
-        if not basic_level in self.level_dict:
+        if not basic_level in self._level_dict:
             raise TypeError("Unknown logging level. Use: trace, debug, info, warning or error")
         
-        self.basic_level = self.level_dict[basic_level]
+        self.basic_level = self._level_dict[basic_level]
         self._loggers = {}
 
-        self.session_id = uuid.uuid4().hex
-
-        self.logs_dir = Path(logs_dir) / self.session_id
-        self.logs_dir.mkdir(parents=True, exist_ok=True)
+        self._session_id = uuid.uuid4().hex
 
         self._started_monotonic = time.monotonic()
         started_at = datetime.now().astimezone()
+
+        self.logs_dir = Path(logs_dir) / str(started_at)
+        self.logs_dir.mkdir(parents=True, exist_ok=True)
         try:
             git_commit = subprocess.run(
                 ["git", "rev-parse", "HEAD"],
@@ -48,8 +48,8 @@ class LoggerFabric:
             ).stdout.strip()
         except (OSError, subprocess.SubprocessError):
             git_commit = None
-        self.meta = {
-            "session_id": self.session_id,
+        self._meta = {
+            "session_id": self._session_id,
             "started_at": started_at.isoformat(),
             "started_at_unix": started_at.timestamp(),
             "hostname": socket.gethostname(),
@@ -64,24 +64,24 @@ class LoggerFabric:
         }
         self._write_meta()
         
-        self.formatter = logging.Formatter(
+        self._formatter = logging.Formatter(
             fmt="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S"
         )
         self._console_handler = logging.StreamHandler()
-        self._console_handler.setFormatter(self.formatter)
+        self._console_handler.setFormatter(self._formatter)
 
         logging.addLevelName(5, "TRACE")
 
     def _write_meta(self) -> None:
         with (self.logs_dir / "meta.json").open("w", encoding="utf-8") as file:
-            json.dump(self.meta, file, ensure_ascii=False, indent=2)
+            json.dump(self._meta, file, ensure_ascii=False, indent=2)
             file.write("\n")
 
     def finish_session(self, reason : str = "normal_exit"):
-        if self.meta["ended_at"] is not None:
+        if self._meta["ended_at"] is not None:
             return
-        self.meta.update(
+        self._meta.update(
             ended_at=datetime.now().astimezone().isoformat(),
             duration_seconds=time.monotonic() - self._started_monotonic,
             stop_reason=reason,
@@ -100,12 +100,12 @@ class LoggerFabric:
             file_handler = logging.FileHandler(
                 self.logs_dir / f"drone.{name}.log", encoding="utf-8"
             )
-            file_handler.setFormatter(self.formatter)
+            file_handler.setFormatter(self._formatter)
             logger.addHandler(file_handler)
             self._loggers[name] = logger
         logger = self._loggers[name]
         if level is not None:
-            logger.setLevel(self.level_dict[level])
+            logger.setLevel(self._level_dict[level])
         if use_stderr:
             logger.addHandler(self._console_handler)
         return logger    

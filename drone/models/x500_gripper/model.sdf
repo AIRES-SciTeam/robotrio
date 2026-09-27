@@ -70,7 +70,7 @@
         </inertia>
       </inertial>
       <sensor name='lidar' type='gpu_lidar'>
-        <pose>0 0 0 3.14 0 0</pose>
+        <pose>0 0 -0.05 0 1.57 0</pose>
         <update_rate>50</update_rate>
         <ray>
           <scan>
@@ -158,7 +158,6 @@
       <detach_topic>/model/x500/gripper/goods/tag36h11-05/detach</detach_topic>
       <output_topic>/model/x500/gripper/goods/tag36h11-05/state</output_topic>
     </plugin>
-
   </model>
 
 </sdf>

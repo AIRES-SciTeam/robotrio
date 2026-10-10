@@ -1,4 +1,5 @@
 grip_controller
+gui
 logger
 manual_controller
 mission

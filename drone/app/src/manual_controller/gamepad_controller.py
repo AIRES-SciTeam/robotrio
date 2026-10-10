@@ -61,8 +61,6 @@ class GamepadController(ManualController):
 
     def _try_connect(self) -> None:
         self._next_connect_at = time.monotonic() + 1.0
-        # SDL may miss hotplug notifications in a container. Re-enumerate
-        # devices while disconnected instead of polling its stale device list.
         if self._js is not None:
             return
         sdl_controller.quit()

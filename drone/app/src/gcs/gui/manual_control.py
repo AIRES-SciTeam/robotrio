@@ -9,59 +9,73 @@ def _dim_color(color, background=PANEL):
     return "#" + "".join(f"{value:02x}" for value in rgb)
 
 class _ControlPanel(tk.Frame):
-    def __init__(self, parent, title, *, takefocus=False):
+    def __init__(
+            self, 
+            parent, 
+            title, 
+            *, 
+            takefocus=False
+        ):
         super().__init__(
             parent, bg=PANEL, bd=0, takefocus=takefocus,
             width=1, height=1,
             highlightthickness=2, highlightbackground=CYAN,
             highlightcolor=MAGENTA,
         )
-        self.enabled = True
+        self.title = title
+        self.takefocus = takefocus
+        self._enabled = True
         self._enabled_style = {}
+
+        self._configure_grid()
+        self._create_header()
+
+    def _configure_grid(self):
         self.grid_propagate(False)
         self.columnconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)
+
+    def _create_header(self):
         header = tk.Frame(self, bg=PANEL)
         header.grid(row=0, column=0, sticky="ew", padx=6, pady=3)
         header.columnconfigure(0, weight=1)
         title_label = tk.Label(
-            header, text=title, bg=PANEL, fg=CYAN,
+            header, text=self.title, bg=PANEL, fg=CYAN,
             font=("DejaVu Sans", 10),
         )
         title_label.grid(row=0, column=0, sticky="w")
         sensitivity_box = tk.Frame(
             header, width=34, height=34, bg=PANEL,
-            highlightbackground=MAGENTA, highlightthickness=1,
+            highlightbackground=CYAN, highlightthickness=1,
         )
         sensitivity_box.grid(row=0, column=1, sticky="e")
         sensitivity_box.grid_propagate(False)
         sensitivity_box.columnconfigure(0, weight=1)
         sensitivity_box.rowconfigure(0, weight=1)
-        self.sensitivity_text = tk.StringVar(self, value="—%")
+        self.sensitivity_text = tk.StringVar(self, value="100%")
         sensitivity_label = tk.Label(
             sensitivity_box, textvariable=self.sensitivity_text,
-            bg=PANEL, fg=MAGENTA, font=("DejaVu Sans", 8),
+            bg=PANEL, fg=CYAN, font=("DejaVu Sans", 8),
         )
         sensitivity_label.grid(row=0, column=0)
         self.body = tk.Frame(self, bg=PANEL)
         self.body.grid(row=1, column=0, sticky="nsew", padx=6, pady=(0, 6))
-        if takefocus:
+        if self.takefocus:
             for widget in (header, title_label, sensitivity_box, sensitivity_label, self.body):
                 widget.bind("<Button-1>", lambda event: self.focus_set())
 
     def focus_set(self):
-        if self.enabled:
+        if self._enabled:
             super().focus_set()
 
     def set_enabled(self, enabled: bool):
-        """Включить ввод или приглушить панель и заблокировать её (GUI-поток)."""
         enabled = bool(enabled)
-        if enabled == self.enabled:
+        if enabled == self._enabled:
             return
         if not enabled:
             if isinstance(self, KeyboardVis):
                 self._reset()
-        self.enabled = enabled
+        self._enabled = enabled
 
         def descendants(widget):
             yield widget
@@ -113,10 +127,10 @@ class KeyboardVis(_ControlPanel):
         self._pending_releases = {}
         self.buttons = {}
         captions = {
-            "q": "Q · −\nРыскание", "e": "E · +\nРыскание",
-            "w": "W · +\nТангаж", "s": "S · −\nТангаж",
-            "a": "A · −\nКрен", "d": "D · +\nКрен",
-            "space": "Space · +\nТяга", "shift": "Shift · −\nТяга",
+            "q": "Q\nРыск−", "e": "E\nРыск+",
+            "w": "W\nТанг+", "s": "S\nТанг−",
+            "a": "A\nКрен−", "d": "D\nКрен+",
+            "space": "Space\nТяга+", "shift": "Shift\nТяга−",
         }
         for column in range(4):
             self.body.columnconfigure(column, weight=1, uniform="keys")
@@ -142,7 +156,7 @@ class KeyboardVis(_ControlPanel):
         self.bind("<FocusOut>", self._reset)
 
     def _key_down(self, event):
-        if not self.enabled:
+        if not self._enabled:
             return "break"
         key = event.keysym.lower()
         if key in tuple("0123456789"):
@@ -159,7 +173,7 @@ class KeyboardVis(_ControlPanel):
         return "break"
 
     def _key_up(self, event):
-        if not self.enabled:
+        if not self._enabled:
             return "break"
         key = event.keysym.lower()
         if self._button_name(key) not in self.buttons:
@@ -178,7 +192,7 @@ class KeyboardVis(_ControlPanel):
         return "shift" if key in ("shift_l", "shift_r") else key
 
     def _paint_key(self, key, pressed):
-        if not self.enabled:
+        if not self._enabled:
             return
         button_name = self._button_name(key)
         if button_name == "shift":
@@ -253,9 +267,9 @@ class JoystickVis(_ControlPanel):
         self.axis_sliders = {}
         for row, (name, title, minimum, initial) in enumerate((
             ("roll", "Крен", -1000, 0),
-            ("pitch", "Тангаж", -1000, 0),
-            ("yaw", "Рыскание", -1000, 0),
-            ("throttle", "Газ", 0, 500),
+            ("pitch", "Танг", -1000, 0),
+            ("yaw", "Рыск", -1000, 0),
+            ("throttle", "Тяга", 0, 500),
         )):
             self.body.rowconfigure(row, weight=1, uniform="axis_rows")
             tk.Label(

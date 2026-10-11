@@ -3,6 +3,7 @@ empy==3.3.4
 pyros-genmsg
 jsonschema
 pygame
+Pillow>=9.1
 PySide6
 pymavlink
 pupil-apriltags

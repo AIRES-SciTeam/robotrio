@@ -17,12 +17,12 @@ class Terminal(tk.Frame):
             highlightcolor=CYAN,
         )
         self.on_command = on_command
-        self.history = []
-        self.history_idx = 0
-        self.command_draft = ""
+        self._history = []
+        self._history_idx = 0
+        self._command_draft = ""
 
         self._configure_grid()
-        self._set_name()
+        self._create_header()
         self._create_log()
         self._create_cmd()
 
@@ -32,10 +32,11 @@ class Terminal(tk.Frame):
         self.rowconfigure(1, weight=1)
         self.rowconfigure(2, weight=0)
 
-    def _set_name(self):           
+    def _create_header(self):           
         tk.Label(
-            self, text=" Терминал ",
-            bg=PANEL, fg=CYAN
+            self, text="Терминал",
+            bg=PANEL, fg=CYAN,
+            padx=10, pady=2
         ).grid(row=0, column=0, sticky="w")
 
     def _create_log(self):
@@ -48,7 +49,7 @@ class Terminal(tk.Frame):
             selectforeground=BACKGROUND,
             inactiveselectbackground=CYAN
         )
-        self.log.grid(row=1, column=0, sticky="nsew")
+        self.log.grid(row=1, column=0, sticky="nsew", pady=(0, 4))
         self.log.tag_configure("error", foreground=RED)
         self.log.tag_configure("warning", foreground=YELLOW)
         self.log.tag_configure("info", foreground=GREEN)
@@ -75,7 +76,12 @@ class Terminal(tk.Frame):
             highlightthickness=0
         )
         self.entry.grid(row=0, column=1, sticky="ew", padx=(0,8))
-
+        self.command_line.bind(
+            "<Configure>",
+            lambda event: self.log.grid_configure(
+                pady=(0, max(0, event.height // 2 + 4))
+            ),
+        )
         self.entry.bind("<Return>", self._submit)
         self.entry.bind("<FocusIn>", self._focus_in)
         self.entry.bind("<FocusOut>", self._focus_out)
@@ -99,10 +105,10 @@ class Terminal(tk.Frame):
         command = self.entry.get().strip()
         if not command:
             return "break"
-        if not self.history or self.history[-1] != command:
-            self.history.append(command)
-        self.history_idx = len(self.history)
-        self.command_draft = ""
+        if not self._history or self._history[-1] != command:
+            self._history.append(command)
+        self._history_idx = len(self._history)
+        self._command_draft = ""
         self.entry.delete(0, tk.END)
         self.write_parts(
             ("robotrio.drone > ", "accent"),
@@ -112,21 +118,21 @@ class Terminal(tk.Frame):
         return "break"
 
     def _history_prev(self, _):
-        if self.history_idx > 0:
-            if self.history_idx == len(self.history):
-                self.command_draft = self.entry.get()
+        if self._history_idx > 0:
+            if self._history_idx == len(self._history):
+                self._command_draft = self.entry.get()
 
-            self.history_idx -= 1
-            self._replace_entry(self.history[self.history_idx])
+            self._history_idx -= 1
+            self._replace_entry(self._history[self._history_idx])
         return "break"
 
     def _history_next(self, _):
-        if self.history_idx < len(self.history):
-            self.history_idx += 1
-            if self.history_idx == len(self.history):
-                self._replace_entry(self.command_draft)
+        if self._history_idx < len(self._history):
+            self._history_idx += 1
+            if self._history_idx == len(self._history):
+                self._replace_entry(self._command_draft)
             else:
-                self._replace_entry(self.history[self.history_idx])
+                self._replace_entry(self._history[self._history_idx])
         return "break"
 
     def _replace_entry(self, msg):

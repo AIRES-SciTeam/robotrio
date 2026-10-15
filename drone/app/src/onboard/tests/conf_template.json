@@ -1,0 +1,19 @@
+{
+  "logger": {
+    "basic_level": "info",
+    "logs_dir": "./logs",
+    "use_time_dir": false,
+    "format": "%(asctime)s | %(levelname)-7s | %(name)s | %(message)s",
+    "date_format": "%d-%m-%Y %H:%M:%S"
+  },
+  "PX4Conn": {
+    "address": "udpin:127.0.0.1:12551",
+    "source_system": 255,
+    "hb_rate": 1.0,
+    "hb_timeout": 5.0,
+    "rm_timeout": 1.0,
+    "max_reconnects": null,
+    "log_level": "info",
+    "telemetry_log_level" : "info"
+  }
+}

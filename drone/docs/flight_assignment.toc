@@ -1,0 +1,7 @@
+\babel@toc {russian}{}\relax 
+\contentsline {section}{\numberline {1}Введение}{2}{section.1}%
+\contentsline {section}{\numberline {2}Описание элементов управления}{2}{section.2}%
+\contentsline {section}{\numberline {3}Описание миссии}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Логика полёта}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Допуски и координаты}{4}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Нештатные или аварийные ситуации}{4}{subsection.3.3}%

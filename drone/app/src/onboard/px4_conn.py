@@ -185,6 +185,7 @@ class PX4Conn:
             except Exception as e:
                 self._logger.warning("Error sending MAVLink heartbeat: %s", e)
             self._stop_event.wait(1.0 / self._hb_rate)
+        self._logger.info("HB_thread stopped")
 
     def _tm_loop(self):
         self._logger.info("TM_thread started")
@@ -194,5 +195,21 @@ class PX4Conn:
                 conn = self._conn
             self._logger.trace("Conn_lock unlocked by _tm_loop")
             last_hb = self._telemetry.snapshot().last_heartbeat_at
-            if last_hb is not None and time.monotonic() - last_hb > self._hb_timeout
+            if last_hb is not None and time.monotonic() - last_hb > self._hb_timeout:
+                self._logger.warning("No PX4 heartbeat, try to reconnect")
+                self._reconn()
+                continue
+            try:
+                msg = conn.recv_match(blocking=True, timeout=self._rm_timeout)
+            except Exception as e:
+                self._logger.error("Error during receiving MAVLink msg: %s", e)
+                continue
+            if (
+                msg is not None
+                and msg.get_srcSystem() == conn.target_system
+                and not self._stop_event.is_set()
+            ):
+                self._logger.trace("Updating telemetry: %s", msg.get_type())
+                self._telemetry.update()
+        self._logger.info("TM_thread stopped")
 

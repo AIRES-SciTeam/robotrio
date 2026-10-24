@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robotrio.dog"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["xgolib"]
+
+[project.scripts]
+"robotrio.dog" = "robotrio_dog.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["robotrio_dog*"]

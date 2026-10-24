@@ -1,0 +1,19 @@
+{
+  "logger": {
+    "basic_level": "debug",
+    "logs_dir": "~/.local/state/robotrio-dog/logs",
+    "use_time_dir": true,
+    "format": "%(asctime)s | %(levelname)-7s | %(name)s | %(message)s",
+    "date_format": "%d-%m-%Y %H:%M:%S"
+  },
+  "telemetry": {
+    "log_level": "trace",
+    "recording_rate": 5.0
+  },
+  "commander": {
+    "log_level": "trace",
+    "port": "/dev/ttyAMA0",
+    "baud": 115200,
+    "telemetry_asking_rate": 5.0
+  }
+}

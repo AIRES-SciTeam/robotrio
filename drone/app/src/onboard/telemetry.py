@@ -8,23 +8,23 @@ from onboard.logger_fabric import LoggerFabric
 
 @dataclass
 class Telemetry:
-    armed: bool | None = None
-    landed: bool | None = None
+    armed : bool | None = None
+    landed : bool | None = None
 
-    flight_mode: str | None = None
-    flight_mode_mapping: dict[int, str] | None = None
+    flight_mode : str | None = None
+    flight_mode_mapping : dict[int, str] | None = None
 
-    x: float | None = None                                  # позиция, м, локальная NED
-    y: float | None = None
-    z: float | None = None                                  # вниз — положительное направление
+    x : float | None = None                                  # позиция, м, локальная NED
+    y : float | None = None
+    z : float | None = None                                  # вниз — положительное направление
     q : tuple[float, float, float, float] | None = None     # Кватернион ориентации дрона
-    vx: float | None = None                                 # скорость, м/с, локальная NED
-    vy: float | None = None
-    vz: float | None = None
+    vx : float | None = None                                 # скорость, м/с, локальная NED
+    vy : float | None = None
+    vz : float | None = None
 
-    last_heartbeat_at: float | None = None      # время получения последнего heartbeat, time.monotonic()
-    last_position_at: float | None = None       # время получения последнего положения, time.monotonic()
-    last_attitude_at: float | None = None       # время получения последнего кватерниона, time.monotonic()
+    last_heartbeat_at : float | None = None      # время получения последнего heartbeat, time.monotonic()
+    last_position_at : float | None = None       # время получения последнего положения, time.monotonic()
+    last_attitude_at : float | None = None       # время получения последнего кватерниона, time.monotonic()
     last_landed_at : float | None = None 		# время последнего преземления, time.monotonic()
 
 class TelemetryManager:

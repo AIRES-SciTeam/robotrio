@@ -85,21 +85,17 @@ class PX4Conn:
     def _set_state(self, new_state):
         self._logger.info("Setting new state: %s", new_state)
         with self._state_lock:
-            self._logger.debug("State_lock locked by _set_state")
             self._state = new_state
             self._logger.info("New state: %s", self._state)
-        self._logger.debug("State_lock unlocked by _set_state")
 
     def _close_conn(self):
         self._logger.debug("Closing connection")
         with self._conn_lock:
-            self._logger.debug("Conn_lock locked by _close_conn")
             if self._conn is not None:
                 self._conn.close()
                 self._conn = None 
                 self._logger.debug("Connection closed")
             self._logger.debug("Connection already is none")
-        self._logger.debug("Conn_lock unlocked by _close_conn")
 
     def _reconn_attempt(self):
         self._logger.debug("Reconnection attempt")
@@ -122,13 +118,11 @@ class PX4Conn:
             and hb.autopilot == mavutil.mavlink.MAV_AUTOPILOT_PX4
         ):
             with self._conn_lock:
-                self._logger.debug("Conn_lock locked by _reconn_attempt")
                 if self._stop_event.is_set():
                     self._logger.error("Connection failed: stop_event is set")
                     conn.close()
                     return False
                 self._conn = conn
-            self._logger.debug("Conn_lock unlocked by _reconn_attempt")
             self._set_state(ConnState.OK)
             self._logger.info("Connected to MAVLink at %s", self._px4_address)
             return True
@@ -169,9 +163,7 @@ class PX4Conn:
         self._logger.info("HB_thread started")
         while not self._stop_event.is_set():
             with self._conn_lock:
-                self._logger.trace("Conn_lock locked by _hb_loop")
                 conn = self._conn
-            self._logger.trace("Conn_lock unlocked by _hb_loop")
             if conn is None:
                 self._stop_event.wait(1.0 / self._hb_thread)
                 continue
@@ -191,9 +183,7 @@ class PX4Conn:
         self._logger.info("TM_thread started")
         while not self._stop_event.is_set():
             with self._conn_lock:
-                self._logger.trace("Conn_lock locked by _tm_loop")
                 conn = self._conn
-            self._logger.trace("Conn_lock unlocked by _tm_loop")
             last_hb = self._telemetry.snapshot().last_heartbeat_at
             if last_hb is not None and time.monotonic() - last_hb > self._hb_timeout:
                 self._logger.warning("No PX4 heartbeat, try to reconnect")

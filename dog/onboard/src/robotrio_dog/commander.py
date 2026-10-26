@@ -142,13 +142,11 @@ class Commander:
         approx_time_limit : float | None = 10.0,
         relative : bool = False
     ) -> SendingResult:
-        if lin_vel is None:
-            lin_vel = (None, None)
-        if (
+        if (not(
             (res := self._valid_lin_vel(lin_vel, relative))[0]
             and (res := self._valid_ang_vel(ang_vel, relative))[0] 
             and (res := self._valid_approx_time_limit(approx_time_limit))[0]
-        ):
+        )):
             self._logger.warning("Invalid move parameter: %s", res[1])
             return SendingResult.INVALID
         self._motion_time_limit = time.monotonic() + approx_time_limit
@@ -172,10 +170,10 @@ class Commander:
         rotation : tuple[float | int | None, 3] = (None, None, None),
         relative : bool = False
     ) -> SendingResult:
-        if (
+        if (not(
             (res := self._valid_translation(translation, relative))[0]
             and (res := self._valid_rotation(rotation, relative))[0]
-        ):
+        )):
             self._logger.warning("Invalid body position: %s", res[1])
             return SendingResult.INVALID
         with self._dog_lock:
@@ -202,8 +200,8 @@ class Commander:
                 return SendingResult.FAILURE
             return SendingResult.SUCCESS
 
-    def set_gait(self, gait : str[GAIT_LIST] | int = "trot"):
-        if (res := self._valid_gait(gait))[0]:
+    def set_gait(self, gait : str | int = "trot"):
+        if not (res := self._valid_gait(gait))[0]:
             self._logger.warning("Invalid gait: %s", res[1])
             return SendingResult.INVALID
         with self._dog_lock:
@@ -322,7 +320,7 @@ class Commander:
         )
 
     @staticmethod 
-    def _valid_gait(gait : str[GAIT_LIST] | int) -> tuple[bool, str]:
+    def _valid_gait(gait : str | int) -> tuple[bool, str]:
         return (
             isinstance(gait, str | int) and (
                 gait.lower() in GAIT_LIST

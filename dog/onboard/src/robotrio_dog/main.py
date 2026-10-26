@@ -36,8 +36,16 @@ def main():
             telemetry_config=telemetry_config,
             logger_fabric=logger_fabric
         )
-        commander.set_velocity(vx=5)
-        time.sleep(10)
+        # commander.set_velocity(lin_vel=(5, None, None), approx_time_limit=4)
+        a = 0
+        while a != "stop":
+            a = input()
+            if a == "stop":
+                break
+            a = int(a)
+            commander.control_arm(claw=a)
+        # time.sleep(5)
+        # commander.stop_motion()
     except Exception as e:
         main_logger.critical("System initialization failed: %s", e)
         success = False

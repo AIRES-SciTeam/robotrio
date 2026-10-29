@@ -20,6 +20,7 @@ DOG_PITCH_LIMIT = 22
 DOG_YAW_LIMIT = 16
 
 GAIT_LIST = ["slow_trot", "trot", "walk", "high_walk"] 
+PACE_LIST = ["slow", "normal", "high"]
 
 class SendingResult(Enum):
     SUCCESS = auto()
@@ -206,13 +207,24 @@ class Commander:
             return SendingResult.INVALID
         with self._dog_lock:
             try:
-                gait = gait.lower()
-                self._dog.gait_type(gait if isinstance(gait, str) else GAIT_LIST[gait])
+                self._dog.gait_type(gait.lower() if isinstance(gait, str) else GAIT_LIST[gait])
                 self._logger.debug("New gait set")
             except Exception as e:
                 self._logger.error("Error while setting the new gait: %s", e)
                 return SendingResult.FAILURE
             return SendingResult.SUCCESS
+
+    def set_pace(self, pace: str | int = "slow") -> SendingResult:
+        if not (res := self._valid_pace(pace))[0]:
+            self._logger.warning("Invalid pace: %s", res[1])
+            return SendingResult.INVALID
+        with self._dog_lock:
+            try:
+                self._dog.pace(pace.lower() if isinstance(pace, str) else PACE_LIST[pace])
+            except Exception as e:
+                self._logger.error("Error while setting pace: %s", e)
+                return SendingResult.FAILURE
+        return SendingResult.SUCCESS
 
     def set_motor_angle(self) -> SendingResult:
         self._logger.error("Method set_motor_angle is not implemented yet")
@@ -321,12 +333,25 @@ class Commander:
 
     @staticmethod 
     def _valid_gait(gait : str | int) -> tuple[bool, str]:
+        if isinstance(gait, str):
+            gait = gait.lower()
         return (
             isinstance(gait, str | int) and (
-                gait.lower() in GAIT_LIST
+                gait in GAIT_LIST
                 or 0 <= gait < len(GAIT_LIST)
             )
         ), f"gait must be a string in {GAIT_LIST} or an integer between 0 and {len(GAIT_LIST) - 1}"
+
+    @staticmethod 
+    def _valid_pace(pace : str | int) -> tuple[bool, str]:
+        if isinstance(pace, str):
+            pace = pace.lower()
+        return (
+            isinstance(pace, str | int) and (
+                pace in PACE_LIST
+                or 0 <= pace < len(PACE_LIST)
+            )
+        ), f"gait must be a string in {PACE_LIST} or an integer between 0 and {len(PACE_LIST) - 1}"
 
     @staticmethod
     def _valid_cartesian(cartesian):

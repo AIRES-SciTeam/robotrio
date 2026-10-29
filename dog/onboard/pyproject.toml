@@ -6,10 +6,17 @@ build-backend = "setuptools.build_meta"
 name = "robotrio.dog"
 version = "0.1.0"
 requires-python = ">=3.11"
-dependencies = ["xgolib"]
+dependencies = [
+  "xgolib", 
+  "picamera2", 
+  "pupil_apriltags",
+  "opencv-python",
+  "numpy"
+]
 
 [project.scripts]
 "robotrio.dog" = "robotrio_dog.main:main"
+"robotrio.dog.test" = "robotrio_dog.test:camera"      
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -5,8 +5,9 @@ import numpy as np
 import cv2
 from pupil_apriltags import Detector, Detection
 
-from .logger_fabric import LoggerFabric, MAIN_LOGGER_NAME
+from .logger_fabric import LoggerFabric, MAIN_LOGGER_NAME, logging
 
+Picamera2.set_logging(logging.ERROR)
 
 # region ImageReceiver
 
@@ -69,6 +70,8 @@ class ImageReceiver:
             return self._timestamp, self._frame
 
     def get_camerainfo(self):
+        if self._camera_params is None:
+            raise ValueError("Camera calibration is required for pose estimation")
         return self._camera_params, self._dist_coeffs
 
 # endregion
@@ -78,18 +81,19 @@ class ImageReceiver:
 class TagDetector:
     def __init__(
         self,
-        config : Dict[str, Any],
-        logger_fabric : LoggerFabric
+        logger_fabric : LoggerFabric,
+        log_level : str = "info",
+        tag_family : str = "tag36h11"
     ):
         self._logger = logger_fabric.get_logger(
             name=f"{MAIN_LOGGER_NAME}.{type(self).__name__}",
-            level=config.get("log_level", "info")
+            level=log_level
         )
         self._logger.info("Initializing")
         
         try:
             self._detector = Detector(
-                families=config.get("tag_family", "tag36h11"),
+                families=tag_family,
                 nthreads=2,
                 quad_decimate=1.0
             )
@@ -191,6 +195,8 @@ class TagDetector:
         self._logger.log(5, "Tag found: id=%s, estimating pose", tag_id)
         return self.estimate_pose(detections[det_idx], camera_params, dist_coeffs, tag_size)
 
+# region DrawTag
+
 def draw_tag_border(
     frame: np.ndarray,
     detection: Detection,
@@ -204,3 +210,5 @@ def draw_tag_border(
     cv2.fillConvexPoly(overlay, corners, color, lineType=cv2.LINE_AA)
     cv2.addWeighted(overlay, alpha, frame, 1 - alpha, 0, dst=frame)
     return frame
+
+# endregion

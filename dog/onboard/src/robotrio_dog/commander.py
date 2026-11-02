@@ -109,10 +109,11 @@ class Commander:
                     self._logger.error("Error while updating telemetry: %s", e)
             self._stop_event.wait(1 / self._tm_rate)
         self._logger.info("_tm_thread stopped")
-
     # endregion
 
     # region Dog control
+    def get_telemetry(self):
+        return self._telemetry.snapshot()
 
     def stop_motion(self, lock=True) -> SendingResult:
         with self._dog_lock if lock else nullcontext():
@@ -150,8 +151,10 @@ class Commander:
         )):
             self._logger.warning("Invalid move parameter: %s", res[1])
             return SendingResult.INVALID
-        self._motion_time_limit = time.monotonic() + approx_time_limit
         with self._dog_lock:
+            self._motion_time_limit = (
+                None if approx_time_limit is None else time.monotonic() + approx_time_limit
+            )
             try:
                 if lin_vel[0] is not None:
                     self._dog.move_x((lin_vel[0] / 100 * DOG_VX_ABS_LIMIT) if relative else lin_vel[0])
@@ -256,11 +259,9 @@ class Commander:
                 self._logger.error("Error during arm control: %s", e)
                 return SendingResult.FAILURE
             return SendingResult.SUCCESS
-
     # endregion
     
     # region Validators
-
     @staticmethod
     def _valid_lin_vel(lin_vel : tuple[float | int | None, ...], relative : bool) -> tuple[bool, str]:
         if not isinstance(lin_vel, tuple) or len(lin_vel) != 2:
@@ -301,7 +302,7 @@ class Commander:
             return (
                 abs(translation[0] if translation[0] is not None else 0) <= DOG_X_TRANS_LIMIT
                 and abs(translation[1] if translation[1] is not None else 0) <= DOG_Y_TRANS_LIMIT 
-                and DOG_HEIGHT_LIMIT[0] <= (translation[2] if translation[2] is not None else 0) <= DOG_HEIGHT_LIMIT[1]
+                and (translation[2] is None or DOG_HEIGHT_LIMIT[0] <= translation[2] <= DOG_HEIGHT_LIMIT[1])
             ), (f"|translation[0]| (X) must be <= {DOG_X_TRANS_LIMIT} and "
                 f"|translation[1]| (Y) must be <= {DOG_Y_TRANS_LIMIT} and " 
                 f"|translation[2]| (Z) must be in {DOG_HEIGHT_LIMIT}"
@@ -367,5 +368,4 @@ class Commander:
     def _valid_claw(claw):
         # TODO
         return True, None
-
     # endregion

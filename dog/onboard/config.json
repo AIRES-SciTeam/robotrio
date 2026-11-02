@@ -2,7 +2,7 @@
   "logger": {
     "basic_level": "debug",
     "logs_dir": "~/robotrio_logs",
-    "use_time_dir": true,
+    "use_time_dir": false,
     "format": "%(asctime)s | %(levelname)-7s | %(name)s | %(message)s",
     "date_format": "%d-%m-%Y %H:%M:%S"
   },

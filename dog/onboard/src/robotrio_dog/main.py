@@ -63,6 +63,8 @@ def main():
             telemetry_config=telemetry_config,
             logger_fabric=logger_fabric
         )
+        commander.set_body_position(translation=(None, None, 60), rotation=(None, , None))
+        commander.set_pace("slow")
         image_receiver = ImageReceiver(
             config=image_receiver_config,
             logger_fabric=logger_fabric
@@ -87,7 +89,8 @@ def main():
 
         mission_executor.configure([
             SetPace("slow"),
-            FindTag("tag25h9:0", 30)
+            FindTag("tag25h9:0"),
+            ReachTag("tag25h9:0", 27, 130)
         ])
 
         mission_executor.execute()

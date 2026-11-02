@@ -16,7 +16,7 @@ dependencies = [
 
 [project.scripts]
 "robotrio.dog" = "robotrio_dog.main:main"
-"robotrio.dog.test" = "robotrio_dog.test:camera"      
+"robotrio.dog.test" = "alg_test.runner:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

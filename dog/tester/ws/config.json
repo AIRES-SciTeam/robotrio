@@ -1,0 +1,18 @@
+{
+    "logger": {
+        "logs_dir": "./logs",
+        "use_time_dir": true,
+        "basic_level": "info",
+        "main_logger_console_level": "info"
+    },
+    "runner": {
+        "dog_port": "/dev/ttyAMA0",
+        "dog_baud": 115200,
+        "camera_handler_params": {
+            "apriltags_families": ["tag36h11", "tag25h9"],
+            "save_to": "./captures",
+            "record": false,
+            "stream_port": 8080
+        }
+    }
+}

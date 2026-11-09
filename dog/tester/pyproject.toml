@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robotrio.dog.tester"
+version = "0.1.0"
+description = "Interactive test runner and camera stream for the robot dog"
+requires-python = ">=3.11"
+dependencies = [
+  "xgolib",
+  "picamera2",
+  "pupil_apriltags",
+  "opencv-python",
+  "numpy",
+  "prompt-toolkit>=3.0,<4"
+]
+
+[project.scripts]
+"robotrio.dog.test" = "runner.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["runner*"]

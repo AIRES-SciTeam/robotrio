@@ -90,9 +90,18 @@ class ImageReceiver:
         )
         self._cam.post_callback = self._image_callback
         self._cam.start(show_preview=False)
-        self.start_stream()
         self._detector = Detector(families="tag36h11")
+        self._pair_detector = Detector(families="tag25h9")
         self._camera_params = (794.46859366, 793.68863406, 631.52134703, 337.94348282)
+        fx, fy, cx, cy = self._camera_params
+        self._camera_matrix = np.array([
+            [fx, 0, cx],
+            [0, fy, cy],
+            [0, 0, 1],
+        ], dtype=np.float64)
+        self._tag_size = 0.010
+        self._tag_sizes = {0: 0.027, 1: 0.010}
+        self.start_stream()
 
     def _image_callback(self, request):
         self._timestamp = request.get_metadata()["SensorTimestamp"]
@@ -104,17 +113,35 @@ class ImageReceiver:
         with self._lock:
             return self._frame
 
-    def get_poses(self, frame=None):
+    def get_poses(self, frame=None, *, family="tag36h11", tag_size=None):
+        if family not in ("tag36h11", "tag25h9"):
+            raise ValueError(f"Unsupported tag family: {family}")
+        if family == "tag25h9" and tag_size is None:
+            raise ValueError("tag25h9 requires its physical tag_size in metres")
+        if tag_size is not None and (not np.isfinite(tag_size) or tag_size <= 0):
+            raise ValueError("tag_size must be positive and finite")
         if frame is None:
             frame = self.get_frame()
         if frame is None:
             return []
         frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         with self._detector_lock:
-            return self._detector.detect(
+            detector = self._detector if family == "tag36h11" else self._pair_detector
+            detections = detector.detect(
                 frame_gray, estimate_tag_pose=True,
-                camera_params=self._camera_params, tag_size=0.027
+                camera_params=self._camera_params,
+                tag_size=self._tag_size if tag_size is None else tag_size,
             )
+            if tag_size is not None:
+                return detections
+            # Translation scales linearly with the physical tag side length.
+            for detection in detections:
+                scale = self._tag_sizes.get(detection.tag_id, self._tag_size) / self._tag_size
+                if detection.pose_t is not None:
+                    detection.pose_t = detection.pose_t * scale
+                if getattr(detection, "pose_err", None) is not None:
+                    detection.pose_err *= scale ** 2
+            return detections
 
     def start_stream(self, port=8080):
         self._stream_frames = Frames()
@@ -132,14 +159,30 @@ class ImageReceiver:
             while not self._stream_stop.is_set():
                 frame = self.get_frame()
                 if frame is not None:
+                    # Run both detectors on the untouched image before drawing.
+                    detections = [
+                        (d, "tag36h11", self._tag_sizes.get(d.tag_id, self._tag_size))
+                        for d in self.get_poses(frame)
+                    ]
+                    detections.extend(
+                        (d, "tag25h9", 0.100)
+                        for d in self.get_poses(frame, family="tag25h9", tag_size=0.100)
+                    )
                     frame = frame.copy()
-                    for detection in self.get_poses(frame):
+                    for detection, family, tag_size in detections:
                         corners = np.rint(detection.corners).astype(np.int32)
                         center = tuple(np.rint(detection.center).astype(int))
                         cv2.polylines(frame, [corners], True, (0, 255, 0), 2)
                         cv2.circle(frame, center, 4, (0, 0, 255), -1)
-                        cv2.putText(frame, str(detection.tag_id), center,
+                        cv2.putText(frame, f"{family}:{detection.tag_id}", center,
                                     cv2.FONT_HERSHEY_SIMPLEX, .7, (0, 255, 0), 2)
+                        if detection.pose_R is not None and detection.pose_t is not None:
+                            rvec, _ = cv2.Rodrigues(detection.pose_R)
+                            cv2.drawFrameAxes(
+                                frame, self._camera_matrix, None,
+                                rvec, detection.pose_t,
+                                tag_size / 2, 2,
+                            )
                     ok, jpeg = cv2.imencode(".jpg", frame)
                     if ok:
                         self._stream_frames.publish(jpeg.tobytes())
